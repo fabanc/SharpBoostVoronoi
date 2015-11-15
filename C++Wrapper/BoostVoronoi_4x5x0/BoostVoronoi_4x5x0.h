@@ -85,8 +85,11 @@ namespace boost {
 
 		List<Tuple<double, double>^>^ GetVertices();
 		List<Tuple<double, double>^>^ GetVerticesUnmapped();
-		List<Tuple<long, long, long, bool, bool, bool>^>^ GetEdges();
-		//List<Tuple<long, long, bool, bool, List<long>^>^>^ GetCells();
+		List<Tuple<long, long, long, long, bool, bool, bool>^>^ GetEdges();
+		List<Tuple<long, long, bool, bool, List<long>^>^>^ GetCells();
+
+
+
 
 	};
 
@@ -95,7 +98,7 @@ namespace boost {
 		boost::polygon::construct_voronoi(points.begin(), points.end(), segments.begin(), segments.end(), &vd);
 
 		//Populate the list of results
-		long long cellId = 0;
+		long long cell_identifier = 0;
 		for (voronoi_diagram<double>::const_cell_iterator it = vd.cells().begin(); it != vd.cells().end(); ++it) {
 			const voronoi_diagram<double>::cell_type &cell = *it;
 
@@ -117,7 +120,7 @@ namespace boost {
 					if (v0 != 0){
 						std::map<const voronoi_diagram<double>::vertex_type*, long long>::iterator vertexMapIterator = vertexMap.find(v0);
 						if (vertexMapIterator == vertexMap.end()){
-							vertexMap[v0] = vertexMap.size();
+							vertexMap[v0] = vertexMap.size() - 1;
 						}
 						else {
 							startIndex = vertexMapIterator->second;
@@ -128,7 +131,7 @@ namespace boost {
 					if (v1 != 0){
 						std::map<const voronoi_diagram<double>::vertex_type*, long long>::iterator vertexMapIterator = vertexMap.find(v1);
 						if (vertexMapIterator == vertexMap.end()){
-							vertexMap[v1] = vertexMap.size();
+							vertexMap[v1] = vertexMap.size() - 1;
 						}
 						else {
 							endIndex = vertexMapIterator->second;
@@ -136,15 +139,19 @@ namespace boost {
 					}
 
 					//Add the edge to the collection of edges
-					edgeMap[edge] = edgeMap.size();
-
+					if (edgeMap.empty()){
+						edgeMap[edge] = 0;
+					} 
+					else{
+						edgeMap[edge] = edgeMap.size() - 1;
+					}
 					//TO-DO - implement reference to cell
 
 					//Move to the next edge
 					edge = edge->next();
 				} while (edge != cell.incident_edge());
 			}
-			cellId++;
+			cell_identifier++;
 		}
 	};
 
@@ -159,6 +166,9 @@ namespace boost {
 		Segment s(x1, y1, x2, y2);
 		segments.push_back(s);
 	};
+
+
+
 
 	/// <summary>
 	/// Return the list of points
@@ -188,12 +198,14 @@ namespace boost {
 	/// <summary>
 	/// Return the list of edges
 	/// </summary>
-	List<Tuple<long, long, long, bool, bool, bool>^>^ Voronoi::GetEdges()
+	List<Tuple<long, long, long, long, bool, bool, bool>^>^ Voronoi::GetEdges()
 	{
-		List<Tuple<long, long, long, bool, bool, bool>^>^ ret = gcnew List<Tuple<long, long, long, bool, bool, bool>^>();
+		List<Tuple<long, long, long, long, bool, bool, bool>^>^ ret = gcnew List<Tuple<long, long, long, long, bool, bool, bool>^>();
 		std::map<const voronoi_diagram<double>::edge_type*, long long>::iterator it;
 		for (it = edgeMap.begin(); it != edgeMap.end(); ++it){
+			
 			const voronoi_diagram<double>::edge_type &edge = *it->first;
+
 
 			const voronoi_diagram<double>::vertex_type* v0 = edge.vertex0();
 			const voronoi_diagram<double>::vertex_type* v1 = edge.vertex1();
@@ -214,7 +226,7 @@ namespace boost {
 			}
 
 			const voronoi_diagram<double>::cell_type* cell = edge.cell();
-			Tuple<long, long, long, bool, bool, bool>^ t = gcnew Tuple<long, long, long, bool, bool, bool>(start, end, cell->source_index(), edge.is_primary(), edge.is_linear(), edge.is_finite());
+			Tuple<long, long, long, long, bool, bool, bool>^ t = gcnew Tuple<long, long, long, long, bool, bool, bool>(it->second, start, end, cell->source_index(), edge.is_primary(), edge.is_linear(), edge.is_finite());
 			ret->Add(t);
 		}
 		return ret;
@@ -223,36 +235,47 @@ namespace boost {
 	/// <summary>
 	/// Return the list of cells
 	/// </summary>
-	//Voronoi::List<Tuple<long, long, bool, bool, List<long>^>^>^ GetCells()
-	//{
-	//	long long cellId = 0;
-	//	for (voronoi_diagram<double>::const_cell_iterator it = vd.cells().begin(); it != vd.cells().end(); ++it) {
-	//		const voronoi_diagram<double>::cell_type &cell = *it;
-	//
-	//		//Skip the cell if it is degenerate
-	//		if (cell.is_degenerate()){
-	//			break;
-	//		}
-	//
-	//		//Iterate throught the edges
-	//		List<long>^ edge_identifiers = gcnew List<long>();
-	//		const voronoi_diagram<double>::edge_type *edge = cell.incident_edge();
-	//		if (edge != NULL)
-	//		{
-	//			do {
-	//				//Fetch the edge identifier
-	//				std::map<const voronoi_diagram<double>::edge_type *, long long>::iterator edgeMapIterator = edgeMap.find(edge);
-	//				if (vertexMapIterator == vertexMap.end()){
-	//					throw "Start vertex not found";
-	//				}
-	//
-	//				//Move to the next edge
-	//				edge = edge->next();
-	//			} while (edge != cell.incident_edge());
-	//		}
-	//
-	//	}
-	//}
+	List<Tuple<long, long, bool, bool, List<long>^>^>^ Voronoi::GetCells()
+	{
+		long cell_identifier = 0;
+		List<Tuple<long, long, bool, bool, List<long>^>^>^ ret = gcnew List<Tuple<long, long, bool, bool, List<long>^>^>();
+
+		for (voronoi_diagram<double>::const_cell_iterator it = vd.cells().begin(); it != vd.cells().end(); ++it) {
+			const voronoi_diagram<double>::cell_type &cell = *it;
+	
+			//Skip the cell if it is degenerate
+			if (cell.is_degenerate()){
+				break;
+			}
+	
+			//Iterate throught the edges
+			List<long>^ edge_identifiers = gcnew List<long>();
+			const voronoi_diagram<double>::edge_type *edge = cell.incident_edge();
+			if (edge != NULL)
+			{
+				do {
+					//Fetch the edge identifier
+					std::map<const voronoi_diagram<double>::edge_type *, long long>::iterator edgeMapIterator = edgeMap.find(edge);
+					if (edgeMapIterator == edgeMap.end()){
+						throw "Edge not found";
+					}
+	
+					edge_identifiers->Add(edgeMapIterator->second);
+
+					//Move to the next edge
+					edge = edge->next();
+				} while (edge != cell.incident_edge());
+
+
+				Tuple<long, long, bool, bool, List<long>^>^ t = gcnew Tuple <long, long, bool, bool, List<long>^>(cell_identifier, cell.source_index(), 
+					cell.contains_point(), cell.contains_segment(), edge_identifiers);
+				ret->Add(t);
+
+				cell_identifier++;
+			}
+		}
+		return ret;
+	}
 
 	public ref class VoronoiWrapper
 	{
@@ -280,10 +303,15 @@ namespace boost {
 			return v->GetVertices();
 		};
 
-		List<Tuple<long, long, long, bool, bool, bool>^>^ GetEdges()
+		List<Tuple<long, long, long, long, bool, bool, bool>^>^ GetEdges()
 		{
 			return v->GetEdges();
 		};
+
+		List<Tuple<long, long, bool, bool, List<long>^>^>^ GetCells()
+		{
+			return v->GetCells();
+		}
 
 		List<Tuple<double, double>^>^ GetVerticesUnmapped()
 		{
