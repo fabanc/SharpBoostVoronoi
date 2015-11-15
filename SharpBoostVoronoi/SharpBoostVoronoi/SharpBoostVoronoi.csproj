@@ -44,6 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BootVoronoi.cs" />
+    <Compile Include="Inputs\Point.cs" />
+    <Compile Include="Inputs\Segment.cs" />
+    <Compile Include="Outputs\Edge.cs" />
+    <Compile Include="Outputs\Vertex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
