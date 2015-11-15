@@ -9,7 +9,7 @@
  
 1. Boost library: http://www.boost.org/
 2. Step-by-step install guide for Boost with Visual Studio. https://www.youtube.com/watch?v=6trC5zVXzG0
-3. Boost documentation about the voronoi API.
+3. Boost documentation about the voronoi API: http://www.boost.org/doc/libs/1_59_0/libs/polygon/doc/voronoi_diagram.htm
 
 ##Project status
 		
