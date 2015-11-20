@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpBoostVoronoi.Inputs
+namespace SharpBoostVoronoi.Input
 {
     public class Segment
     {
