@@ -2,7 +2,7 @@
 
 ##This project has 2 goals.
 
-1. Show how to wrap boost voronoi library using CLR.
+1. Show how to wrap boost voronoi library using CLR. It will enable users to generate voronoi cells from line and segments in .NET.
 2. Provide a C# wrapper around the CLR code to make the library easy to use in C#.
 
 ##Links:
