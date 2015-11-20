@@ -8,37 +8,12 @@ using System.Linq;
 namespace BoostVoronoiTests
 {
     [TestClass]
-    public class UnitTest1
+    public class TestTuples
     {
         public TestContext TestContext { get; set; }
 
         [TestMethod]
-        public void TestMethod1()
-        {
-            VoronoiWrapper vw = new VoronoiWrapper();
-            vw.AddSegment(0, 0, 0, 10);
-            vw.AddSegment(0, 10, 10, 10);
-            vw.AddSegment(10, 10, 10, 0);
-            vw.AddSegment(10, 0, 0, 0);
-            vw.AddSegment(0, 0, 5, 5);
-            vw.AddSegment(5, 5, 10, 10);
-            vw.ConstructVoronoi();
-
-            List<Tuple<int, int, int, int, bool, bool, bool>> edges = vw.GetEdges();
-            int count_finite_edge = 0;
-            foreach (var e in edges)
-            {
-                if (e.Item6)
-                {
-                    count_finite_edge++;
-                }
-            }
-           
-            Assert.AreEqual(16, count_finite_edge);
-        }
-
-        [TestMethod]
-        public void TestMethod2()
+        public void TestTupleVertices()
         {
             VoronoiWrapper vw = new VoronoiWrapper();
             vw.AddSegment(0, 0, 0, 10);
@@ -53,9 +28,33 @@ namespace BoostVoronoiTests
             Assert.AreEqual(6, vertices.Count);
         }
 
+        [TestMethod]
+        public void TestTupleEdges()
+        {
+            VoronoiWrapper vw = new VoronoiWrapper();
+            vw.AddSegment(0, 0, 0, 10);
+            vw.AddSegment(0, 10, 10, 10);
+            vw.AddSegment(10, 10, 10, 0);
+            vw.AddSegment(10, 0, 0, 0);
+            vw.AddSegment(0, 0, 5, 5);
+            vw.AddSegment(5, 5, 10, 10);
+            vw.ConstructVoronoi();
+
+            List<Tuple<int, int, int, int, bool, bool, bool>> edges = vw.GetEdges();
+            int count_finite_edge = 0;
+            foreach (var e in edges)
+            {
+                if (e.Item7)
+                {
+                    count_finite_edge++;
+                }
+            }
+
+            Assert.AreEqual(16, count_finite_edge);
+        }
 
         [TestMethod]
-        public void TestMethod3()
+        public void TestTupleEdgeIndexes()
         {
             VoronoiWrapper vw = new VoronoiWrapper();
             vw.AddSegment(0, 0, 0, 10);
@@ -86,7 +85,7 @@ namespace BoostVoronoiTests
 
 
         [TestMethod]
-        public void TestMethod4()
+        public void TestTupleVertexIndexes()
         {
             VoronoiWrapper vw = new VoronoiWrapper();
             vw.AddSegment(0, 0, 0, 10);
@@ -97,6 +96,7 @@ namespace BoostVoronoiTests
             vw.AddSegment(5, 5, 10, 10);
             vw.ConstructVoronoi();
 
+            List<Tuple<double, double>> vertices = vw.GetVertices();
             List<Tuple<int, int, int, int, bool, bool, bool>> edges = vw.GetEdges();
 
             List<int> vertexIndexes = new List<int>();
@@ -116,12 +116,12 @@ namespace BoostVoronoiTests
             int maxIndex = vertexIndexes.Max();
 
             Assert.AreEqual(0, minIndex);
-            Assert.AreEqual(edges.Count - 1, maxIndex);
+            Assert.AreEqual(vertices.Count - 1, maxIndex);
         }
 
 
         [TestMethod]
-        public void TestMethod5()
+        public void TestTupleCells()
         {
             VoronoiWrapper vw = new VoronoiWrapper();
             vw.AddSegment(0, 0, 0, 10);

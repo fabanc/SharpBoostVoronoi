@@ -1,4 +1,5 @@
-﻿using SharpBoostVoronoi.Input;
+﻿using boost;
+using SharpBoostVoronoi.Input;
 using SharpBoostVoronoi.Output;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,11 @@ namespace SharpBoostVoronoi
 {
     public class BoostVoronoi
     {
+
+        /// <summary>
+        /// The reference to the CLR wrapper class
+        /// </summary>
+        private VoronoiWrapper VoronoiWrapper { get; set; }
 
         /// <summary>
         /// The input points used to construct the voronoi diagram
@@ -43,7 +49,7 @@ namespace SharpBoostVoronoi
         {
             InputPoints = new List<Point>();
             InputSegments = new List<Segment>();
-
+            VoronoiWrapper = new VoronoiWrapper();
         }
 
         /// <summary>
@@ -51,7 +57,30 @@ namespace SharpBoostVoronoi
         /// </summary>
         public void Construct()
         {
+            //Pass the input
+            foreach (var p in InputPoints)
+                VoronoiWrapper.AddPoint(p.X, p.Y);
 
+            foreach (var s in InputSegments)
+                VoronoiWrapper.AddSegment(
+                    s.Start.X, s.Start.Y,
+                    s.End.X, s.End.Y);
+
+            //Construct
+            VoronoiWrapper.ConstructVoronoi();
+
+            //Store the output
+            Vertices = new List<Vertex>();
+            foreach (var t in VoronoiWrapper.GetVertices())
+                Vertices.Add(new Vertex(t));
+
+            Edges = new List<Edge>();
+            foreach (var t in VoronoiWrapper.GetEdges())
+                Edges.Add(new Edge(t));
+
+            Cells = new List<Cell>();
+            foreach (var t in VoronoiWrapper.GetCells())
+                Cells.Add(new Cell(t));
         }
 
         /// <summary>
@@ -73,11 +102,7 @@ namespace SharpBoostVoronoi
         /// <param name="y2">Y coordinate of the end point</param>
         public void AddSegment(int x1, int y1, int x2, int y2)
         {
-            InputSegments.Add(new Segment()
-            {
-                Start = new Point(x1,y1), 
-                End = new Point(x2,y2)
-            });
+            InputSegments.Add(new Segment(x1,y1,x2,y2));
         }
 
     }

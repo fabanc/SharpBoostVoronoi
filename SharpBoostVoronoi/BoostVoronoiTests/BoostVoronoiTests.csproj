@@ -54,8 +54,15 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="TestTuples.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestCSharp.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SharpBoostVoronoi\SharpBoostVoronoi.csproj">
+      <Project>{b56bcf21-beb1-442e-ac12-4c1bf376f833}</Project>
+      <Name>SharpBoostVoronoi</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
