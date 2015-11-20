@@ -43,9 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BootVoronoi.cs" />
+    <Compile Include="BoostVoronoi.cs" />
     <Compile Include="Inputs\Point.cs" />
     <Compile Include="Inputs\Segment.cs" />
+    <Compile Include="Outputs\Cell.cs" />
     <Compile Include="Outputs\Edge.cs" />
     <Compile Include="Outputs\Vertex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
