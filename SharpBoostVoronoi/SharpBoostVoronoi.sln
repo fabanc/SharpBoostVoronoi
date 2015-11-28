@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBoostVoronoi", "SharpB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoostVoronoiTests", "BoostVoronoiTests\BoostVoronoiTests.csproj", "{89E9EA53-E9B5-477A-B6EC-604E736F3EF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp", "SampleApp\SampleApp.csproj", "{C04B9DC1-63E0-4093-BEFE-88BA3C0D2993}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{89E9EA53-E9B5-477A-B6EC-604E736F3EF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89E9EA53-E9B5-477A-B6EC-604E736F3EF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89E9EA53-E9B5-477A-B6EC-604E736F3EF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C04B9DC1-63E0-4093-BEFE-88BA3C0D2993}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C04B9DC1-63E0-4093-BEFE-88BA3C0D2993}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C04B9DC1-63E0-4093-BEFE-88BA3C0D2993}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C04B9DC1-63E0-4093-BEFE-88BA3C0D2993}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

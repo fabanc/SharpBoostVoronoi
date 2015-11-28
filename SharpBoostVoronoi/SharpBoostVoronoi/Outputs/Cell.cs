@@ -31,7 +31,7 @@ namespace SharpBoostVoronoi.Output
         /// <summary>
         /// Indexes of the segment that makes the cell
         /// </summary>
-        public List<int> Segments { get; set; }
+        public List<int> EdgesIndex { get; set; }
 
         /// <summary>
         /// Constructor
@@ -43,7 +43,7 @@ namespace SharpBoostVoronoi.Output
             Site = t.Item2;
             ContainsPoint = t.Item3;
             ContainsSegment = t.Item4;
-            Segments = t.Item5;
+            EdgesIndex = t.Item5;
         }
     }
 }

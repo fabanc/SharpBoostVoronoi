@@ -20,5 +20,14 @@ namespace SharpBoostVoronoi.Output
             X = t.Item1;
             Y = t.Item2;
         }
+
+        /// <summary>
+        /// Returns a concatenation of the coordinates, separated by a comma
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return String.Format("{0}, {1}", X, Y);
+        }
     }
 }

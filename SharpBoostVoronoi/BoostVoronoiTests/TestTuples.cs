@@ -152,6 +152,32 @@ namespace BoostVoronoiTests
             Assert.AreEqual(11, cells.Count);
         }
 
+        [TestMethod]
+        public void TestVertexSequences()
+        {
+            VoronoiWrapper vw = new VoronoiWrapper();
+            vw.AddSegment(0, 0, 0, 10);
+            vw.AddSegment(0, 10, 10, 10);
+            vw.AddSegment(10, 10, 10, 0);
+            vw.AddSegment(10, 0, 0, 0);
+            vw.AddSegment(0, 0, 5, 5);
+            vw.AddSegment(5, 5, 10, 10);
+            vw.ConstructVoronoi();
+
+            List<Tuple<double, double>> vertices = vw.GetVertices();
+            List<Tuple<int, int, int, int, bool, bool, bool>> edges = vw.GetEdges();
+            List<Tuple<int, int, bool, bool, List<int>>> cells = vw.GetCells();
+
+
+            foreach (var c in cells)
+            {
+                for (int i = 1; i < c.Item5.Count; i++)
+                {
+                    Assert.AreEqual(edges[i - 1].Item3, edges[i].Item2);
+                }
+            }
+        }
+
 
     }
 }
