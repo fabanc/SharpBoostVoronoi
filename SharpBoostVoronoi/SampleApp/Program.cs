@@ -36,7 +36,7 @@ namespace SampleApp
 
             foreach (var cell in cells)
             {
-                Console.Out.WriteLine(String.Format("Cell Identifier{0}", cell.Index));
+                Console.Out.WriteLine(String.Format("Cell Identifier {0}", cell.Index));
 
                 foreach (var edgeIndex in cell.EdgesIndex)
                 {
@@ -53,10 +53,10 @@ namespace SampleApp
                         Vertex start = vertices[edge.Start];
                         Vertex end = vertices[edge.End];
 
-                        Console.Out.WriteLine(
-                            String.Format("     From:{0}, To: {1}",
-                            start.ToString(),
-                            end.ToString()));
+                        //Console.Out.WriteLine(
+                        //    String.Format("     From:{0}, To: {1}",
+                        //    start.ToString(),
+                        //    end.ToString()));
                     }
                 }
             }

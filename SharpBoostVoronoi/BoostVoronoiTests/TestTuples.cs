@@ -171,6 +171,7 @@ namespace BoostVoronoiTests
 
             foreach (var c in cells)
             {
+                TestContext.WriteLine(String.Format("Cell {0}", c.Item1));
                 for (int i = 1; i < c.Item5.Count; i++)
                 {
                     Assert.AreEqual(edges[i - 1].Item3, edges[i].Item2);

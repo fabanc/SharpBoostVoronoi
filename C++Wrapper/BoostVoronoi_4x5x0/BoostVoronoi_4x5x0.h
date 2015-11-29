@@ -79,6 +79,7 @@ namespace boost {
 		std::map<const voronoi_diagram<double>::vertex_type*, long long> vertexMap;
 		std::map<const voronoi_diagram<double>::edge_type*, long long> edgeMap;
 
+
 		void AddPoint(int x, int y);
 		void AddSegment(int x1, int y1, int x2, int y2);
 		void ConstructVoronoi();
@@ -116,39 +117,32 @@ namespace boost {
 					const voronoi_diagram<double>::vertex_type* v0 = edge->vertex0();
 					const voronoi_diagram<double>::vertex_type* v1 = edge->vertex1();
 
-					long long startIndex = -1;
 					if (v0 != 0){
 						std::map<const voronoi_diagram<double>::vertex_type*, long long>::iterator vertexMapIterator = vertexMap.find(v0);
 						if (vertexMapIterator == vertexMap.end()){
-							vertexMap[v0] = vertexMap.size() - 1;
-						}
-						else {
-							startIndex = vertexMapIterator->second;
+							long long vIndex = vertexMap.size();
+							vertexMap[v0] = vIndex;
 						}
 					}
 
-					long long endIndex = -1;
 					if (v1 != 0){
 						std::map<const voronoi_diagram<double>::vertex_type*, long long>::iterator vertexMapIterator = vertexMap.find(v1);
 						if (vertexMapIterator == vertexMap.end()){
-							vertexMap[v1] = vertexMap.size() - 1;
-						}
-						else {
-							endIndex = vertexMapIterator->second;
+							long long vIndex = vertexMap.size();
+							vertexMap[v1] = vIndex;
 						}
 					}
 
 					//Add the edge to the collection of edges
-					if (edgeMap.empty()){
-						edgeMap[edge] = 0;
-					} 
-					else{
-						edgeMap[edge] = edgeMap.size() - 1;
+					std::map<const voronoi_diagram<double>::edge_type *, long long>::iterator edgeMapIterator = edgeMap.find(edge);
+					if (edgeMapIterator == edgeMap.end()){
+						long long eIndex = edgeMap.size();
+						edgeMap[edge] = eIndex;
 					}
-					//TO-DO - implement reference to cell
 
 					//Move to the next edge
 					edge = edge->next();
+
 				} while (edge != cell.incident_edge());
 			}
 			cell_identifier++;
@@ -212,17 +206,20 @@ namespace boost {
 
 
 			//Get the index of the vertices
-			std::map<const voronoi_diagram<double>::vertex_type *, long long>::iterator vertexMapIterator = vertexMap.find(v0);
 			long start = -1;
-			if (vertexMapIterator != vertexMap.end()){
-				start = vertexMapIterator->second;
+			if (v0 != 0){
+				std::map<const voronoi_diagram<double>::vertex_type *, long long>::iterator vertexMapIterator = vertexMap.find(v0);
+				if (vertexMapIterator != vertexMap.end()){
+					start = vertexMapIterator->second;
+				}
 			}
 
-			
-			vertexMapIterator = vertexMap.find(v1);
 			long end = -1;
-			if (vertexMapIterator != vertexMap.end()){
-				end = vertexMapIterator->second;
+			if (v1 != 0){
+				std::map<const voronoi_diagram<double>::vertex_type *, long long>::iterator vertexMapIterator = vertexMap.find(v1);
+				if (vertexMapIterator != vertexMap.end()){
+					end = vertexMapIterator->second;
+				}
 			}
 
 			const voronoi_diagram<double>::cell_type* cell = edge.cell();
@@ -244,9 +241,9 @@ namespace boost {
 			const voronoi_diagram<double>::cell_type &cell = *it;
 	
 			//Skip the cell if it is degenerate
-			if (cell.is_degenerate()){
-				break;
-			}
+			//if (cell.is_degenerate()){
+			//	break;
+			//}
 	
 			//Iterate throught the edges
 			List<long>^ edge_identifiers = gcnew List<long>();

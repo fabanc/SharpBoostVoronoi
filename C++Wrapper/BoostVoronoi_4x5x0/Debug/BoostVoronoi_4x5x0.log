@@ -1,4 +1,4 @@
-﻿Build started 11/28/2015 4:47:22 PM.
+﻿Build started 11/29/2015 11:02:05 AM.
      1>Project "C:\github\SharpBoostVoronoi\SharpBoostVoronoi\C++Wrapper\BoostVoronoi_4x5x0\BoostVoronoi_4x5x0.vcxproj" on node 2 (Rebuild target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\\" /AI"C:\Program Files (x86)\Windows Kits\8.1\References\CommonConfiguration\Neutral" /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\\" /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDLL /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Debug\BoostVoronoi_4x5x0.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\mscorlib.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.dll" /analyze- /errorReport:prompt /clr:nostdlib Stdafx.cpp
@@ -7,10 +7,10 @@
          AssemblyInfo.cpp
          BoostVoronoi_4x5x0.cpp
      1>c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(48): warning C4244: 'return' : conversion from 'const double' to 'boost::polygon::point_traits<Point>::coordinate_type', possible loss of data
-     1>c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(218): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data
-     1>c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(225): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data
-     1>c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(229): warning C4244: 'argument' : conversion from '__int64' to 'long', possible loss of data
-     1>c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(263): warning C4244: 'argument' : conversion from '__int64' to 'long', possible loss of data
+     1>c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(213): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data
+     1>c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(221): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data
+     1>c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(226): warning C4244: 'argument' : conversion from '__int64' to 'long', possible loss of data
+     1>c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(260): warning C4244: 'argument' : conversion from '__int64' to 'long', possible loss of data
          Generating Code...
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDLL /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /TP /analyze- /errorReport:prompt "C:\Users\fancelin\AppData\Local\Temp\.NETFramework,Version=v4.5.AssemblyAttributes.cpp"
          .NETFramework,Version=v4.5.AssemblyAttributes.cpp
@@ -27,4 +27,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.57
+Time Elapsed 00:00:02.70
