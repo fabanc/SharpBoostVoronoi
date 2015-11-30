@@ -14,19 +14,24 @@ namespace SampleApp
         static void Main(string[] args)
         {
 
-            //Define a set of segments
+            //Define a set of segments and pass them to the voronoi wrapper
             List<Segment> input = new List<Segment>();
             input.Add(new Segment(0, 0, 0, 10));
             input.Add(new Segment(0, 10, 10, 10));
             input.Add(new Segment(10, 10, 10, 0));
             input.Add(new Segment(10, 0, 0, 0));
-            input.Add(new Segment(0, 0, 5, 5));
-            input.Add(new Segment(5, 5, 10, 10));
 
-            //Build the C# Voronoi
+            //Instanciate the voronoi wrapper
             BoostVoronoi bv = new BoostVoronoi();
+
+            //Add the segments
             foreach (var s in input)
                 bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+
+            //Add a point
+            bv.AddPoint(5, 5);
+
+            //Build the C# Voronoi
             bv.Construct();
 
             //Get the voronoi output
@@ -53,10 +58,10 @@ namespace SampleApp
                         Vertex start = vertices[edge.Start];
                         Vertex end = vertices[edge.End];
 
-                        //Console.Out.WriteLine(
-                        //    String.Format("     From:{0}, To: {1}",
-                        //    start.ToString(),
-                        //    end.ToString()));
+                        Console.Out.WriteLine(
+                            String.Format("     From:{0}, To: {1}",
+                            start.ToString(),
+                            end.ToString()));
                     }
                 }
             }

@@ -17,7 +17,8 @@ The CLR wrapper and the C# wrapper are closed to completion. I want to add an at
 ##How to use
 A complete example on how to use the library is in the project SampleApp of the solution SharpBoostVoronoi. I have pasted the code sample below.
 
-In a nutshell, you pass a set of Segments or Points to the class BoostVoronoi. Those classes are defined in SharpBoostVoronoi.Input. Constructing the diagram populates 3 properties of the class BoostVoronoi:
+In a nutshell, you pass a set of Segments or Points to the class BoostVoronoi. Those classes are defined in SharpBoostVoronoi.Input and their use is demonstrated in the code below. Constructing the diagram populates 3 properties of the class BoostVoronoi:
+
 1. Vertices: the list of output vertices and their coordinates.
 2. Edges: the list of edges that connect the vertices in a cell. The properties Start and End of member of the class Edge represent the indexes of the start and end vertices in Vertices.
 3. Cells: the list of voronoi cells created by boost.
@@ -30,19 +31,24 @@ Those properties also contains other attributes of the boost voronoi API describ
         static void Main(string[] args)
         {
 
-            //Define a set of segments
+            //Define a set of segments and pass them to the voronoi wrapper
             List<Segment> input = new List<Segment>();
             input.Add(new Segment(0, 0, 0, 10));
             input.Add(new Segment(0, 10, 10, 10));
             input.Add(new Segment(10, 10, 10, 0));
             input.Add(new Segment(10, 0, 0, 0));
-            input.Add(new Segment(0, 0, 5, 5));
-            input.Add(new Segment(5, 5, 10, 10));
 
-            //Build the C# Voronoi
+            //Instanciate the voronoi wrapper
             BoostVoronoi bv = new BoostVoronoi();
+
+            //Add the segments
             foreach (var s in input)
                 bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+
+            //Add a point
+            bv.AddPoint(5, 5);
+
+            //Build the C# Voronoi
             bv.Construct();
 
             //Get the voronoi output
