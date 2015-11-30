@@ -137,7 +137,7 @@ namespace boost {
 		List<Tuple<double, double>^>^ GetVertices();
 		List<Tuple<double, double>^>^ GetVerticesUnmapped();
 		List<Tuple<long, long, long, long, bool, bool, bool>^>^ GetEdges();
-		List<Tuple<long, long, bool, bool, List<long>^>^>^ GetCells();
+		List<Tuple<long, long, bool, bool, List<long>^, bool>^>^ GetCells();
 
 	};
 
@@ -188,6 +188,9 @@ namespace boost {
 							}
 						}
 
+						if (start_index == -1){
+							c_cell.is_open = true;
+						}
 
 						long long end_index = -1;
 						if (v1 != 0){
@@ -206,6 +209,10 @@ namespace boost {
 							else{
 								end_index = vertexMapIterator->second;
 							}
+						}
+
+						if (end_index == -1){
+							c_cell.is_open = true;
 						}
 
 						//Add the edge to the collection of edges
@@ -294,10 +301,10 @@ namespace boost {
 	/// <summary>
 	/// Return the list of cells
 	/// </summary>
-	List<Tuple<long, long, bool, bool, List<long>^>^>^ Voronoi::GetCells()
+	List<Tuple<long, long, bool, bool, List<long>^, bool>^>^ Voronoi::GetCells()
 	{
 		long cell_identifier = 0;
-		List<Tuple<long, long, bool, bool, List<long>^>^>^ ret = gcnew List<Tuple<long, long, bool, bool, List<long>^>^>();
+		List<Tuple<long, long, bool, bool, List<long>^, bool>^>^ ret = gcnew List<Tuple<long, long, bool, bool, List<long>^, bool>^>();
 		for (int i = 0; i < cells.size(); i++) {
 
 			//Create the list of identifiers
@@ -307,12 +314,13 @@ namespace boost {
 			}
 
 			//Populate the cells info
-			Tuple<long, long, bool, bool, List<long>^>^ t = gcnew Tuple <long, long, bool, bool, List<long>^>(
+			Tuple<long, long, bool, bool, List<long>^, bool>^ t = gcnew Tuple <long, long, bool, bool, List<long>^, bool>(
 				cells[i].cellId, 
 				cells[i].source_index,
 				cells[i].contains_point, 
 				cells[i].contains_segment, 
-				edge_list);
+				edge_list,
+				cells[i].is_open);
 
 			//Add tuple to the list
 			ret->Add(t);
@@ -352,7 +360,7 @@ namespace boost {
 			return v->GetEdges();
 		};
 
-		List<Tuple<long, long, bool, bool, List<long>^>^>^ GetCells()
+		List<Tuple<long, long, bool, bool, List<long>^, bool>^>^ GetCells()
 		{
 			return v->GetCells();
 		}
