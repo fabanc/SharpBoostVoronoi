@@ -41,7 +41,7 @@ namespace SampleApp
 
             foreach (var cell in cells)
             {
-                Console.Out.WriteLine(String.Format("Cell Identifier {0}", cell.Index));
+                Console.Out.WriteLine(String.Format("Cell Identifier {0}. Is open = {1}", cell.Index, cell.IsOpen));
 
                 foreach (var edgeIndex in cell.EdgesIndex)
                 {

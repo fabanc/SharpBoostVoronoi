@@ -34,16 +34,22 @@ namespace SharpBoostVoronoi.Output
         public List<int> EdgesIndex { get; set; }
 
         /// <summary>
+        /// True if the cell has a segment that is infinite
+        /// </summary>
+        public bool IsOpen { get; set; }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="t">A tuple returned by the CLR wrapper.</param>
-        public Cell(Tuple <int, int, bool, bool, List<int>> t)
+        public Cell(Tuple <int, int, bool, bool, List<int>, bool> t)
         {
             Index = t.Item1;
             Site = t.Item2;
             ContainsPoint = t.Item3;
             ContainsSegment = t.Item4;
             EdgesIndex = t.Item5;
+            IsOpen = t.Item6;
         }
     }
 }

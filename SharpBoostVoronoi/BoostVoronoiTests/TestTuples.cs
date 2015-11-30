@@ -134,7 +134,7 @@ namespace BoostVoronoiTests
 
             List<Tuple<double, double>> vertices = vw.GetVertices();
             List<Tuple<int, int, int, int, bool, bool, bool>> edges = vw.GetEdges();
-            List<Tuple<int, int, bool, bool, List<int>>> cells = vw.GetCells();
+            List<Tuple<int, int, bool, bool, List<int>, bool>> cells = vw.GetCells();
 
 
             for (int i = 0; i < vertices.Count; i++)
@@ -166,7 +166,7 @@ namespace BoostVoronoiTests
 
             List<Tuple<double, double>> vertices = vw.GetVertices();
             List<Tuple<int, int, int, int, bool, bool, bool>> edges = vw.GetEdges();
-            List<Tuple<int, int, bool, bool, List<int>>> cells = vw.GetCells();
+            List<Tuple<int, int, bool, bool, List<int>, bool>> cells = vw.GetCells();
 
 
             foreach (var c in cells)
@@ -193,7 +193,7 @@ namespace BoostVoronoiTests
 
             List<Tuple<double, double>> vertices = vw.GetVertices();
             List<Tuple<int, int, int, int, bool, bool, bool>> edges = vw.GetEdges();
-            List<Tuple<int, int, bool, bool, List<int>>> cells = vw.GetCells();
+            List<Tuple<int, int, bool, bool, List<int>, bool>> cells = vw.GetCells();
 
 
             foreach (var c in cells)
