@@ -90,5 +90,5 @@ Those properties also contains other attributes of the boost voronoi API describ
 
 ##External links
 1. A very useful link about the wrapping Boost with CLR and C# here: https://grevit.wordpress.com/2015/07/03/boost-c-library-in-c-revit-api/	
-2. A similar project to SharpBoostVoronoi in python. It exposes very basic functionalities, but it does it very, very well: https://github.com/Voxel8/pyvoronoi
+2. A similar project to SharpBoostVoronoi in python. It does not return a cell data structure per say but works very well: https://github.com/Voxel8/pyvoronoi
 
