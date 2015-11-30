@@ -30,7 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BoostVoronoi_4x5x0, Version=1.0.5796.30544, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="BoostVoronoi_4x5x0, Version=1.0.5811.31586, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\BoostVoronoi_4x5x0.dll</HintPath>
     </Reference>

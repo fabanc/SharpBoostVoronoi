@@ -66,7 +66,53 @@ namespace boost {
 	}  // polygon
 
 
+	struct c_Vertex {
+		double X;
+		double Y;
 
+		c_Vertex(double x = 0, double y = 0) : X(x), Y(y) {}
+	};
+
+
+	struct c_Edge {
+		long long start;
+		long long end;
+
+		bool isPrimary;
+
+		size_t site;
+
+		bool isLinear;
+		bool isFinite;
+
+		c_Edge(long long start = -1, long long end = -1, bool isPrimary = false, size_t site = -1, bool isLinear = false, bool isFinite = false) {
+			this->start = start;
+			this->end = end;
+			this->isPrimary = isPrimary;
+			this->site = site;
+			this->isLinear = isLinear;
+			this->isFinite = isFinite;
+		}
+	};
+
+	struct c_Cell{
+		size_t cellId;
+		size_t source_index;
+		bool contains_point;
+		bool contains_segment;
+		bool is_open;
+
+		std::vector<long> vertices;
+		std::vector<long> edges;
+
+		c_Cell(size_t cellId = -1, size_t source_index = -1, bool contains_point = false, bool contains_segment = false, bool is_open = false){
+			this->cellId = cellId;
+			this->source_index = source_index;
+			this->contains_point = contains_point;
+			this->contains_segment = contains_segment;
+			this->is_open = is_open;
+		}
+	};
 
 	public class Voronoi
 	{
@@ -79,6 +125,10 @@ namespace boost {
 		std::map<const voronoi_diagram<double>::vertex_type*, long long> vertexMap;
 		std::map<const voronoi_diagram<double>::edge_type*, long long> edgeMap;
 
+		std::vector<c_Vertex> vertices;
+		std::vector<c_Edge> edges;
+		std::vector<c_Cell> cells;
+
 
 		void AddPoint(int x, int y);
 		void AddSegment(int x1, int y1, int x2, int y2);
@@ -89,63 +139,103 @@ namespace boost {
 		List<Tuple<long, long, long, long, bool, bool, bool>^>^ GetEdges();
 		List<Tuple<long, long, bool, bool, List<long>^>^>^ GetCells();
 
-
-
-
 	};
 
 	void Voronoi::ConstructVoronoi()
 	{
 		boost::polygon::construct_voronoi(points.begin(), points.end(), segments.begin(), segments.end(), &vd);
 
-		//Populate the list of results
+		//Iterate through the results
+
+		//An identifier for cells
 		long long cell_identifier = 0;
+
+		//Iterate through cells
 		for (voronoi_diagram<double>::const_cell_iterator it = vd.cells().begin(); it != vd.cells().end(); ++it) {
 			const voronoi_diagram<double>::cell_type &cell = *it;
 
-			//Skip the cell if it is degenerate
-			//if (cell.is_degenerate()){
-			//	break;
-			//}
+			//Don't do anything if the cells is degenerate
+			if (!cell.is_degenerate()){
 
-			//Iterate throught the edges
-			const voronoi_diagram<double>::edge_type *edge = cell.incident_edge();
-			if (edge != NULL)
-			{
-				do {
-					//Get the vertices and add them to the map if required
-					const voronoi_diagram<double>::vertex_type* v0 = edge->vertex0();
-					const voronoi_diagram<double>::vertex_type* v1 = edge->vertex1();
+				//Create the memory cells object
+				c_Cell c_cell = c_Cell(cell_identifier, cell.source_index(), cell.contains_point(), cell.contains_segment(), false);
 
-					if (v0 != 0){
-						std::map<const voronoi_diagram<double>::vertex_type*, long long>::iterator vertexMapIterator = vertexMap.find(v0);
-						if (vertexMapIterator == vertexMap.end()){
-							long long vIndex = vertexMap.size();
-							vertexMap[v0] = vIndex;
+				//Iterate throught the edges
+				const voronoi_diagram<double>::edge_type *edge = cell.incident_edge();
+				if (edge != NULL)
+				{
+					do {
+						//Get the vertices and add them to the map if required
+						const voronoi_diagram<double>::vertex_type* v0 = edge->vertex0();
+						const voronoi_diagram<double>::vertex_type* v1 = edge->vertex1();
+
+						long long start_index = -1;
+						if (v0 != 0){
+
+							//Check if the vertex exists in the map
+							std::map<const voronoi_diagram<double>::vertex_type*, long long>::iterator vertexMapIterator = 
+								vertexMap.find(v0);
+
+							//If the vertex is not in the map, add it to the vector and the map. If not fetch the index.
+							if (vertexMapIterator == vertexMap.end()){
+								start_index = vertices.size();
+								c_Vertex start = c_Vertex(v0->x(), v0->y());
+								vertices.push_back(start);
+								vertexMap[v0] = start_index;
+							}
+							else{
+								start_index = vertexMapIterator->second;
+							}
 						}
-					}
 
-					if (v1 != 0){
-						std::map<const voronoi_diagram<double>::vertex_type*, long long>::iterator vertexMapIterator = vertexMap.find(v1);
-						if (vertexMapIterator == vertexMap.end()){
-							long long vIndex = vertexMap.size();
-							vertexMap[v1] = vIndex;
+
+						long long end_index = -1;
+						if (v1 != 0){
+
+							//Check if the vertex exists in the map
+							std::map<const voronoi_diagram<double>::vertex_type*, long long>::iterator vertexMapIterator = 
+								vertexMap.find(v1);
+
+							//If the vertex is not in the map, add it to the vector and the map. If not fetch the index.
+							if (vertexMapIterator == vertexMap.end()){
+								end_index = vertices.size();
+								c_Vertex end = c_Vertex(v1->x(), v1->y());
+								vertices.push_back(end);
+								vertexMap[v1] = end_index;
+							}
+							else{
+								end_index = vertexMapIterator->second;
+							}
 						}
-					}
 
-					//Add the edge to the collection of edges
-					std::map<const voronoi_diagram<double>::edge_type *, long long>::iterator edgeMapIterator = edgeMap.find(edge);
-					if (edgeMapIterator == edgeMap.end()){
-						long long eIndex = edgeMap.size();
-						edgeMap[edge] = eIndex;
-					}
+						//Add the edge to the collection of edges
+						std::map<const voronoi_diagram<double>::edge_type *, long long>::iterator edgeMapIterator = 
+							edgeMap.find(edge);
 
-					//Move to the next edge
-					edge = edge->next();
+						if (edgeMapIterator == edgeMap.end()){
 
-				} while (edge != cell.incident_edge());
+							//Create memory edge object
+							c_Edge cell_edge = c_Edge(start_index, end_index, edge->is_primary(), edge->cell()->source_index(), edge->is_linear(), edge->is_finite());
+							
+							//Add to map and vector
+							long long eIndex = edges.size();
+							edges.push_back(cell_edge);
+							edgeMap[edge] = eIndex;
+							c_cell.edges.push_back(eIndex);
+						}
+						else{
+							c_cell.edges.push_back(edgeMapIterator->second);
+						}
+
+						//Move to the next edge
+						edge = edge->next();
+
+					} while (edge != cell.incident_edge());
+				}
+				cells.push_back(c_cell);
+				cell_identifier++;
 			}
-			cell_identifier++;
+			
 		}
 	};
 
@@ -170,10 +260,8 @@ namespace boost {
 	List<Tuple<double, double>^>^ Voronoi::GetVertices()
 	{
 		List<Tuple<double, double>^>^ ret = gcnew List<Tuple<double, double>^>();
-		std::map<const voronoi_diagram<double>::vertex_type*, long long>::iterator it;
-		for (it = vertexMap.begin(); it != vertexMap.end(); ++it){
-			const voronoi_diagram<double>::vertex_type &v = *it->first;
-			Tuple<double, double>^ t = gcnew Tuple<double, double>(it->first->x(), it->first->y());
+		for (int i = 0; i < vertices.size(); i++) {
+			Tuple<double, double>^ t = gcnew Tuple<double, double>(vertices[i].X, vertices[i].Y);
 			ret->Add(t);
 		}
 		return ret;
@@ -195,35 +283,9 @@ namespace boost {
 	List<Tuple<long, long, long, long, bool, bool, bool>^>^ Voronoi::GetEdges()
 	{
 		List<Tuple<long, long, long, long, bool, bool, bool>^>^ ret = gcnew List<Tuple<long, long, long, long, bool, bool, bool>^>();
-		std::map<const voronoi_diagram<double>::edge_type*, long long>::iterator it;
-		for (it = edgeMap.begin(); it != edgeMap.end(); ++it){
-			
-			const voronoi_diagram<double>::edge_type &edge = *it->first;
-
-
-			const voronoi_diagram<double>::vertex_type* v0 = edge.vertex0();
-			const voronoi_diagram<double>::vertex_type* v1 = edge.vertex1();
-
-
-			//Get the index of the vertices
-			long start = -1;
-			if (v0 != 0){
-				std::map<const voronoi_diagram<double>::vertex_type *, long long>::iterator vertexMapIterator = vertexMap.find(v0);
-				if (vertexMapIterator != vertexMap.end()){
-					start = vertexMapIterator->second;
-				}
-			}
-
-			long end = -1;
-			if (v1 != 0){
-				std::map<const voronoi_diagram<double>::vertex_type *, long long>::iterator vertexMapIterator = vertexMap.find(v1);
-				if (vertexMapIterator != vertexMap.end()){
-					end = vertexMapIterator->second;
-				}
-			}
-
-			const voronoi_diagram<double>::cell_type* cell = edge.cell();
-			Tuple<long, long, long, long, bool, bool, bool>^ t = gcnew Tuple<long, long, long, long, bool, bool, bool>(it->second, start, end, cell->source_index(), edge.is_primary(), edge.is_linear(), edge.is_finite());
+		for (int i = 0; i < edges.size(); i++) {
+			Tuple<long, long, long, long, bool, bool, bool>^ t = gcnew Tuple<long, long, long, long, bool, bool, bool>(i, edges[i].start, edges[i].end, 
+				edges[i].site, edges[i].isPrimary, edges[i].isLinear, edges[i].isFinite);
 			ret->Add(t);
 		}
 		return ret;
@@ -236,41 +298,26 @@ namespace boost {
 	{
 		long cell_identifier = 0;
 		List<Tuple<long, long, bool, bool, List<long>^>^>^ ret = gcnew List<Tuple<long, long, bool, bool, List<long>^>^>();
+		for (int i = 0; i < cells.size(); i++) {
 
-		for (voronoi_diagram<double>::const_cell_iterator it = vd.cells().begin(); it != vd.cells().end(); ++it) {
-			const voronoi_diagram<double>::cell_type &cell = *it;
-	
-			//Skip the cell if it is degenerate
-			//if (cell.is_degenerate()){
-			//	break;
-			//}
-	
-			//Iterate throught the edges
-			List<long>^ edge_identifiers = gcnew List<long>();
-			const voronoi_diagram<double>::edge_type *edge = cell.incident_edge();
-			if (edge != NULL)
-			{
-				do {
-					//Fetch the edge identifier
-					std::map<const voronoi_diagram<double>::edge_type *, long long>::iterator edgeMapIterator = edgeMap.find(edge);
-					if (edgeMapIterator == edgeMap.end()){
-						throw "Edge not found";
-					}
-	
-					edge_identifiers->Add(edgeMapIterator->second);
-
-					//Move to the next edge
-					edge = edge->next();
-				} while (edge != cell.incident_edge());
-
-
-				Tuple<long, long, bool, bool, List<long>^>^ t = gcnew Tuple <long, long, bool, bool, List<long>^>(cell_identifier, cell.source_index(), 
-					cell.contains_point(), cell.contains_segment(), edge_identifiers);
-				ret->Add(t);
-
-				cell_identifier++;
+			//Create the list of identifiers
+			List<long>^ edge_list = gcnew List<long>();
+			for (int j = 0; j < cells[i].edges.size(); j++) {
+				edge_list->Add(cells[i].edges[j]);
 			}
+
+			//Populate the cells info
+			Tuple<long, long, bool, bool, List<long>^>^ t = gcnew Tuple <long, long, bool, bool, List<long>^>(
+				cells[i].cellId, 
+				cells[i].source_index,
+				cells[i].contains_point, 
+				cells[i].contains_segment, 
+				edge_list);
+
+			//Add tuple to the list
+			ret->Add(t);
 		}
+
 		return ret;
 	}
 

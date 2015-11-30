@@ -171,11 +171,38 @@ namespace BoostVoronoiTests
 
             foreach (var c in cells)
             {
-                TestContext.WriteLine(String.Format("Cell {0}", c.Item1));
                 for (int i = 1; i < c.Item5.Count; i++)
                 {
-                    Assert.AreEqual(edges[i - 1].Item3, edges[i].Item2);
+                    Assert.AreEqual(edges[c.Item5[i - 1]].Item3, edges[c.Item5[i]].Item2);
                 }
+            }
+        }
+
+
+        [TestMethod]
+        public void TestCellEndNodes()
+        {
+            VoronoiWrapper vw = new VoronoiWrapper();
+            vw.AddSegment(0, 0, 0, 10);
+            vw.AddSegment(0, 10, 10, 10);
+            vw.AddSegment(10, 10, 10, 0);
+            vw.AddSegment(10, 0, 0, 0);
+            vw.AddSegment(0, 0, 5, 5);
+            vw.AddSegment(5, 5, 10, 10);
+            vw.ConstructVoronoi();
+
+            List<Tuple<double, double>> vertices = vw.GetVertices();
+            List<Tuple<int, int, int, int, bool, bool, bool>> edges = vw.GetEdges();
+            List<Tuple<int, int, bool, bool, List<int>>> cells = vw.GetCells();
+
+
+            foreach (var c in cells)
+            {
+                //Get first edge and last edge
+                Tuple<int, int, int, int, bool, bool, bool> firstEdge = edges[c.Item5[0]];
+                Tuple<int, int, int, int, bool, bool, bool> lastEdge = edges[c.Item5[c.Item5.Count -1]];
+
+                Assert.AreEqual(firstEdge.Item2, lastEdge.Item3);
             }
         }
 
