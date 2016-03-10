@@ -1,4 +1,5 @@
 ﻿using boost;
+using SharpBoostVoronoi.Exceptions;
 using SharpBoostVoronoi.Input;
 using SharpBoostVoronoi.Output;
 using System;
@@ -43,6 +44,11 @@ namespace SharpBoostVoronoi
         public List<Cell> Cells { get; set; }
 
         /// <summary>
+        /// A scale factor. It will be used as a multiplier for input coordinates. Output coordinates will be divided by the scale factor automatically.
+        /// </summary>
+        private int ScaleFactor { get; set; }
+
+        /// <summary>
         /// Default constructor
         /// </summary>
         public BoostVoronoi()
@@ -50,7 +56,25 @@ namespace SharpBoostVoronoi
             InputPoints = new List<Point>();
             InputSegments = new List<Segment>();
             VoronoiWrapper = new VoronoiWrapper();
+            ScaleFactor = 1;
         }
+
+        /// <summary>
+        /// Constructor that allows to define a scale factor.
+        /// </summary>
+        /// <param name="scaleFactor"> A scale factor greater than zero. It will be used as a multiplier for input coordinates. Output coordinates will be divided by the scale factor automatically.</param>
+        public BoostVoronoi(int scaleFactor)
+        {
+            InputPoints = new List<Point>();
+            InputSegments = new List<Segment>();
+            VoronoiWrapper = new VoronoiWrapper();
+
+            if (scaleFactor <= 0)
+                throw new InvalidScaleFactorException();
+
+        }
+
+
 
         /// <summary>
         /// Calls the voronoi API in order to build the voronoi cells. TO-BE-DONE!
@@ -72,7 +96,7 @@ namespace SharpBoostVoronoi
             //Store the output
             Vertices = new List<Vertex>();
             foreach (var t in VoronoiWrapper.GetVertices())
-                Vertices.Add(new Vertex(t));
+                Vertices.Add(new Vertex(t,ScaleFactor));
 
             Edges = new List<Edge>();
             foreach (var t in VoronoiWrapper.GetEdges())
@@ -90,7 +114,7 @@ namespace SharpBoostVoronoi
         /// <param name="y"></param>
         public void AddPoint(int x, int y)
         {
-            InputPoints.Add(new Point(x, y));
+            InputPoints.Add(new Point(x  * ScaleFactor, y * ScaleFactor));
         }
 
         /// <summary>
@@ -102,8 +126,9 @@ namespace SharpBoostVoronoi
         /// <param name="y2">Y coordinate of the end point</param>
         public void AddSegment(int x1, int y1, int x2, int y2)
         {
-            InputSegments.Add(new Segment(x1,y1,x2,y2));
+            InputSegments.Add(new Segment(x1 * ScaleFactor,y1 * ScaleFactor,x2 * ScaleFactor,y2 * ScaleFactor));
         }
+
 
     }
 }

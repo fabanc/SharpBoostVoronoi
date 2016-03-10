@@ -22,6 +22,17 @@ namespace SharpBoostVoronoi.Output
         }
 
         /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="t">A tuple where the first value represents the X-axis and the second value the Y-axis</param>
+        /// <param name="scaleFactor">A number that will be used to divide the coordinates</param>
+        public Vertex(Tuple<double, double> t, int scaleFactor)
+        {
+            X = t.Item1 / scaleFactor;
+            Y = t.Item2 / scaleFactor;
+        }
+
+        /// <summary>
         /// Returns a concatenation of the coordinates, separated by a comma
         /// </summary>
         /// <returns></returns>
