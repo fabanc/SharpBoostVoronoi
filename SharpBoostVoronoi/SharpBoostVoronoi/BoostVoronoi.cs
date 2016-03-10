@@ -77,7 +77,7 @@ namespace SharpBoostVoronoi
 
 
         /// <summary>
-        /// Calls the voronoi API in order to build the voronoi cells. TO-BE-DONE!
+        /// Calls the voronoi API in order to build the voronoi cells.
         /// </summary>
         public void Construct()
         {

@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoostVoronoi.cs" />
+    <Compile Include="Exceptions\InvalidScaleFactorException.cs" />
     <Compile Include="Inputs\Point.cs" />
     <Compile Include="Inputs\Segment.cs" />
     <Compile Include="Outputs\Cell.cs" />
