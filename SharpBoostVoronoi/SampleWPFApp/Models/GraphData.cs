@@ -12,17 +12,19 @@ namespace SampleWPFApp.Models
 {
     class GraphData
     {
+        public string Name { get; set; }
         public List<Point> InputPoints{ get; set; }
         public List<Segment> InputSegments { get; set; }
         public List<Vertex> OutputVertices { get; set; }
         public List<Edge> OutputEdges { get; set; }
         public List<Cell> OutputCells { get; set; }
 
-        public GraphData(List<Point> inputPoints, List<Segment> segments)
+        public GraphData(string name, List<Point> inputPoints, List<Segment> segments)
         {
-            if (inputPoints == null || InputSegments == null)
+            if (String.IsNullOrEmpty(name) || inputPoints == null || segments == null)
                 throw new ArgumentNullException();
 
+            Name = name;
             InputPoints = new List<Point>();
             InputSegments = new List<Segment>();
             BoostVoronoi v = new BoostVoronoi();
