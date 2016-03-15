@@ -32,6 +32,9 @@ namespace SampleWPFApp.Views
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //Clear
+            DrawingArea.Children.Clear();
+
             DrawingArea.Background = Brushes.Aqua;
             GraphData gData = vm.Graphs[(sender as ComboBox).SelectedIndex];
             foreach (var inputSegment in gData.InputSegments)
