@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SharpBoostVoronoi.Output;
 
 namespace SampleWPFApp.Views
 {
@@ -35,10 +36,26 @@ namespace SampleWPFApp.Views
             //Clear
             DrawingArea.Children.Clear();
 
-            DrawingArea.Background = Brushes.Aqua;
+            //Set colors used by points
+            SolidColorBrush inputPointColoBrush = new SolidColorBrush();
+            inputPointColoBrush.Color = Color.FromArgb(255, 255, 255, 0);
+
+            SolidColorBrush outputPointColoBrush = new SolidColorBrush();
+            outputPointColoBrush.Color = Color.FromArgb(255,0,0,255);
+
+            int pointWidth = 10;
+            int pointRadius = Convert.ToInt32(pointWidth / 2);
+
+
+
+            //Get the graph data
             GraphData gData = vm.Graphs[(sender as ComboBox).SelectedIndex];
+            List<SharpBoostVoronoi.Output.Vertex> ov = gData.OutputVertices;
+
             foreach (var inputSegment in gData.InputSegments)
             {
+
+                //Draw the input segment
                 DrawingArea.Children.Add(new Line()
                 {
                     X1 = inputSegment.Start.X,
@@ -47,9 +64,15 @@ namespace SampleWPFApp.Views
                     Y2 = inputSegment.End.Y,
                     Stroke = System.Windows.Media.Brushes.DarkRed
                 });
+
+
+                //Draw the end points
+                DrawPoint(inputSegment.Start.X, inputSegment.Start.Y, inputPointColoBrush, pointWidth, pointRadius);
+                DrawPoint(inputSegment.End.X, inputSegment.End.Y, inputPointColoBrush, pointWidth, pointRadius);
+
             }
 
-            List<SharpBoostVoronoi.Output.Vertex> ov =  gData.OutputVertices;
+            
             foreach (var outputSegment in gData.OutputEdges)
             {
                 if (outputSegment.Start == -1 || outputSegment.End == -1)
@@ -62,8 +85,24 @@ namespace SampleWPFApp.Views
                     X2 = ov[outputSegment.End].X,
                     Y2 = ov[outputSegment.End].Y,
                     Stroke = System.Windows.Media.Brushes.DarkBlue
-                });                
+                });      
+          
+                DrawPoint(ov[outputSegment.Start].X, ov[outputSegment.Start].Y, outputPointColoBrush, pointWidth, pointRadius);
+                DrawPoint(ov[outputSegment.End].X, ov[outputSegment.End].Y, outputPointColoBrush, pointWidth, pointRadius);
             }
+        }
+
+        private void DrawPoint(double x, double y, SolidColorBrush mySolidColorBrush, int pointWidth, int pointRadius)
+        {
+            var inputStart = new Ellipse();
+            inputStart.StrokeThickness = 2;
+            inputStart.Stroke = Brushes.Black;
+            inputStart.Width = pointWidth;
+            inputStart.Height = pointWidth;
+            inputStart.Fill = mySolidColorBrush;
+            Canvas.SetLeft(inputStart, x - pointRadius);
+            Canvas.SetTop(inputStart, y - pointRadius);
+            DrawingArea.Children.Add(inputStart);
         }
     }
 }
