@@ -43,10 +43,11 @@ namespace SampleWPFApp.Views
             SolidColorBrush outputPointColoBrush = new SolidColorBrush();
             outputPointColoBrush.Color = Color.FromArgb(255,0,0,255);
 
-            int pointWidth = 10;
-            int pointRadius = Convert.ToInt32(pointWidth / 2);
+            int inputPointWidth = 12;
+            int inputPointRadius = Convert.ToInt32(inputPointWidth / 2);
 
-
+            int outputPointWidth = 6;
+            int outputPointRadius = Convert.ToInt32(outputPointWidth / 2);
 
             //Get the graph data
             GraphData gData = vm.Graphs[(sender as ComboBox).SelectedIndex];
@@ -67,8 +68,8 @@ namespace SampleWPFApp.Views
 
 
                 //Draw the end points
-                DrawPoint(inputSegment.Start.X, inputSegment.Start.Y, inputPointColoBrush, pointWidth, pointRadius);
-                DrawPoint(inputSegment.End.X, inputSegment.End.Y, inputPointColoBrush, pointWidth, pointRadius);
+                DrawPoint(inputSegment.Start.X, inputSegment.Start.Y, inputPointColoBrush, inputPointWidth, inputPointRadius);
+                DrawPoint(inputSegment.End.X, inputSegment.End.Y, inputPointColoBrush, inputPointWidth, inputPointRadius);
 
             }
 
@@ -85,10 +86,10 @@ namespace SampleWPFApp.Views
                     X2 = ov[outputSegment.End].X,
                     Y2 = ov[outputSegment.End].Y,
                     Stroke = System.Windows.Media.Brushes.DarkBlue
-                });      
-          
-                DrawPoint(ov[outputSegment.Start].X, ov[outputSegment.Start].Y, outputPointColoBrush, pointWidth, pointRadius);
-                DrawPoint(ov[outputSegment.End].X, ov[outputSegment.End].Y, outputPointColoBrush, pointWidth, pointRadius);
+                });
+
+                DrawPoint(ov[outputSegment.Start].X, ov[outputSegment.Start].Y, outputPointColoBrush, outputPointWidth, outputPointRadius);
+                DrawPoint(ov[outputSegment.End].X, ov[outputSegment.End].Y, outputPointColoBrush, outputPointWidth, outputPointRadius);
             }
         }
 

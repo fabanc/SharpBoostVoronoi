@@ -36,7 +36,7 @@ namespace SampleWPFApp.ViewModels
                 new Segment(new Point(50,50), p0),
                 new Segment(new Point(50,450), p0),
                 new Segment(p0,p1),
-                new Segment(p1,new Point(45,45))
+                new Segment(p1,new Point(50,50))
             };
             return new GraphData("Graph1", InputPoints, InputSegments);
         }
