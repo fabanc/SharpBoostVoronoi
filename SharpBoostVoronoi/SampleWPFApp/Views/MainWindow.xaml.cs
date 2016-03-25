@@ -2,6 +2,7 @@
 using SampleWPFApp.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,24 +25,35 @@ namespace SampleWPFApp.Views
     public partial class MainWindow : Window
     {
         private GraphViewModel vm;
+
+        //Set the colors being used by application
+        public SolidColorBrush InputPointColoBrush {get; set; }
+        public SolidColorBrush OutputPointColoBrush { get; set; }
+        public Brush InputStroke { get; set; }
+        public Brush OutputStroke { get; set; }
         public MainWindow()
         {
             InitializeComponent();
             vm = new GraphViewModel();
             DataContext = vm;
+
+            //Set colors used by points
+            InputPointColoBrush = new SolidColorBrush();
+            InputPointColoBrush.Color = Color.FromArgb(255, 0, 255, 0);
+
+            OutputPointColoBrush = new SolidColorBrush();
+            OutputPointColoBrush.Color = Color.FromArgb(255, 0, 0, 255);
+
+            InputStroke = System.Windows.Media.Brushes.DarkRed;
+            OutputStroke = System.Windows.Media.Brushes.DarkBlue;
+
+
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //Clear
             DrawingArea.Children.Clear();
-
-            //Set colors used by points
-            SolidColorBrush inputPointColoBrush = new SolidColorBrush();
-            inputPointColoBrush.Color = Color.FromArgb(255, 255, 255, 0);
-
-            SolidColorBrush outputPointColoBrush = new SolidColorBrush();
-            outputPointColoBrush.Color = Color.FromArgb(255,0,0,255);
 
             int inputPointWidth = 12;
             int inputPointRadius = Convert.ToInt32(inputPointWidth / 2);
@@ -63,20 +75,21 @@ namespace SampleWPFApp.Views
                     Y1 = inputSegment.Start.Y,
                     X2 = inputSegment.End.X,
                     Y2 = inputSegment.End.Y,
-                    Stroke = System.Windows.Media.Brushes.DarkRed
+                    Stroke = InputStroke
                 });
 
 
                 //Draw the end points
-                DrawPoint(inputSegment.Start.X, inputSegment.Start.Y, inputPointColoBrush, inputPointWidth, inputPointRadius);
-                DrawPoint(inputSegment.End.X, inputSegment.End.Y, inputPointColoBrush, inputPointWidth, inputPointRadius);
+                DrawPoint(inputSegment.Start.X, inputSegment.Start.Y, InputPointColoBrush, inputPointWidth, inputPointRadius);
+                DrawPoint(inputSegment.End.X, inputSegment.End.Y, InputPointColoBrush, inputPointWidth, inputPointRadius);
 
             }
 
             
             foreach (var outputSegment in gData.OutputEdges)
             {
-                if (outputSegment.Start == -1 || outputSegment.End == -1)
+                //if (outputSegment.Start == -1 || outputSegment.End == -1)
+                if (!outputSegment.IsFinite)
                     continue;
                 
                 DrawingArea.Children.Add(new Line()
@@ -85,11 +98,11 @@ namespace SampleWPFApp.Views
                     Y1 = ov[outputSegment.Start].Y,
                     X2 = ov[outputSegment.End].X,
                     Y2 = ov[outputSegment.End].Y,
-                    Stroke = System.Windows.Media.Brushes.DarkBlue
+                    Stroke = OutputStroke
                 });
 
-                DrawPoint(ov[outputSegment.Start].X, ov[outputSegment.Start].Y, outputPointColoBrush, outputPointWidth, outputPointRadius);
-                DrawPoint(ov[outputSegment.End].X, ov[outputSegment.End].Y, outputPointColoBrush, outputPointWidth, outputPointRadius);
+                DrawPoint(ov[outputSegment.Start].X, ov[outputSegment.Start].Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);
+                DrawPoint(ov[outputSegment.End].X, ov[outputSegment.End].Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);
             }
         }
 
