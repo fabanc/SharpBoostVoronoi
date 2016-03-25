@@ -107,11 +107,14 @@ the input coordinates and avoid a loss of accuracy. The coordinates of the outpu
 ##Output data structure
 Cells, Edges, and Vertices are exposing information exposed through the boost API. They is documentation generated along with this dll. For me information about what those properties mean, I invite you to read the boost documentation here: http://www.boost.org/doc/libs/1_54_0/libs/polygon/doc/voronoi_diagram.htm
 
-#Cells
+###Cells
 Each cell contains a reference to the segment it is made of. Those segment indexes are stored in the property EdgesIndex as a list of integers. Those indexes are indexes referring to segment in BoostVoronoi.Edges. Each cell also contains an important property call IsOpen. Not all the polygons returned by boost are closed. Some use an infinite point when a cell has no limit. A cells that has the 
 property IsOpen equals to true will contains segment that refer to a vertex id of -1. Trying to access a vertex in BoostVoronoi.Vertices is not possible.
 
-#Edges
+###Edges
 Each edge contain a reference to its vertex. The properties Start and End store the index of the first and last vertex of this segment. Each segment has only two vertices / nodes. Use this index to access the corresponding vertex in BoostVoronoi.Vertices.
 Always check first that the value of Start or End is always different from -1.
+
+###Vertices
+They contains the coordinates of all the points used to build segments and cells.
 
