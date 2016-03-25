@@ -4,7 +4,7 @@
         xmlns:local="clr-namespace:SampleWPFApp.ViewModels"
         Title="MainWindow" Height="800" Width="850" WindowStartupLocation="CenterScreen">
     <Window.Resources>
-        <SolidColorBrush x:Key="InputPointColorBrush" Color="DarkRed" />
+        <SolidColorBrush x:Key="InputPointColorBrush" Color="Orange" />
         <SolidColorBrush x:Key="OutputPointColoBrush" Color="DarkBlue" />
     </Window.Resources>
     <Grid>
