@@ -90,6 +90,8 @@ the input coordinates and avoid a loss of accuracy. The coordinates of the outpu
 
             //Instanciate the voronoi wrapper
             BoostVoronoi bv = new BoostVoronoi();
+			//Coordinates will be multiplied by 100 before being converted as integer and sent to Boost.
+			//Coordinates returned by boost will be divided by 100 before being returned to you.
 			bv.ScaleFactor = 100;
 			
             //Add the segments
