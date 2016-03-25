@@ -1,12 +1,11 @@
 # SharpBoostVoronoi
 
-##This .NET solution has 3 project
-1. SharpBoostVoronoi is the library that exposes the C++ wrapper through a set of C# classes. If you want to use the boost voronoi library in .NET, this is the project you need to import.
-2. Sample App and SampleWPFApp are two applications that illustrate the use of SharpBoostVoronoi. SampleWPFApp allows you to visualize some test data and the results computed by the boost library.
+##Purpose
+This project creates the dll you want to use when generating voronoi cells from line and point.
 
 
 ##How to use
-A complete example on how to use the library is in the project SampleApp of the solution SharpBoostVoronoi. I have pasted the code sample below.
+A complete example on how to use the library is in the projects SampleApp and SampleAppWPF within that same Visual Studio Solution. I have pasted the code sample below.
 
 In a nutshell, you pass a set of Segments or Points to the class BoostVoronoi. Those classes are defined in SharpBoostVoronoi.Input and their use is demonstrated in the code below. Constructing the diagram populates 3 properties of the class BoostVoronoi:
 
@@ -78,3 +77,41 @@ Those properties also contains other attributes of the boost voronoi API describ
         }
     }
 ```
+
+The coordinates of the input segments and points are being converted as integer behind the scene. This is a requirement from the boost library. However, you can use the property ScaleFactor. The scale factor will be used to multiply 
+the input coordinates and avoid a loss of accuracy. The coordinates of the output points will be divided by the scale factor. The example below shows how to use the scale factor with number having 2 decimals, and avoid any loss in precision:
+
+```
+            List<Segment> input = new List<Segment>();
+            input.Add(new Segment(0, 0, 0, 10.55));
+            input.Add(new Segment(0, 10.55, 10.55, 10.55));
+            input.Add(new Segment(10.55, 10.55, 10.55, 0));
+            input.Add(new Segment(10.55, 0, 0, 0));
+
+            //Instanciate the voronoi wrapper
+            BoostVoronoi bv = new BoostVoronoi();
+			bv.ScaleFactor = 100;
+			
+            //Add the segments
+            foreach (var s in input)
+                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);	
+
+            //Build the C# Voronoi
+            bv.Construct();
+
+			//Same code that in the example above to retrieve the output
+			.....
+			
+```
+
+##Output data structure
+Cells, Edges, and Vertices are exposing information exposed through the boost API. They is documentation generated along with this dll. For me information about what those properties mean, I invite you to read the boost documentation here: http://www.boost.org/doc/libs/1_54_0/libs/polygon/doc/voronoi_diagram.htm
+
+#Cells
+Each cell contains a reference to the segment it is made of. Those segment indexes are stored in the property EdgesIndex as a list of integers. Those indexes are indexes referring to segment in BoostVoronoi.Edges. Each cell also contains an important property call IsOpen. Not all the polygons returned by boost are closed. Some use an infinite point when a cell has no limit. A cells that has the 
+property IsOpen equals to true will contains segment that refer to a vertex id of -1. Trying to access a vertex in BoostVoronoi.Vertices is not possible.
+
+#Edges
+Each edge contain a reference to its vertex. The properties Start and End store the index of the first and last vertex of this segment. Each segment has only two vertices / nodes. Use this index to access the corresponding vertex in BoostVoronoi.Vertices.
+Always check first that the value of Start or End is always different from -1.
+
