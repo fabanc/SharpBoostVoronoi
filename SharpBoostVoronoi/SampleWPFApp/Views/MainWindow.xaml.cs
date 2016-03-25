@@ -38,14 +38,16 @@ namespace SampleWPFApp.Views
             DataContext = vm;
 
             //Set colors used by points
-            InputPointColoBrush = new SolidColorBrush();
-            InputPointColoBrush.Color = Color.FromArgb(255, 0, 255, 0);
+            InputPointColoBrush = this.Resources["InputPointColorBrush"] as SolidColorBrush;
+            OutputPointColoBrush = this.Resources["OutputPointColoBrush"] as SolidColorBrush;
 
-            OutputPointColoBrush = new SolidColorBrush();
-            OutputPointColoBrush.Color = Color.FromArgb(255, 0, 0, 255);
+            BrushConverter converter = new System.Windows.Media.BrushConverter();
 
-            InputStroke = System.Windows.Media.Brushes.DarkRed;
-            OutputStroke = System.Windows.Media.Brushes.DarkBlue;
+            string inputStrokeColor = converter.ConvertToString(InputPointColoBrush);
+            string outputStrokeColor = converter.ConvertToString(OutputPointColoBrush);
+
+            InputStroke = (Brush)converter.ConvertFromString(inputStrokeColor);
+            OutputStroke = (Brush)converter.ConvertFromString(outputStrokeColor);
 
 
         }
