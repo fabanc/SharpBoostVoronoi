@@ -85,13 +85,17 @@ namespace boost {
 		bool isLinear;
 		bool isFinite;
 
-		c_Edge(long long start = -1, long long end = -1, bool isPrimary = false, size_t site = -1, bool isLinear = false, bool isFinite = false) {
+		long cell;
+
+		c_Edge(long long start = -1, long long end = -1, bool isPrimary = false, size_t site = -1, bool isLinear = false, bool isFinite = false, long cell = -1) {
 			this->start = start;
 			this->end = end;
 			this->isPrimary = isPrimary;
 			this->site = site;
 			this->isLinear = isLinear;
 			this->isFinite = isFinite;
+			this->cell = cell;
+
 		}
 	};
 
@@ -222,7 +226,7 @@ namespace boost {
 						if (edgeMapIterator == edgeMap.end()){
 
 							//Create memory edge object
-							c_Edge cell_edge = c_Edge(start_index, end_index, edge->is_primary(), edge->cell()->source_index(), edge->is_linear(), edge->is_finite());
+							c_Edge cell_edge = c_Edge(start_index, end_index, edge->is_primary(), edge->cell()->source_index(), edge->is_linear(), edge->is_finite(), cell_identifier);
 							
 							//Add to map and vector
 							long long eIndex = edges.size();
