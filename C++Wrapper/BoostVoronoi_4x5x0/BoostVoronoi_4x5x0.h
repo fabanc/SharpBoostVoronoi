@@ -86,6 +86,7 @@ namespace boost {
 		bool isFinite;
 
 		long cell;
+		long twin;
 
 		c_Edge(long long start = -1, long long end = -1, bool isPrimary = false, size_t site = -1, bool isLinear = false, bool isFinite = false, long cell = -1) {
 			this->start = start;
@@ -95,7 +96,6 @@ namespace boost {
 			this->isLinear = isLinear;
 			this->isFinite = isFinite;
 			this->cell = cell;
-
 		}
 	};
 
@@ -246,7 +246,22 @@ namespace boost {
 				cells.push_back(c_cell);
 				cell_identifier++;
 			}
-			
+
+			//Parse the list of segments and associate its twin.
+			for (std::map<const voronoi_diagram<double>::edge_type *, long long>::iterator it = edgeMap.begin(); it != edgeMap.end(); ++it)
+			{
+				//Get the struct representing the cell
+				if (edges[it->second].twin == -1)
+				{
+					//Set an iterator on the twin edge
+					std::map<const voronoi_diagram<double>::edge_type *, long long>::iterator twinEdgeIterator =
+						edgeMap.find(it->first->twin());
+
+					//Associate the segments and their twin
+					edges[it->second].twin = twinEdgeIterator->second;
+					edges[twinEdgeIterator->second].twin = it->second;
+				}
+			}
 		}
 	};
 
