@@ -129,6 +129,124 @@ namespace SharpBoostVoronoi
             InputSegments.Add(new Segment(x1 * ScaleFactor,y1 * ScaleFactor,x2 * ScaleFactor,y2 * ScaleFactor));
         }
 
+        #region Code to discretize curves
+        //The code below is a simple port to C# of the C++ code in the links below
+        //http://www.boost.org/doc/libs/1_54_0/libs/polygon/example/voronoi_visualizer.cpp
+        //http://www.boost.org/doc/libs/1_54_0/libs/polygon/example/voronoi_visual_utils.hpp
 
+        /// <summary>
+        /// Discretized a curved segment from the voronoi results. Curved segments generally appears when a segment is at the border
+        /// of a cell generated around an input point and a cell generated around an input segment.
+        /// </summary>
+        /// <param name="point">The input point associated on one side of the curved edge</param>
+        /// <param name="segment">The input segment associated on one side of the curved edge</param>
+        /// <param name="max_dist">The maximum distance</param>
+        /// <param name="discretization">The output segment to discretize</param>
+        /// <returns></returns>
+        private List<Vertex> Discretize(Point point, Segment segment, double max_dist, List<Vertex> discretization)
+        {
+            //Since this list if supposed to represent a voronoi edge, it has to have 2 vertices
+            if (discretization.Count != 2)
+                throw new InvalidNumberOfVertexException();
+
+            double low_segment_x = segment.Start.X < segment.End.X ? segment.Start.X : segment.End.X;
+            double low_segment_y = segment.Start.Y < segment.End.Y ? segment.Start.Y : segment.End.Y;
+
+            double max_segment_x = segment.Start.X < segment.End.X ? segment.End.X : segment.Start.X;
+            double max_segment_y = segment.Start.Y < segment.End.Y ? segment.End.Y : segment.Start.Y;
+
+            // Apply the linear transformation to move start point of the segment to
+            // the point with coordinates (0, 0) and the direction of the segment to
+            // coincide the positive direction of the x-axis.
+            double segm_vec_x = max_segment_x - low_segment_x;
+            double segm_vec_y = max_segment_y - low_segment_y;
+            double sqr_segment_length = segm_vec_x * segm_vec_x + segm_vec_y * segm_vec_y;
+
+            // Compute x-coordinates of the endpoints of the edge
+            // in the transformed space.
+            double projection_start = sqr_segment_length * GetPointProjection(discretization.First(), segment);
+            double projection_end = sqr_segment_length * GetPointProjection(discretization.Last(), segment);
+
+            // Compute parabola parameters in the transformed space.
+            // Parabola has next representation:
+            // f(x) = ((x-rot_x)^2 + rot_y^2) / (2.0*rot_y).
+            double point_vec_x = point.X - low_segment_x;
+            double point_vec_y = point.Y - low_segment_y;
+            double rot_x = segm_vec_x * point_vec_x + segm_vec_y * point_vec_y;
+            double rot_y = segm_vec_x * point_vec_y - segm_vec_y * point_vec_x;
+
+            // Save the last point.
+            Vertex last_point = discretization.Last();
+            List<Vertex> discretizedPoint = new List<Vertex>() { discretization.First() };
+
+
+            // Use stack to avoid recursion.
+            Stack<double> point_stack = new Stack<double>();
+            point_stack.Push(projection_end);
+
+            double cur_x = projection_start;
+            double cur_y = parabola_y(cur_x, rot_x, rot_y);
+
+            // Adjust max_dist parameter in the transformed space.
+            double max_dist_transformed = max_dist * max_dist * sqr_segment_length;
+            while (point_stack.Count != 0)
+            {
+                double new_x = point_stack.Last();
+                double new_y = parabola_y(new_x, rot_x, rot_y);
+
+                // Compute coordinates of the point of the parabola that is
+                // furthest from the current line segment.
+                double mid_x = (new_y - cur_y) / (new_x - cur_x) * rot_y + rot_x;
+                double mid_y = parabola_y(mid_x, rot_x, rot_y);
+
+                double dist = (new_y - cur_y) * (mid_x - cur_x) -
+                    (new_x - cur_x) * (mid_y - cur_y);
+                dist = dist * dist / ((new_y - cur_y) * (new_y - cur_y) +
+                    (new_x - cur_x) * (new_x - cur_x));
+
+                if (dist <= max_dist_transformed)
+                {
+                    // Distance between parabola and line segment is less than max_dist.
+                    point_stack.Pop();
+                    double inter_x = (segm_vec_x * new_x - segm_vec_y * new_y) /
+                        sqr_segment_length + low_segment_x;
+                    double inter_y = (segm_vec_x * new_y + segm_vec_y * new_x) /
+                        sqr_segment_length + low_segment_y;
+
+                    discretizedPoint.Add(new Vertex(inter_x, inter_y));
+                    cur_x = new_x;
+                    cur_y = new_y;
+                }
+                else
+                {
+                    point_stack.Push(mid_x);
+                }
+            }
+            discretizedPoint[discretizedPoint.Count - 1] = last_point;
+            return discretizedPoint;
+        }
+
+        private double parabola_y(double x, double a, double b)
+        {
+            return ((x - a) * (x - a) + b * b) / (b + b);
+        }
+
+        private double GetPointProjection(Vertex point, Segment segment)
+        {
+            double low_segment_x = segment.Start.X < segment.End.X ? segment.Start.X : segment.End.X;
+            double low_segment_y = segment.Start.Y < segment.End.Y ? segment.Start.Y : segment.End.Y;
+            double max_segment_x = segment.Start.X < segment.End.X ? segment.End.X : segment.Start.X;
+            double max_segment_y = segment.Start.Y < segment.End.Y ? segment.End.Y : segment.Start.Y;
+
+            double segment_vec_x = max_segment_x - low_segment_x;
+            double segment_vec_y = max_segment_y - low_segment_y;
+            double point_vec_x = point.X - low_segment_x;
+            double point_vec_y = point.Y - low_segment_y;
+
+            double sqr_segment_length = segment_vec_x * segment_vec_x + segment_vec_y * segment_vec_y;
+            double vec_dot = segment_vec_x * point_vec_x + segment_vec_y * point_vec_y;
+            return vec_dot / sqr_segment_length;
+        }
+        #endregion
     }
 }
