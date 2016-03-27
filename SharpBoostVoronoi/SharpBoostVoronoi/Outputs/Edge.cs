@@ -42,14 +42,14 @@ namespace SharpBoostVoronoi.Output
         /// Constructor.
         /// </summary>
         /// <param name="t">A tuple returned by the CLR wrapper.</param>
-        public Edge(Tuple<int, int, int, int, bool, bool, bool> t)
+        public Edge(Tuple<int, int, int, int, Tuple<bool, bool, bool>> t)
         {
             Start = t.Item2;
             End = t.Item3;
             SiteIndex = t.Item4;
-            IsPrimary = t.Item5;
-            IsLinear = t.Item6;
-            IsFinite = t.Item7;
+            IsPrimary = t.Item5.Item1;
+            IsLinear = t.Item5.Item2;
+            IsFinite = t.Item5.Item3;
         }
 
     }

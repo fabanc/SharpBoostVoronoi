@@ -94,7 +94,7 @@ namespace BoostVoronoiTests
                 vw.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
             vw.ConstructVoronoi();
-            List<Tuple<int,int,int,int,bool,bool,bool>> clrEdges = vw.GetEdges();
+            List<Tuple<int,int,int,int,Tuple<bool,bool,bool>>> clrEdges = vw.GetEdges();
 
             //Build the C# Voronoi
             BoostVoronoi bv = new BoostVoronoi();
@@ -124,7 +124,7 @@ namespace BoostVoronoiTests
                 vw.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
             vw.ConstructVoronoi();
-            List<Tuple<int, int, int, int, bool, bool, bool>> clrEdges = vw.GetEdges();
+            List<Tuple<int, int, int, int, Tuple<bool, bool, bool>>> clrEdges = vw.GetEdges();
 
             //Build the C# Voronoi
             BoostVoronoi bv = new BoostVoronoi();

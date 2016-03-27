@@ -40,11 +40,11 @@ namespace BoostVoronoiTests
             vw.AddSegment(5, 5, 10, 10);
             vw.ConstructVoronoi();
 
-            List<Tuple<int, int, int, int, bool, bool, bool>> edges = vw.GetEdges();
+            List<Tuple<int, int, int, int, Tuple<bool, bool, bool>>> edges = vw.GetEdges();
             int count_finite_edge = 0;
             foreach (var e in edges)
             {
-                if (e.Item7)
+                if (e.Item5.Item3)
                 {
                     count_finite_edge++;
                 }
@@ -65,7 +65,7 @@ namespace BoostVoronoiTests
             vw.AddSegment(5, 5, 10, 10);
             vw.ConstructVoronoi();
 
-            List<Tuple<int, int, int, int, bool, bool, bool>> edges = vw.GetEdges();
+            List<Tuple<int, int, int, int, Tuple<bool, bool, bool>>> edges = vw.GetEdges();
 
             List<int> edgeIndexes = new List<int>();
 
@@ -97,7 +97,7 @@ namespace BoostVoronoiTests
             vw.ConstructVoronoi();
 
             List<Tuple<double, double>> vertices = vw.GetVertices();
-            List<Tuple<int, int, int, int, bool, bool, bool>> edges = vw.GetEdges();
+            List<Tuple<int, int, int, int, Tuple<bool, bool, bool>>> edges = vw.GetEdges();
 
             List<int> vertexIndexes = new List<int>();
 
@@ -133,7 +133,7 @@ namespace BoostVoronoiTests
             vw.ConstructVoronoi();
 
             List<Tuple<double, double>> vertices = vw.GetVertices();
-            List<Tuple<int, int, int, int, bool, bool, bool>> edges = vw.GetEdges();
+            List<Tuple<int, int, int, int, Tuple<bool, bool, bool>>> edges = vw.GetEdges();
             List<Tuple<int, int, bool, bool, List<int>, bool>> cells = vw.GetCells();
 
 
@@ -165,7 +165,7 @@ namespace BoostVoronoiTests
             vw.ConstructVoronoi();
 
             List<Tuple<double, double>> vertices = vw.GetVertices();
-            List<Tuple<int, int, int, int, bool, bool, bool>> edges = vw.GetEdges();
+            List<Tuple<int, int, int, int, Tuple<bool, bool, bool>>> edges = vw.GetEdges();
             List<Tuple<int, int, bool, bool, List<int>, bool>> cells = vw.GetCells();
 
 
@@ -192,15 +192,15 @@ namespace BoostVoronoiTests
             vw.ConstructVoronoi();
 
             List<Tuple<double, double>> vertices = vw.GetVertices();
-            List<Tuple<int, int, int, int, bool, bool, bool>> edges = vw.GetEdges();
+            List<Tuple<int, int, int, int, Tuple<bool, bool, bool>>> edges = vw.GetEdges();
             List<Tuple<int, int, bool, bool, List<int>, bool>> cells = vw.GetCells();
 
 
             foreach (var c in cells)
             {
                 //Get first edge and last edge
-                Tuple<int, int, int, int, bool, bool, bool> firstEdge = edges[c.Item5[0]];
-                Tuple<int, int, int, int, bool, bool, bool> lastEdge = edges[c.Item5[c.Item5.Count -1]];
+                Tuple<int, int, int, int, Tuple<bool, bool, bool>> firstEdge = edges[c.Item5[0]];
+                Tuple<int, int, int, int, Tuple<bool, bool, bool>> lastEdge = edges[c.Item5[c.Item5.Count -1]];
 
                 Assert.AreEqual(firstEdge.Item2, lastEdge.Item3);
             }

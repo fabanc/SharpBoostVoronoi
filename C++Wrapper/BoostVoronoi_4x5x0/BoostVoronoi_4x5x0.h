@@ -140,7 +140,7 @@ namespace boost {
 
 		List<Tuple<double, double>^>^ GetVertices();
 		List<Tuple<double, double>^>^ GetVerticesUnmapped();
-		List<Tuple<long, long, long, long, bool, bool, bool>^>^ GetEdges();
+		List<Tuple<long, long, long, long, Tuple<bool, bool, bool>^>^>^ GetEdges();
 		List<Tuple<long, long, bool, bool, List<long>^, bool>^>^ GetCells();
 
 	};
@@ -306,12 +306,12 @@ namespace boost {
 	/// <summary>
 	/// Return the list of edges
 	/// </summary>
-	List<Tuple<long, long, long, long, bool, bool, bool>^>^ Voronoi::GetEdges()
+	List<Tuple<long, long, long, long, Tuple<bool, bool, bool>^>^>^ Voronoi::GetEdges()
 	{
-		List<Tuple<long, long, long, long, bool, bool, bool>^>^ ret = gcnew List<Tuple<long, long, long, long, bool, bool, bool>^>();
+		List<Tuple<long, long, long, long, Tuple<bool, bool, bool>^>^>^ ret = gcnew List<Tuple<long, long, long, long, Tuple<bool, bool, bool>^>^>();
 		for (int i = 0; i < edges.size(); i++) {
-			Tuple<long, long, long, long, bool, bool, bool>^ t = gcnew Tuple<long, long, long, long, bool, bool, bool>(i, edges[i].start, edges[i].end, 
-				edges[i].site, edges[i].isPrimary, edges[i].isLinear, edges[i].isFinite);
+			Tuple<long, long, long, long, Tuple<bool, bool, bool>^>^ t = gcnew Tuple<long, long, long, long, Tuple<bool, bool, bool>^>(i, edges[i].start, edges[i].end,
+				edges[i].site, gcnew Tuple<bool, bool, bool> (edges[i].isPrimary, edges[i].isLinear, edges[i].isFinite));
 			ret->Add(t);
 		}
 		return ret;
@@ -374,7 +374,7 @@ namespace boost {
 			return v->GetVertices();
 		};
 
-		List<Tuple<long, long, long, long, bool, bool, bool>^>^ GetEdges()
+		List<Tuple<long, long, long, long, Tuple<bool, bool, bool>^>^>^ GetEdges()
 		{
 			return v->GetEdges();
 		};
