@@ -142,15 +142,15 @@ namespace SharpBoostVoronoi
             Point pointSite = null;
             Segment segmentSite = null;
 
-            if(Cells[edge.Cell].ContainsPoint )
+            if(Cells[edge.Cell].SourceCategory == CellSourceCatory.SinglePoint )
             {
                 pointSite = InputPoints[Cells[edge.Cell].Site];
-                segmentSite = InputSegments[Cells[Edges[edge.Twin].Cell].Site];
+                //segmentSite = InputSegments[Cells[Edges[edge.Twin].Cell].Site];
             }
             else
             {
                 pointSite = InputPoints[Cells[Edges[edge.Twin].Cell].Site];
-                segmentSite = InputSegments[Cells[edge.Cell].Site];
+                //segmentSite = InputSegments[Cells[edge.Cell].Site];
             }
 
             List<Vertex> discretization = new List<Vertex>(){
@@ -160,6 +160,23 @@ namespace SharpBoostVoronoi
 
 
             return Discretize(pointSite, segmentSite, max_dist, discretization);
+        }
+
+
+        public Point RetrievePoint(Cell cell)
+        {
+            if(cell.SourceCategory == CellSourceCatory.SinglePoint)
+            {
+                return InputPoints[cell.Site];
+            }
+            else if (cell.SourceCategory == CellSourceCatory.SegmentStartPoint)
+            {
+                return InputSegments[cell.Site].Start;
+            }
+            else
+            {
+                return InputSegments[cell.Site].End;
+            }
         }
 
         /// <summary>
