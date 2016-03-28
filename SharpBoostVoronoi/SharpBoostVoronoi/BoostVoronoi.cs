@@ -135,7 +135,7 @@ namespace SharpBoostVoronoi
         //http://www.boost.org/doc/libs/1_54_0/libs/polygon/example/voronoi_visual_utils.hpp
 
 
-        private List<Vertex> SampleCurvedEdge(Edge edge)
+        public List<Vertex> SampleCurvedEdge(Edge edge)
         {
             //Max distance to be refined
             double max_dist = 0.001;

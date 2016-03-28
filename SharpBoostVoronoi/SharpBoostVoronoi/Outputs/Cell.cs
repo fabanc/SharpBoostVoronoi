@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace SharpBoostVoronoi.Output
 {
+    public enum CellSourceCatory { Unknown = -1, SinglePoint = 0, SegmentStartPoint = 1, SegmentEndPoint = 2, InitialSegment = 3, ReverseSegment = 4, GeometryShift = 5, BitMask = 6};
+
     public class Cell
     {
         /// <summary>
@@ -39,10 +41,15 @@ namespace SharpBoostVoronoi.Output
         public bool IsOpen { get; set; }
 
         /// <summary>
+        /// The type of element
+        /// </summary>
+        public CellSourceCatory SourceCategory { get; set; }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="t">A tuple returned by the CLR wrapper.</param>
-        public Cell(Tuple <int, int, bool, bool, List<int>, bool> t)
+        public Cell(Tuple <int, int, bool, bool, List<int>, bool, int> t)
         {
             Index = t.Item1;
             Site = t.Item2;
@@ -50,6 +57,8 @@ namespace SharpBoostVoronoi.Output
             ContainsSegment = t.Item4;
             EdgesIndex = t.Item5;
             IsOpen = t.Item6;
+            SourceCategory = (CellSourceCatory)t.Item7;
+
         }
     }
 }

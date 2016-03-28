@@ -65,9 +65,9 @@ namespace SampleWPFApp.Views
 
             //Get the graph data
             GraphData gData = vm.Graphs[(sender as ComboBox).SelectedIndex];
-            List<SharpBoostVoronoi.Output.Vertex> ov = gData.OutputVertices;
+            List<SharpBoostVoronoi.Output.Vertex> ov = gData.VoronoiSolution.Vertices;
 
-            foreach (var inputSegment in gData.InputSegments)
+            foreach (var inputSegment in gData.VoronoiSolution.InputSegments)
             {
 
                 //Draw the input segment
@@ -88,23 +88,44 @@ namespace SampleWPFApp.Views
             }
 
             
-            foreach (var outputSegment in gData.OutputEdges)
+            foreach (var outputSegment in gData.VoronoiSolution.Edges)
             {
                 //if (outputSegment.Start == -1 || outputSegment.End == -1)
                 if (!outputSegment.IsFinite)
                     continue;
-                
-                DrawingArea.Children.Add(new Line()
-                {
-                    X1 = ov[outputSegment.Start].X,
-                    Y1 = ov[outputSegment.Start].Y,
-                    X2 = ov[outputSegment.End].X,
-                    Y2 = ov[outputSegment.End].Y,
-                    Stroke = OutputStroke
-                });
 
-                DrawPoint(ov[outputSegment.Start].X, ov[outputSegment.Start].Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);
-                DrawPoint(ov[outputSegment.End].X, ov[outputSegment.End].Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);
+                //if (outputSegment.IsLinear)
+                //{
+                    DrawingArea.Children.Add(new Line()
+                    {
+                        X1 = ov[outputSegment.Start].X,
+                        Y1 = ov[outputSegment.Start].Y,
+                        X2 = ov[outputSegment.End].X,
+                        Y2 = ov[outputSegment.End].Y,
+                        Stroke = OutputStroke
+                    });
+
+                    DrawPoint(ov[outputSegment.Start].X, ov[outputSegment.Start].Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);
+                    DrawPoint(ov[outputSegment.End].X, ov[outputSegment.End].Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);
+                //}
+                //else
+                //{
+                //    List<Vertex> discretizedEdge = gData.VoronoiSolution.SampleCurvedEdge(outputSegment);
+                //    for (int i = 1; i < discretizedEdge.Count; i++)
+                //    {
+                //    DrawingArea.Children.Add(new Line()
+                //    {
+                //        X1 = discretizedEdge[i-1].X,
+                //        Y1 = discretizedEdge[i-1].Y,
+                //        X2 = discretizedEdge[i].X,
+                //        Y2 = discretizedEdge[i].Y,
+                //        Stroke = OutputStroke
+                //    });
+                //
+                //    DrawPoint(ov[outputSegment.Start].X, ov[outputSegment.Start].Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);
+                //    DrawPoint(ov[outputSegment.End].X, ov[outputSegment.End].Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);                        
+                //    }
+                //}
             }
         }
 

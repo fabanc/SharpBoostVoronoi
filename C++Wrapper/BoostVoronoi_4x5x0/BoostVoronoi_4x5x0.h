@@ -110,12 +110,15 @@ namespace boost {
 		std::vector<long> vertices;
 		std::vector<long> edges;
 
-		c_Cell(size_t cellId = -1, size_t source_index = -1, bool contains_point = false, bool contains_segment = false, bool is_open = false){
+		int source_category;
+
+		c_Cell(size_t cellId = -1, size_t source_index = -1, bool contains_point = false, bool contains_segment = false, bool is_open = false, int source_category = -1){
 			this->cellId = cellId;
 			this->source_index = source_index;
 			this->contains_point = contains_point;
 			this->contains_segment = contains_segment;
 			this->is_open = is_open;
+			this->source_category = source_category;
 		}
 	};
 
@@ -142,7 +145,7 @@ namespace boost {
 		List<Tuple<double, double>^>^ GetVertices();
 		List<Tuple<double, double>^>^ GetVerticesUnmapped();
 		List<Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>^>^ GetEdges();
-		List<Tuple<long, long, bool, bool, List<long>^, bool>^>^ GetCells();
+		List<Tuple<long, long, bool, bool, List<long>^, bool, int>^>^ GetCells();
 
 	};
 
@@ -162,8 +165,34 @@ namespace boost {
 			//Don't do anything if the cells is degenerate
 			if (!cell.is_degenerate()){
 
+
+				//Identify the source type
+				int source_category = -1;
+				if (cell.source_category() == boost::polygon::SOURCE_CATEGORY_SINGLE_POINT){
+					source_category = 0;
+				}
+				else if (cell.source_category() == boost::polygon::SOURCE_CATEGORY_SEGMENT_START_POINT){
+					source_category = 1;
+				}
+				else if (cell.source_category() == boost::polygon::SOURCE_CATEGORY_SEGMENT_END_POINT){
+					source_category = 2;
+				}
+				else if (cell.source_category() == boost::polygon::SOURCE_CATEGORY_INITIAL_SEGMENT){
+					source_category = 3;
+				}
+				else if (cell.source_category() == boost::polygon::SOURCE_CATEGORY_REVERSE_SEGMENT){
+					source_category = 4;
+				}
+				else if (cell.source_category() == boost::polygon::SOURCE_CATEGORY_GEOMETRY_SHIFT){
+					source_category = 5;
+				}
+				else if (cell.source_category() == boost::polygon::SOURCE_CATEGORY_BITMASK){
+					source_category = 6;
+				}
+
+
 				//Create the memory cells object
-				c_Cell c_cell = c_Cell(cell_identifier, cell.source_index(), cell.contains_point(), cell.contains_segment(), false);
+				c_Cell c_cell = c_Cell(cell_identifier, cell.source_index(), cell.contains_point(), cell.contains_segment(), false, source_category);
 
 				//Iterate throught the edges
 				const voronoi_diagram<double>::edge_type *edge = cell.incident_edge();
@@ -349,10 +378,10 @@ namespace boost {
 	/// <summary>
 	/// Return the list of cells
 	/// </summary>
-	List<Tuple<long, long, bool, bool, List<long>^, bool>^>^ Voronoi::GetCells()
+	List<Tuple<long, long, bool, bool, List<long>^, bool, int>^>^ Voronoi::GetCells()
 	{
 		long cell_identifier = 0;
-		List<Tuple<long, long, bool, bool, List<long>^, bool>^>^ ret = gcnew List<Tuple<long, long, bool, bool, List<long>^, bool>^>();
+		List<Tuple<long, long, bool, bool, List<long>^, bool, int>^>^ ret = gcnew List<Tuple<long, long, bool, bool, List<long>^, bool, int>^>();
 		for (int i = 0; i < cells.size(); i++) {
 
 			//Create the list of identifiers
@@ -362,13 +391,14 @@ namespace boost {
 			}
 
 			//Populate the cells info
-			Tuple<long, long, bool, bool, List<long>^, bool>^ t = gcnew Tuple <long, long, bool, bool, List<long>^, bool>(
+			Tuple<long, long, bool, bool, List<long>^, bool, int>^ t = gcnew Tuple <long, long, bool, bool, List<long>^, bool, int>(
 				cells[i].cellId, 
 				cells[i].source_index,
 				cells[i].contains_point, 
 				cells[i].contains_segment, 
 				edge_list,
-				cells[i].is_open);
+				cells[i].is_open,
+				cells[i].source_category);
 
 			//Add tuple to the list
 			ret->Add(t);
@@ -408,7 +438,7 @@ namespace boost {
 			return v->GetEdges();
 		};
 
-		List<Tuple<long, long, bool, bool, List<long>^, bool>^>^ GetCells()
+		List<Tuple<long, long, bool, bool, List<long>^, bool, int>^>^ GetCells()
 		{
 			return v->GetCells();
 		}
