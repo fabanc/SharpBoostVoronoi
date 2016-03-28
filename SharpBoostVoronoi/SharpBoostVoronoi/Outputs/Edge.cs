@@ -39,10 +39,20 @@ namespace SharpBoostVoronoi.Output
         public bool IsFinite{ get; set; }
 
         /// <summary>
+        /// The index of the cell associated with this segment
+        /// </summary>
+        public int Cell { get; set; }
+
+        /// <summary>
+        /// The index of the twin cell associated with this segment
+        /// </summary>
+        public int Twin { get; set; }
+
+        /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="t">A tuple returned by the CLR wrapper.</param>
-        public Edge(Tuple<int, int, int, int, Tuple<bool, bool, bool>> t)
+        public Edge(Tuple<int, int, int, int, Tuple<bool, bool, bool, int, int>> t)
         {
             Start = t.Item2;
             End = t.Item3;
@@ -50,6 +60,8 @@ namespace SharpBoostVoronoi.Output
             IsPrimary = t.Item5.Item1;
             IsLinear = t.Item5.Item2;
             IsFinite = t.Item5.Item3;
+            Cell = t.Item5.Item4;
+            Twin = t.Item5.Item5;
         }
 
     }

@@ -88,7 +88,7 @@ namespace boost {
 		long cell;
 		long twin;
 
-		c_Edge(long long start = -1, long long end = -1, bool isPrimary = false, size_t site = -1, bool isLinear = false, bool isFinite = false, long cell = -1) {
+		c_Edge(long long start = -1, long long end = -1, bool isPrimary = false, size_t site = -1, bool isLinear = false, bool isFinite = false, long cell = -1, long twin = -1) {
 			this->start = start;
 			this->end = end;
 			this->isPrimary = isPrimary;
@@ -96,6 +96,7 @@ namespace boost {
 			this->isLinear = isLinear;
 			this->isFinite = isFinite;
 			this->cell = cell;
+			this->twin = twin;
 		}
 	};
 
@@ -140,7 +141,7 @@ namespace boost {
 
 		List<Tuple<double, double>^>^ GetVertices();
 		List<Tuple<double, double>^>^ GetVerticesUnmapped();
-		List<Tuple<long, long, long, long, Tuple<bool, bool, bool>^>^>^ GetEdges();
+		List<Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>^>^ GetEdges();
 		List<Tuple<long, long, bool, bool, List<long>^, bool>^>^ GetCells();
 
 	};
@@ -226,7 +227,7 @@ namespace boost {
 						if (edgeMapIterator == edgeMap.end()){
 
 							//Create memory edge object
-							c_Edge cell_edge = c_Edge(start_index, end_index, edge->is_primary(), edge->cell()->source_index(), edge->is_linear(), edge->is_finite(), cell_identifier);
+							c_Edge cell_edge = c_Edge(start_index, end_index, edge->is_primary(), edge->cell()->source_index(), edge->is_linear(), edge->is_finite(), cell_identifier, -1);
 							
 							//Add to map and vector
 							long long eIndex = edges.size();
@@ -248,20 +249,48 @@ namespace boost {
 			}
 
 			//Parse the list of segments and associate its twin.
-			for (std::map<const voronoi_diagram<double>::edge_type *, long long>::iterator it = edgeMap.begin(); it != edgeMap.end(); ++it)
-			{
-				//Get the struct representing the cell
-				if (edges[it->second].twin == -1)
-				{
-					//Set an iterator on the twin edge
-					std::map<const voronoi_diagram<double>::edge_type *, long long>::iterator twinEdgeIterator =
-						edgeMap.find(it->first->twin());
+			//for (std::map<const voronoi_diagram<double>::edge_type *, long long>::iterator edgeMapIterator = edgeMap.begin(); edgeMapIterator != edgeMap.end(); ++edgeMapIterator)
+			//{
+			//	//std::map<const voronoi_diagram<double>::edge_type *, long long>::iterator twinMapIterator =
+			//	//	edgeMap.find(edgeMapIterator->first->twin());
+			//
+			//
+			//	edges[edgeMapIterator->second].cell = 999;
+			//	//edges[edgeMapIterator->second].twin = edgeMap[edgeMapIterator->first->twin()];
+			//	edges[edgeMapIterator->second].twin = edgeMapIterator->second;
+			//}
 
-					//Associate the segments and their twin
-					edges[it->second].twin = twinEdgeIterator->second;
-					edges[twinEdgeIterator->second].twin = it->second;
+			//Second iteration for twins
+			//This part can probably optimized - TBD
+			for (voronoi_diagram<double>::const_cell_iterator it = vd.cells().begin(); it != vd.cells().end(); ++it) {
+				const voronoi_diagram<double>::cell_type &cell = *it;
+			
+				//Don't do anything if the cells is degenerate
+				if (!cell.is_degenerate()){
+					//Iterate throught the edges
+					const voronoi_diagram<double>::edge_type *edge = cell.incident_edge();
+					if (edge != NULL)
+					{
+						do {
+							long long edge_id = -1;
+							std::map<const voronoi_diagram<double>::edge_type *, long long>::iterator edgeMapIterator = edgeMap.find(edge);
+							if (edgeMapIterator != edgeMap.end()){
+								edge_id = edgeMapIterator->second;
+							}
+
+							if (edge_id != -1){
+								edgeMapIterator = edgeMap.find(edge->twin());
+								if (edgeMapIterator != edgeMap.end()){
+									edges[edge_id].twin = edgeMapIterator->second;
+								}
+							}		
+							//Move to the next edge
+							edge = edge->next();
+						} while (edge != cell.incident_edge());
+					}
 				}
 			}
+
 		}
 	};
 
@@ -306,12 +335,12 @@ namespace boost {
 	/// <summary>
 	/// Return the list of edges
 	/// </summary>
-	List<Tuple<long, long, long, long, Tuple<bool, bool, bool>^>^>^ Voronoi::GetEdges()
+	List<Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>^>^ Voronoi::GetEdges()
 	{
-		List<Tuple<long, long, long, long, Tuple<bool, bool, bool>^>^>^ ret = gcnew List<Tuple<long, long, long, long, Tuple<bool, bool, bool>^>^>();
+		List<Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>^>^ ret = gcnew List<Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>^>();
 		for (int i = 0; i < edges.size(); i++) {
-			Tuple<long, long, long, long, Tuple<bool, bool, bool>^>^ t = gcnew Tuple<long, long, long, long, Tuple<bool, bool, bool>^>(i, edges[i].start, edges[i].end,
-				edges[i].site, gcnew Tuple<bool, bool, bool> (edges[i].isPrimary, edges[i].isLinear, edges[i].isFinite));
+			Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>^ t = gcnew Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>(i, edges[i].start, edges[i].end,
+				edges[i].site, gcnew Tuple<bool, bool, bool, long, long>(edges[i].isPrimary, edges[i].isLinear, edges[i].isFinite, edges[i].cell, edges[i].twin));
 			ret->Add(t);
 		}
 		return ret;
@@ -374,7 +403,7 @@ namespace boost {
 			return v->GetVertices();
 		};
 
-		List<Tuple<long, long, long, long, Tuple<bool, bool, bool>^>^>^ GetEdges()
+		List<Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>^>^ GetEdges()
 		{
 			return v->GetEdges();
 		};
