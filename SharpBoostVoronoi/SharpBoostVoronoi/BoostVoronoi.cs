@@ -138,27 +138,18 @@ namespace SharpBoostVoronoi
         public List<Vertex> SampleCurvedEdge(Edge edge)
         {
             //Max distance to be refined
-            double max_dist = 0.001;
+            double max_dist = 2;
             Point pointSite = null;
             Segment segmentSite = null;
-
-            if(Cells[edge.Cell].SourceCategory == CellSourceCatory.SinglePoint )
-            {
-                pointSite = InputPoints[Cells[edge.Cell].Site];
-                //segmentSite = InputSegments[Cells[Edges[edge.Twin].Cell].Site];
-            }
-            else
-            {
-                pointSite = InputPoints[Cells[Edges[edge.Twin].Cell].Site];
-                //segmentSite = InputSegments[Cells[edge.Cell].Site];
-            }
-
+        
+            pointSite = Cells[edge.Cell].ContainsPoint ? RetrievePoint(Cells[edge.Cell]) : RetrievePoint(Cells[Edges[edge.Twin].Cell]);
+            segmentSite = Cells[edge.Cell].ContainsPoint ? RetrieveSegment(Cells[Edges[edge.Twin].Cell]) : RetrieveSegment(Cells[edge.Cell]);
+        
             List<Vertex> discretization = new List<Vertex>(){
                 Vertices[edge.Start],
                 Vertices[edge.End]
             };
-
-
+        
             return Discretize(pointSite, segmentSite, max_dist, discretization);
         }
 
@@ -179,13 +170,19 @@ namespace SharpBoostVoronoi
             }
         }
 
+        public Segment RetrieveSegment(Cell cell)
+        {
+            int segmentListIndex = cell.Site - InputPoints.Count;
+            return InputSegments[segmentListIndex];
+        }
+
         /// <summary>
         /// Discretized a curved segment from the voronoi results. Curved segments generally appears when a segment is at the border
         /// of a cell generated around an input point and a cell generated around an input segment.
         /// </summary>
         /// <param name="point">The input point associated on one side of the curved edge</param>
         /// <param name="segment">The input segment associated on one side of the curved edge</param>
-        /// <param name="max_dist">The maximum distance</param>
+        /// <param name="max_dist">maximum discretization distance.</param>
         /// <param name="discretization">The output segment to discretize</param>
         /// <returns></returns>
         private List<Vertex> Discretize(Point point, Segment segment, double max_dist, List<Vertex> discretization)
