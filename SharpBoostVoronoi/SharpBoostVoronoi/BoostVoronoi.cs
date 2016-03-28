@@ -134,6 +134,34 @@ namespace SharpBoostVoronoi
         //http://www.boost.org/doc/libs/1_54_0/libs/polygon/example/voronoi_visualizer.cpp
         //http://www.boost.org/doc/libs/1_54_0/libs/polygon/example/voronoi_visual_utils.hpp
 
+
+        private List<Vertex> SampleCurvedEdge(Edge edge)
+        {
+            //Max distance to be refined
+            double max_dist = 0.001;
+            Point pointSite = null;
+            Segment segmentSite = null;
+
+            if(Cells[edge.Cell].ContainsPoint )
+            {
+                pointSite = InputPoints[Cells[edge.Cell].Site];
+                segmentSite = InputSegments[Cells[Edges[edge.Twin].Cell].Site];
+            }
+            else
+            {
+                pointSite = InputPoints[Cells[Edges[edge.Twin].Cell].Site];
+                segmentSite = InputSegments[Cells[edge.Cell].Site];
+            }
+
+            List<Vertex> discretization = new List<Vertex>(){
+                Vertices[edge.Start],
+                Vertices[edge.End]
+            };
+
+
+            return Discretize(pointSite, segmentSite, max_dist, discretization);
+        }
+
         /// <summary>
         /// Discretized a curved segment from the voronoi results. Curved segments generally appears when a segment is at the border
         /// of a cell generated around an input point and a cell generated around an input segment.
