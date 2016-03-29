@@ -94,8 +94,8 @@ namespace SampleWPFApp.Views
                 if (!outputSegment.IsFinite)
                     continue;
 
-                //if (outputSegment.IsLinear)
-                //{
+                if (outputSegment.IsLinear)
+                {
                     DrawingArea.Children.Add(new Line()
                     {
                         X1 = ov[outputSegment.Start].X,
@@ -107,25 +107,25 @@ namespace SampleWPFApp.Views
 
                     DrawPoint(ov[outputSegment.Start].X, ov[outputSegment.Start].Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);
                     DrawPoint(ov[outputSegment.End].X, ov[outputSegment.End].Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);
-                //}
-                //else
-                //{
-                //    List<Vertex> discretizedEdge = gData.VoronoiSolution.SampleCurvedEdge(outputSegment);
-                //    for (int i = 1; i < discretizedEdge.Count; i++)
-                //    {
-                //    DrawingArea.Children.Add(new Line()
-                //    {
-                //        X1 = discretizedEdge[i-1].X,
-                //        Y1 = discretizedEdge[i-1].Y,
-                //        X2 = discretizedEdge[i].X,
-                //        Y2 = discretizedEdge[i].Y,
-                //        Stroke = OutputStroke
-                //    });
-                //
-                //    DrawPoint(ov[outputSegment.Start].X, ov[outputSegment.Start].Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);
-                //    DrawPoint(ov[outputSegment.End].X, ov[outputSegment.End].Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);                        
-                //    }
-                //}
+                }
+                else
+                {
+                    List<Vertex> discretizedEdge = gData.VoronoiSolution.SampleCurvedEdge(outputSegment);
+                    for (int i = 1; i < discretizedEdge.Count; i++)
+                    {
+                    DrawingArea.Children.Add(new Line()
+                    {
+                        X1 = discretizedEdge[i-1].X,
+                        Y1 = discretizedEdge[i-1].Y,
+                        X2 = discretizedEdge[i].X,
+                        Y2 = discretizedEdge[i].Y,
+                        Stroke = OutputStroke
+                    });
+                
+                    DrawPoint(ov[outputSegment.Start].X, ov[outputSegment.Start].Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);
+                    DrawPoint(ov[outputSegment.End].X, ov[outputSegment.End].Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);                        
+                    }
+                }
             }
         }
 

@@ -233,7 +233,7 @@ namespace SharpBoostVoronoi
             double max_dist_transformed = max_dist * max_dist * sqr_segment_length;
             while (point_stack.Count != 0)
             {
-                double new_x = point_stack.Last();
+                double new_x = point_stack.Peek();
                 double new_y = parabola_y(new_x, rot_x, rot_y);
 
                 // Compute coordinates of the point of the parabola that is
