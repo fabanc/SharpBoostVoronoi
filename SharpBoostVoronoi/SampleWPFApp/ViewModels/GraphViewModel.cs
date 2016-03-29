@@ -17,6 +17,7 @@ namespace SampleWPFApp.ViewModels
             Graphs = new List<GraphData>();
             Graphs.Add(BuildGraph1());
             Graphs.Add(BuildGraph2());
+            Graphs.Add(BuildGraph3());
         }
         private GraphData BuildGraph1()
         {
@@ -55,6 +56,21 @@ namespace SampleWPFApp.ViewModels
                 new Segment(new Point(0,500), new Point(500,500)),
             };
             return new GraphData("Graph2", InputPoints, InputSegments);
+        }
+
+        private GraphData BuildGraph3()
+        {
+            Point p0 = new Point(200, 250);
+            Point p1 = new Point(400, 250);
+
+            List<Point> InputPoints = new List<Point>() { new Point(250, 250) };
+            List<Segment> InputSegments = new List<Segment> {
+                new Segment(new Point(0,0), new Point(0,500)),
+                new Segment(new Point(0,0), new Point(500,0)),
+                new Segment(new Point(500,0), new Point(500,500)),
+                new Segment(new Point(0,500), new Point(500,500)),
+            };
+            return new GraphData("Graph3", InputPoints, InputSegments);
         }
 
     }
