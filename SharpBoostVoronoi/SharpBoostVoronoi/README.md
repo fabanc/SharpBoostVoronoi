@@ -151,7 +151,7 @@ The boost API does not provide an ad-hoc method to draw those curves. The SharpB
                 }
                 else
                 {
-                    List<Vertex> discretizedEdge = gData.VoronoiSolution.SampleCurvedEdge(outputSegment);
+                    List<Vertex> discretizedEdge = gData.VoronoiSolution.SampleCurvedEdge(outputSegment,2);
                     for (int i = 1; i < discretizedEdge.Count; i++)
                     {
                     DrawingArea.Children.Add(new Line()

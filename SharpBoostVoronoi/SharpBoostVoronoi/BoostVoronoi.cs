@@ -134,11 +134,18 @@ namespace SharpBoostVoronoi
         //http://www.boost.org/doc/libs/1_54_0/libs/polygon/example/voronoi_visualizer.cpp
         //http://www.boost.org/doc/libs/1_54_0/libs/polygon/example/voronoi_visual_utils.hpp
 
-
-        public List<Vertex> SampleCurvedEdge(Edge edge)
+        /// <summary>
+        /// Generate a polyline representing a curved edge.
+        /// </summary>
+        /// <param name="edge">The curvy edge.</param>
+        /// <param name="max_distance">The maximum distance between two vertex on the output polyline.</param>
+        /// <returns></returns>
+        public List<Vertex> SampleCurvedEdge(Edge edge, double max_distance)
         {
             //Max distance to be refined
-            double max_dist = 2;
+            if (max_distance <= 0)
+                throw new Exception("Max distance must be greater than 0");
+
             Point pointSite = null;
             Segment segmentSite = null;
         
@@ -149,31 +156,27 @@ namespace SharpBoostVoronoi
                 Vertices[edge.Start],
                 Vertices[edge.End]
             };
-        
-            return Discretize(pointSite, segmentSite, max_dist, discretization);
+
+            if (edge.IsLinear)
+                return discretization;
+
+            return Discretize(pointSite, segmentSite, max_distance, discretization);
         }
 
 
-        public Point RetrievePoint(Cell cell)
+        private Point RetrievePoint(Cell cell)
         {
             if(cell.SourceCategory == CellSourceCatory.SinglePoint)
-            {
                 return InputPoints[cell.Site];
-            }
             else if (cell.SourceCategory == CellSourceCatory.SegmentStartPoint)
-            {
                 return InputSegments[cell.Site].Start;
-            }
             else
-            {
                 return InputSegments[cell.Site].End;
-            }
         }
 
-        public Segment RetrieveSegment(Cell cell)
+        private Segment RetrieveSegment(Cell cell)
         {
-            int segmentListIndex = cell.Site - InputPoints.Count;
-            return InputSegments[segmentListIndex];
+            return InputSegments[cell.Site - InputPoints.Count];
         }
 
         /// <summary>
