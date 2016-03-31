@@ -120,3 +120,52 @@ Always check first that the value of Start or End is always different from -1.
 ###Vertices
 They contains the coordinates of all the points used to build segments and cells.
 
+
+
+##Discretizing segments
+
+Note that some segments are actually not a straight line. This is the case for example with cells around the end point of a input segments, and common borders between cells created from segments and points. 
+The boost API does not provide an ad-hoc method to draw those curves. The SharpBoostVoronoi library does through the method SampleCurvedEdge. The example below is from the WPF sample app.
+
+
+```
+            foreach (var outputSegment in gData.VoronoiSolution.Edges)
+            {
+                //if (outputSegment.Start == -1 || outputSegment.End == -1)
+                if (!outputSegment.IsFinite)
+                    continue;
+
+                if (outputSegment.IsLinear)
+                {
+                    DrawingArea.Children.Add(new Line()
+                    {
+                        X1 = ov[outputSegment.Start].X,
+                        Y1 = ov[outputSegment.Start].Y,
+                        X2 = ov[outputSegment.End].X,
+                        Y2 = ov[outputSegment.End].Y,
+                        Stroke = OutputStroke
+                    });
+
+                    DrawPoint(ov[outputSegment.Start].X, ov[outputSegment.Start].Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);
+                    DrawPoint(ov[outputSegment.End].X, ov[outputSegment.End].Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);
+                }
+                else
+                {
+                    List<Vertex> discretizedEdge = gData.VoronoiSolution.SampleCurvedEdge(outputSegment);
+                    for (int i = 1; i < discretizedEdge.Count; i++)
+                    {
+                    DrawingArea.Children.Add(new Line()
+                    {
+                        X1 = discretizedEdge[i-1].X,
+                        Y1 = discretizedEdge[i-1].Y,
+                        X2 = discretizedEdge[i].X,
+                        Y2 = discretizedEdge[i].Y,
+                        Stroke = OutputStroke
+                    });
+                
+                    DrawPoint(ov[outputSegment.Start].X, ov[outputSegment.Start].Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);
+                    DrawPoint(ov[outputSegment.End].X, ov[outputSegment.End].Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);                        
+                    }
+                }
+            }
+```
