@@ -210,5 +210,47 @@ namespace BoostVoronoiTests
                 }
             }
         }
+
+
+        [TestMethod]
+        public void TestSegmentTwin()
+        {
+            List<Point> inputPoint = new List<Point>() { new Point(5, 5) };
+            List<Segment> inputSegment = new List<Segment>();
+            inputSegment.Add(new Segment(0, 0, 0, 10));
+            inputSegment.Add(new Segment(0, 10, 10, 10));
+            inputSegment.Add(new Segment(10, 10, 10, 0));
+            inputSegment.Add(new Segment(10, 0, 0, 0));
+            
+
+
+            //Build the CLR voronoi
+            VoronoiWrapper vw = new VoronoiWrapper();
+
+            foreach (var p in inputPoint)
+                vw.AddPoint(p.X, p.Y);
+                
+            foreach (var s in inputSegment)
+                vw.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+
+            vw.ConstructVoronoi();
+            List<Tuple<int, int, bool, bool, List<int>, bool, int>> clrCells = vw.GetCells();
+
+            //Build the C# Voronoi
+            BoostVoronoi bv = new BoostVoronoi();
+            foreach (var p in inputPoint)
+                bv.AddPoint(p.X, p.Y);
+            foreach (var s in inputSegment)
+                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+
+            bv.Construct();
+            List<Edge> sharpEdges = bv.Edges;
+
+            //Test twin reciprocity
+            for (int i = 0; i < sharpEdges.Count; i++)
+            {
+                Assert.AreEqual(i, sharpEdges[sharpEdges[i].Twin].Twin);
+            }
+        }
     }
 }
