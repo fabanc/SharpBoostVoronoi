@@ -286,15 +286,23 @@ namespace BoostVoronoiTests
                 bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
             bv.Construct();
+            List<Vertex> vertices = bv.Vertices;
             List<Edge> sharpEdges = bv.Edges;
 
             //Test twin reciprocity
             for (int i = 0; i < sharpEdges.Count; i++)
             {
-                if (!sharpEdges[i].IsLinear)
-                    bv.SampleCurvedEdge(sharpEdges[i], 1);
 
-                Assert.AreEqual(i, sharpEdges[sharpEdges[i].Twin].Twin);
+                Edge testEdge = sharpEdges[2];
+                List<Vertex> dvertices = bv.SampleCurvedEdge(testEdge, 0.1);
+                //Assert.AreEqual(vertices[testEdge.Start].X.ToString(), 2.92893218813452);
+                //Assert.AreEqual(vertices[testEdge.Start].Y, 2.92893218813452);
+                //Assert.AreEqual(vertices[testEdge.End].X, 2.92893218813452);
+                //Assert.AreEqual(vertices[testEdge.End].Y, 7.07106781186548);
+                Assert.AreEqual(dvertices[2].X, 2.5);
+                Assert.AreEqual(dvertices[2].Y, 5);
+                
+                
             }
         }
     }
