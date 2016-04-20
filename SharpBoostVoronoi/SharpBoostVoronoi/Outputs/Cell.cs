@@ -41,7 +41,7 @@ namespace SharpBoostVoronoi.Output
         public bool IsOpen { get; set; }
 
         /// <summary>
-        /// The type of element
+        /// The type of element used to create the edge.
         /// </summary>
         public CellSourceCatory SourceCategory { get; set; }
 

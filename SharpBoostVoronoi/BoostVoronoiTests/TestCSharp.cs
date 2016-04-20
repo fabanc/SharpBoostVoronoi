@@ -264,8 +264,6 @@ namespace BoostVoronoiTests
             inputSegment.Add(new Segment(10, 0, 10, 10));
             
 
-
-
             //Build the CLR voronoi
             VoronoiWrapper vw = new VoronoiWrapper();
 
@@ -292,7 +290,6 @@ namespace BoostVoronoiTests
             //Test twin reciprocity
             for (int i = 0; i < sharpEdges.Count; i++)
             {
-
                 Edge testEdge = sharpEdges[2];
                 List<Vertex> dvertices = bv.SampleCurvedEdge(testEdge, 0.1);
                 //Assert.AreEqual(vertices[testEdge.Start].X.ToString(), 2.92893218813452);
@@ -301,9 +298,66 @@ namespace BoostVoronoiTests
                 //Assert.AreEqual(vertices[testEdge.End].Y, 7.07106781186548);
                 Assert.AreEqual(dvertices[2].X, 2.5);
                 Assert.AreEqual(dvertices[2].Y, 5);
-                
-                
             }
+        }
+
+
+        [TestMethod]
+        public void TestPrimaryEdges()
+        {
+            List<Point> inputPoint = new List<Point>() { new Point(5, 5) };
+            List<Segment> inputSegment = new List<Segment>();
+            inputSegment.Add(new Segment(0, 0, 0, 10));
+            inputSegment.Add(new Segment(0, 0, 10, 0));
+            inputSegment.Add(new Segment(0, 10, 10, 10));
+            inputSegment.Add(new Segment(10, 0, 10, 10));
+
+
+            //Build the CLR voronoi
+            VoronoiWrapper vw = new VoronoiWrapper();
+
+            foreach (var p in inputPoint)
+                vw.AddPoint(p.X, p.Y);
+
+            foreach (var s in inputSegment)
+                vw.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+
+            vw.ConstructVoronoi();
+            List<Tuple<int, int, bool, bool, List<int>, bool, int>> clrCells = vw.GetCells();
+
+            //Build the C# Voronoi
+            BoostVoronoi bv = new BoostVoronoi();
+            foreach (var p in inputPoint)
+                bv.AddPoint(p.X, p.Y);
+            foreach (var s in inputSegment)
+                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+
+            bv.Construct();
+            List<Vertex> vertices = bv.Vertices;
+            List<Edge> sharpEdges = bv.Edges;
+
+            int countPrimary = 0;
+            int countSecondary = 0;
+            int countFinite = 0;
+            for (int i = 0; i < sharpEdges.Count; i++)
+            {
+                if (sharpEdges[i].IsPrimary)
+                    countPrimary++;
+
+                if (sharpEdges[i].IsFinite)
+                    countFinite++;
+
+                if (!sharpEdges[i].IsPrimary && sharpEdges[i].IsFinite)
+                    countSecondary++;
+            }
+
+            //8 finites from the center of the square corner + 8 edges arount the center point.
+            Assert.AreEqual(countFinite, 16);
+
+            //Check the number of secondary edge. Because this input is a square with a point in the center, the expected count is 0.
+            Assert.AreEqual(countSecondary, 0);
+
+            Assert.AreEqual(countPrimary, countFinite - countSecondary);
         }
     }
 }

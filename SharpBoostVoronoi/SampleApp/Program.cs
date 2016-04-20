@@ -24,12 +24,12 @@ namespace SampleApp
             //Instanciate the voronoi wrapper
             BoostVoronoi bv = new BoostVoronoi();
 
+            //Add a point
+            bv.AddPoint(5, 5);
+
             //Add the segments
             foreach (var s in input)
                 bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
-
-            //Add a point
-            bv.AddPoint(5, 5);
 
             //Build the C# Voronoi
             bv.Construct();
@@ -42,7 +42,6 @@ namespace SampleApp
             foreach (var cell in cells)
             {
                 Console.Out.WriteLine(String.Format("Cell Identifier {0}. Is open = {1}", cell.Index, cell.IsOpen));
-
                 foreach (var edgeIndex in cell.EdgesIndex)
                 {
                     Edge edge = edges[edgeIndex];
@@ -53,7 +52,7 @@ namespace SampleApp
                         edge.End));
 
                     //If the vertex index equals -1, it means the edge is infinite. It is impossible to print the coordinates.
-                    if (edge.Start != -1 && edge.End != -1)
+                    if (edge.IsLinear)
                     {
                         Vertex start = vertices[edge.Start];
                         Vertex end = vertices[edge.End];
@@ -65,7 +64,6 @@ namespace SampleApp
                     }
                 }
             }
-
             Console.In.ReadLine();
         }
     }
