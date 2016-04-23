@@ -13,3 +13,4 @@ C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\BoostVoronoiTest
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\BoostVoronoiTests\obj\Debug\BoostVoronoiTests.csprojResolveAssemblyReference.cache
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\BoostVoronoiTests\obj\Debug\BoostVoronoiTests.dll
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\BoostVoronoiTests\obj\Debug\BoostVoronoiTests.pdb
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\BoostVoronoiTests\bin\Debug\BoostVoronoi_4x5x0.pdb

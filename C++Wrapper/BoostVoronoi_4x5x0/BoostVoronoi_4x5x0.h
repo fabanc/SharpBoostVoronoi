@@ -165,7 +165,6 @@ namespace boost {
 			//Don't do anything if the cells is degenerate
 			if (!cell.is_degenerate()){
 
-
 				//Identify the source type
 				int source_category = -1;
 				if (cell.source_category() == boost::polygon::SOURCE_CATEGORY_SINGLE_POINT){
@@ -222,9 +221,6 @@ namespace boost {
 							}
 						}
 
-						if (start_index == -1){
-							c_cell.is_open = true;
-						}
 
 						long long end_index = -1;
 						if (v1 != 0){
@@ -245,28 +241,19 @@ namespace boost {
 							}
 						}
 
-						if (end_index == -1){
+						if (start_index == -1 || end_index == -1){
 							c_cell.is_open = true;
 						}
 
 						//Add the edge to the collection of edges
-						std::map<const voronoi_diagram<double>::edge_type *, long long>::iterator edgeMapIterator = 
-							edgeMap.find(edge);
-
-						if (edgeMapIterator == edgeMap.end()){
-
-							//Create memory edge object
-							c_Edge cell_edge = c_Edge(start_index, end_index, edge->is_primary(), edge->cell()->source_index(), edge->is_linear(), edge->is_finite(), cell_identifier, -1);
+						c_Edge cell_edge = c_Edge(start_index, end_index, edge->is_primary(), edge->cell()->source_index(), edge->is_linear(), edge->is_finite(), cell_identifier, -1);
 							
-							//Add to map and vector
-							long long eIndex = edges.size();
-							edges.push_back(cell_edge);
-							edgeMap[edge] = eIndex;
-							c_cell.edges.push_back(eIndex);
-						}
-						else{
-							c_cell.edges.push_back(edgeMapIterator->second);
-						}
+						//Add to map and vector
+						long long eIndex = edges.size();
+						edges.push_back(cell_edge);
+						edgeMap[edge] = eIndex;
+						c_cell.edges.push_back(eIndex);
+
 
 						//Move to the next edge
 						edge = edge->next();
@@ -276,18 +263,6 @@ namespace boost {
 				cells.push_back(c_cell);
 				cell_identifier++;
 			}
-
-			//Parse the list of segments and associate its twin.
-			//for (std::map<const voronoi_diagram<double>::edge_type *, long long>::iterator edgeMapIterator = edgeMap.begin(); edgeMapIterator != edgeMap.end(); ++edgeMapIterator)
-			//{
-			//	//std::map<const voronoi_diagram<double>::edge_type *, long long>::iterator twinMapIterator =
-			//	//	edgeMap.find(edgeMapIterator->first->twin());
-			//
-			//
-			//	edges[edgeMapIterator->second].cell = 999;
-			//	//edges[edgeMapIterator->second].twin = edgeMap[edgeMapIterator->first->twin()];
-			//	edges[edgeMapIterator->second].twin = edgeMapIterator->second;
-			//}
 
 			//Second iteration for twins
 			//This part can probably optimized - TBD
