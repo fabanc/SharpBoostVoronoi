@@ -60,5 +60,22 @@ namespace SharpBoostVoronoi.Output
             SourceCategory = (CellSourceCatory)t.Item7;
 
         }
+
+        /// <summary>
+        /// Derive the list of vertices in the cell from the list of segments
+        /// </summary>
+        public List<int> GetVertices(ref List<Edge> edges)
+        {
+            //Assume the segments are returned chained, which they should be.
+            List<int> vertices = new List<int>();
+            for (int i = 0; i < EdgesIndex.Count; i++)
+            {
+                Edge edge = edges[EdgesIndex[i]];
+                vertices.Add(edge.Start);
+                if (vertices.Count == EdgesIndex.Count)
+                    vertices.Add(edge.End);
+            }
+            return vertices;
+        }
     }
 }

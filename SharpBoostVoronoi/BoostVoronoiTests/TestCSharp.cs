@@ -359,5 +359,40 @@ namespace BoostVoronoiTests
 
             Assert.AreEqual(countPrimary, countFinite - countSecondary);
         }
+
+        [TestMethod]
+        public void TestGetCellVertices()
+        {
+            List<Point> inputPoint = new List<Point>() { new Point(5, 5) };
+            List<Segment> inputSegment = new List<Segment>();
+            inputSegment.Add(new Segment(0, 0, 0, 10));
+            inputSegment.Add(new Segment(0, 0, 10, 0));
+            inputSegment.Add(new Segment(0, 10, 10, 10));
+            inputSegment.Add(new Segment(10, 0, 10, 10));
+
+            //Build the C# Voronoi
+            BoostVoronoi bv = new BoostVoronoi();
+            foreach (var p in inputPoint)
+                bv.AddPoint(p.X, p.Y);
+            foreach (var s in inputSegment)
+                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+
+            bv.Construct();
+            List<Vertex> vertices = bv.Vertices;
+            List<Edge> sharpEdges = bv.Edges;
+            List<Cell> cells = bv.Cells;
+
+            for (int i = 0; i < cells.Count; i++)
+            {
+                if(!cells[i].IsOpen)
+                {
+                    List<int> vertexIndexes = cells[i].GetVertices(ref sharpEdges);
+                    Assert.AreEqual(vertexIndexes.Count, 5);
+                    Assert.AreEqual(vertexIndexes[0], vertexIndexes[vertexIndexes.Count - 1]);
+                }
+                
+
+            }
+        }
     }
 }
