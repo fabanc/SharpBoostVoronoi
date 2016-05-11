@@ -263,38 +263,37 @@ namespace boost {
 				cells.push_back(c_cell);
 				cell_identifier++;
 			}
+		}
 
-			//Second iteration for twins
-			//This part can probably optimized - TBD
-			for (voronoi_diagram<double>::const_cell_iterator it = vd.cells().begin(); it != vd.cells().end(); ++it) {
-				const voronoi_diagram<double>::cell_type &cell = *it;
-			
-				//Don't do anything if the cells is degenerate
-				if (!cell.is_degenerate()){
-					//Iterate throught the edges
-					const voronoi_diagram<double>::edge_type *edge = cell.incident_edge();
-					if (edge != NULL)
-					{
-						do {
-							long long edge_id = -1;
-							std::map<const voronoi_diagram<double>::edge_type *, long long>::iterator edgeMapIterator = edgeMap.find(edge);
+		//Second iteration for twins
+		//This part can probably optimized - TBD
+		for (voronoi_diagram<double>::const_cell_iterator it = vd.cells().begin(); it != vd.cells().end(); ++it) {
+			const voronoi_diagram<double>::cell_type &cell = *it;
+
+			//Don't do anything if the cells is degenerate
+			if (!cell.is_degenerate()){
+				//Iterate throught the edges
+				const voronoi_diagram<double>::edge_type *edge = cell.incident_edge();
+				if (edge != NULL)
+				{
+					do {
+						long long edge_id = -1;
+						std::map<const voronoi_diagram<double>::edge_type *, long long>::iterator edgeMapIterator = edgeMap.find(edge);
+						if (edgeMapIterator != edgeMap.end()){
+							edge_id = edgeMapIterator->second;
+						}
+
+						if (edge_id != -1){
+							edgeMapIterator = edgeMap.find(edge->twin());
 							if (edgeMapIterator != edgeMap.end()){
-								edge_id = edgeMapIterator->second;
+								edges[edge_id].twin = edgeMapIterator->second;
 							}
-
-							if (edge_id != -1){
-								edgeMapIterator = edgeMap.find(edge->twin());
-								if (edgeMapIterator != edgeMap.end()){
-									edges[edge_id].twin = edgeMapIterator->second;
-								}
-							}		
-							//Move to the next edge
-							edge = edge->next();
-						} while (edge != cell.incident_edge());
-					}
+						}
+						//Move to the next edge
+						edge = edge->next();
+					} while (edge != cell.incident_edge());
 				}
 			}
-
 		}
 	};
 
