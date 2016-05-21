@@ -112,9 +112,19 @@ namespace SharpBoostVoronoi
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        public void AddPoint(int x, int y)
+        //public void AddPoint(int x, int y)
+        //{
+        //    InputPoints.Add(new Point(x * ScaleFactor, y * ScaleFactor));
+        //}
+
+        /// <summary>
+        /// Add a point to the list of input points. The input points will be applied a scale factor
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        public void AddPoint(double x, double y)
         {
-            InputPoints.Add(new Point(x  * ScaleFactor, y * ScaleFactor));
+            InputPoints.Add(new Point(Convert.ToInt32(x * ScaleFactor), Convert.ToInt32(y * ScaleFactor)));
         }
 
         /// <summary>
@@ -124,9 +134,27 @@ namespace SharpBoostVoronoi
         /// <param name="y1">Y coordinate of the start point</param>
         /// <param name="x2">X coordinate of the end point</param>
         /// <param name="y2">Y coordinate of the end point</param>
-        public void AddSegment(int x1, int y1, int x2, int y2)
+        //public void AddSegment(int x1, int y1, int x2, int y2)
+        //{
+        //    InputSegments.Add(new Segment(x1 * ScaleFactor,y1 * ScaleFactor,x2 * ScaleFactor,y2 * ScaleFactor));
+        //}
+
+
+        /// <summary>
+        /// Add a segment to the list of input segments
+        /// </summary>
+        /// <param name="x1">X coordinate of the start point</param>
+        /// <param name="y1">Y coordinate of the start point</param>
+        /// <param name="x2">X coordinate of the end point</param>
+        /// <param name="y2">Y coordinate of the end point</param>
+        public void AddSegment(double x1, double y1, double x2, double y2)
         {
-            InputSegments.Add(new Segment(x1 * ScaleFactor,y1 * ScaleFactor,x2 * ScaleFactor,y2 * ScaleFactor));
+            InputSegments.Add(new Segment(
+                 Convert.ToInt32(x1 * ScaleFactor), 
+                 Convert.ToInt32(y1 * ScaleFactor), 
+                 Convert.ToInt32(x2 * ScaleFactor), 
+                 Convert.ToInt32(y2 * ScaleFactor)
+            ));
         }
 
         #region Code to discretize curves
