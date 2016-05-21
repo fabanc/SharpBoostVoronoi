@@ -72,6 +72,7 @@ namespace SharpBoostVoronoi
             if (scaleFactor <= 0)
                 throw new InvalidScaleFactorException();
 
+            ScaleFactor = scaleFactor;
         }
 
 
