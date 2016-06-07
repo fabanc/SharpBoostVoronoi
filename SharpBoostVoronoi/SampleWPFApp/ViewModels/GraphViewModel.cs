@@ -19,6 +19,7 @@ namespace SampleWPFApp.ViewModels
             Graphs.Add(BuildGraph2());
             Graphs.Add(BuildGraph3());
             Graphs.Add(BuildGraph4());
+            Graphs.Add(BuildGraph5());
         }
         private GraphData BuildGraph1()
         {
@@ -93,6 +94,38 @@ namespace SampleWPFApp.ViewModels
             };
             return new GraphData("Graph4", InputPoints, InputSegments);
 
+        }
+
+
+        private GraphData BuildGraph5()
+        {
+
+            List<Point> InputPoints = new List<Point>();
+            InputPoints.Add(new Point(250, 250));
+
+            List<Segment> InputSegments = new List<Segment> {
+                //Outside square
+                new Segment(new Point(0,0), new Point(0,500)),
+                new Segment(new Point(500,0), new Point(500,500)),
+                new Segment(new Point(0,0), new Point(250,0)),
+                new Segment(new Point(250,0), new Point(500,0)),
+                new Segment(new Point(0,500), new Point(250,500)),
+                new Segment(new Point(250,500), new Point(500,500)),
+
+                //From square to forks
+                new Segment(new Point(250,0), new Point(250,10)),
+                new Segment(new Point(250,500), new Point(250,490)),
+
+                //Forks
+                new Segment(new Point(250,10), new Point(230,20)),
+                new Segment(new Point(250,10), new Point(270,20)),
+                new Segment(new Point(250,490), new Point(230,480)),
+                new Segment(new Point(250,490), new Point(270,480)),
+                new Segment(new Point(230,480), new Point(230,20)),
+                new Segment(new Point(270,480), new Point(270,20)),
+
+            };
+            return new GraphData("Graph5", InputPoints, InputSegments);
         }
 
     }
