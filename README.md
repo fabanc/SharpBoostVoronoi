@@ -26,6 +26,6 @@ SharpBoostVoronoi is the C# library to use for your C# projects. See the documen
 ##Limitations
 1. As much as the API works well with input dataset less than 250,000 segments, we seem to be hitting memory issues beyond that. See the PerformanceTesting
 projects in SharpBoostVoronoi and its read me to get more information about that.
-2. Giving that project out to use with real life GIS (Geographic Information System) data, we have notices some issues where the curves do no get drawn correctly.
+2. Giving that project out to use with real life GIS (Geographic Information System) data, we have noticed some issues where the curves do no get drawn correctly.
 I am still working on creating a unit test that can reproduce those issues and then fix them.
 
