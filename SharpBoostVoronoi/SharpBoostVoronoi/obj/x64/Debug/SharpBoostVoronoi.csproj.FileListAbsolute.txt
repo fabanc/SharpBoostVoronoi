@@ -1,0 +1,7 @@
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\bin\x64\Debug\SharpBoostVoronoi.dll
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\bin\x64\Debug\SharpBoostVoronoi.pdb
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\bin\x64\Debug\BoostVoronoi_4x5x0.dll
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\bin\x64\Debug\BoostVoronoi_4x5x0.pdb
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\obj\x64\Debug\SharpBoostVoronoi.csprojResolveAssemblyReference.cache
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\obj\x64\Debug\SharpBoostVoronoi.dll
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\obj\x64\Debug\SharpBoostVoronoi.pdb
