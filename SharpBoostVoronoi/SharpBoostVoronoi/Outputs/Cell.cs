@@ -77,5 +77,7 @@ namespace SharpBoostVoronoi.Output
             }
             return vertices;
         }
+
+
     }
 }

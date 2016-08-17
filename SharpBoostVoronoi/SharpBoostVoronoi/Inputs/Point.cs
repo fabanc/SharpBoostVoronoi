@@ -30,5 +30,19 @@ namespace SharpBoostVoronoi.Input
             Y = y;
         }
 
+        /// <summary>
+        /// Compare coordinates with another point.
+        /// </summary>
+        /// <param name="p">The other point</param>
+        /// <returns>True if the points have the same X and Y coordinates.</returns>
+        public bool HasSameCoordinates(Point p)
+        {
+            if(p == null)
+                throw new ArgumentNullException();
+            if(p.X == X && p.Y == Y)
+                return true;
+            return false;
+        }
+
     }
 }

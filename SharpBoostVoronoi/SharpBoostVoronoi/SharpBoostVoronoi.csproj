@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoostVoronoi.cs" />
+    <Compile Include="Exceptions\InvalidCurveInputSites.cs" />
     <Compile Include="Exceptions\InvalidNumberOfVertexException.cs" />
     <Compile Include="Exceptions\InvalidScaleFactorException.cs" />
     <Compile Include="Inputs\Point.cs" />

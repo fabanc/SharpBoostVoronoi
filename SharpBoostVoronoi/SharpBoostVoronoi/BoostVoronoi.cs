@@ -171,15 +171,38 @@ namespace SharpBoostVoronoi
         /// <returns></returns>
         public List<Vertex> SampleCurvedEdge(Edge edge, double max_distance)
         {
+            int pointCell = -1;
+            int lineCell = -1;
+
             //Max distance to be refined
             if (max_distance <= 0)
                 throw new Exception("Max distance must be greater than 0");
 
             Point pointSite = null;
             Segment segmentSite = null;
+
+            if (Cells[edge.Cell].ContainsPoint == Cells[Edges[edge.Twin].Cell].ContainsPoint)
+                throw new Exception("Sites for cell and twin edge cell can not both have the same input type");
+
+            if(Cells[edge.Cell].ContainsPoint)
+            {
+                pointCell = edge.Cell;
+                lineCell = Edges[edge.Twin].Cell;
+            }
+            else
+            {
+                lineCell = edge.Cell;
+                pointCell = Edges[edge.Twin].Cell;
+            }
         
-            pointSite = Cells[edge.Cell].ContainsPoint ? RetrievePoint(Cells[edge.Cell]) : RetrievePoint(Cells[Edges[edge.Twin].Cell]);
-            segmentSite = Cells[edge.Cell].ContainsPoint ? RetrieveSegment(Cells[Edges[edge.Twin].Cell]) : RetrieveSegment(Cells[edge.Cell]);
+            pointSite = RetrievePoint(Cells[pointCell]);
+            segmentSite = RetrieveSegment(Cells[lineCell]);
+
+            if (pointSite.HasSameCoordinates(segmentSite.Start))
+                throw new InvalidCurveInputSites("The point site of one cell is located on the starting point of the segment site of the other cell");
+
+            if (pointSite.HasSameCoordinates(segmentSite.End))
+                throw new InvalidCurveInputSites("The point site of one cell is located on the ending point of the segment site of the other cell");
         
             List<Vertex> discretization = new List<Vertex>(){
                 Vertices[edge.Start],
@@ -191,6 +214,7 @@ namespace SharpBoostVoronoi
 
             return Discretize(pointSite, segmentSite, max_distance, discretization);
         }
+
 
 
         private Point RetrievePoint(Cell cell)
