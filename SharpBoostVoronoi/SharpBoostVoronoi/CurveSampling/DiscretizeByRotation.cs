@@ -16,17 +16,15 @@ namespace SharpBoostVoronoi.CurveSampling
 
 
         /// <summary>
-        /// Return the angle between 2 points in radians
+        /// Return the angle between 2 points as radians
         /// </summary>
         /// <param name="start">The first point</param>
         /// <param name="end">The second point</param>
         /// <returns>The angle in radians</returns>
-        static double lineAngle_rads(Vertex start, Vertex end)
+        static double GetLineAngleAsRadiant(Vertex start, Vertex end)
         {
             return Math.Atan2(end.Y - start.Y, end.X - start.X);
         }
-
-
 
 
         /// <summary>
@@ -97,7 +95,7 @@ namespace SharpBoostVoronoi.CurveSampling
             //Compute the information required to perform rotation
             double shift_X = Math.Min(dir_start.X, dir_end.X);
             double shift_Y = Math.Min(dir_start.Y, dir_end.Y);
-            double angle = lineAngle_rads(dir_start, dir_end);
+            double angle = GetLineAngleAsRadiant(dir_start, dir_end);
 
             Vertex focus_rotated = Rotation.rotate(
                 inputVertex, 

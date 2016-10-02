@@ -223,7 +223,6 @@ namespace SharpBoostVoronoi
             if (edge.IsLinear)
                 return discretization;
 
-            //return Discretize(pointSite, segmentSite, max_distance, discretization);
             return DiscretizeByRotation.Densify(pointSite, segmentSite, discretization[0], discretization[1], max_distance);
         }
 

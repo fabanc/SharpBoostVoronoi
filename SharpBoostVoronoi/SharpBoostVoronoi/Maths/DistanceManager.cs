@@ -108,9 +108,9 @@ namespace SharpBoostVoronoi.Maths
         /// <summary>
         /// Compute a point on the line at a specific distance.
         /// </summary>
-        /// <param name="p1"></param>
-        /// <param name="p2"></param>
-        /// <param name="distanceOnLine"></param>
+        /// <param name="p1">The first point of the line.</param>
+        /// <param name="p2">The last point of the line.</param>
+        /// <param name="distanceOnLine">The distance on the line where the point will be fetched.</param>
         /// <returns></returns>
         public static Vertex GetPointAtDistance(Vertex p1, Vertex p2, double distanceOnLine)
         {

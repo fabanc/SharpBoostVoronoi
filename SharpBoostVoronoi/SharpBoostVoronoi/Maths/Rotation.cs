@@ -16,9 +16,9 @@ namespace SharpBoostVoronoi.Maths
         /// The orgin point is computed as the point moved by a shift on X and Y axis.
         /// </summary>
         /// <param name="p">The point to be rotated</param>
-        /// <param name="theta"></param>
-        /// <param name="shift_x"></param>
-        /// <param name="shift_y"></param>
+        /// <param name="theta">The angle for the rotation (in radians).</param>
+        /// <param name="shift_x">The translation along the x-axis used during the rotation.</param>
+        /// <param name="shift_y">The translation along the y-axis used during the rotation.</param>
         /// <returns></returns>
         public static Vertex rotate(Vertex p, double theta, double shift_x, double shift_y)
         {
@@ -43,6 +43,14 @@ namespace SharpBoostVoronoi.Maths
                 );
         }
 
+        /// <summary>
+        /// Undo the rotation done for a point.
+        /// </summary>
+        /// <param name="p">The point to rotate.</param>
+        /// <param name="theta">The angle in radians</param>
+        /// <param name="shift_x">The translation along the x-axis used during the rotation.</param>
+        /// <param name="shift_y">The translation along the y-axis used during the rotation.</param>
+        /// <returns></returns>
         public static Vertex unrotate(Vertex p, double theta, double shift_x, double shift_y)
         {
             double cos = Math.Cos(theta);

@@ -72,7 +72,6 @@
     <Compile Include="Inputs\Point.cs" />
     <Compile Include="Inputs\Segment.cs" />
     <Compile Include="Maths\Rotation.cs" />
-    <Compile Include="Maths\Translation.cs" />
     <Compile Include="Maths\VerticalParabola.cs" />
     <Compile Include="Outputs\Cell.cs" />
     <Compile Include="Outputs\Edge.cs" />
