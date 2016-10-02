@@ -5,6 +5,7 @@ using boost;
 using System.Collections.Generic;
 using SharpBoostVoronoi;
 using SharpBoostVoronoi.Output;
+using SharpBoostVoronoi.Maths;
 
 namespace BoostVoronoiTests
 {
@@ -286,12 +287,23 @@ namespace BoostVoronoiTests
             bv.Construct();
             List<Vertex> vertices = bv.Vertices;
             List<Edge> sharpEdges = bv.Edges;
+            List<Cell> sharpCells = bv.Cells;
 
             int testEdgeIndex = 2;
+
+            for (int i = 0; i < sharpEdges.Count; i++)
+            {
+                if (sharpCells[sharpEdges[sharpEdges[i].Twin].Cell].SourceCategory == CellSourceCatory.SinglePoint
+                    &&
+                    sharpCells[sharpEdges[i].Cell].Site == 1)
+                    testEdgeIndex = i;
+
+            }
+
             Edge testEdge = sharpEdges[testEdgeIndex];
             Vertex startVertex = vertices[testEdge.Start];
             Vertex endVertex = vertices[testEdge.End];
-            List<Vertex> dvertices = bv.SampleCurvedEdge(testEdge, 0.1);
+            List<Vertex> dvertices = bv.SampleCurvedEdge(testEdge, DistanceManager.ComputeDistanceBetweenPoints(startVertex, endVertex) / 2);
             int lastDicretizedVertexIndex = dvertices.Count - 1;
 
             //Make sure that the end points are consistents

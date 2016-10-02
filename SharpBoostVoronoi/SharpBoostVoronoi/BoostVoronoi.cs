@@ -1,4 +1,5 @@
 ﻿using boost;
+using SharpBoostVoronoi.CurveSampling;
 using SharpBoostVoronoi.Exceptions;
 using SharpBoostVoronoi.Input;
 using SharpBoostVoronoi.Output;
@@ -88,8 +89,10 @@ namespace SharpBoostVoronoi
 
             foreach (var s in InputSegments)
                 VoronoiWrapper.AddSegment(
-                    s.Start.X, s.Start.Y,
-                    s.End.X, s.End.Y);
+                        s.Start.X, 
+                        s.Start.Y,
+                        s.End.X, 
+                        s.End.Y );
 
             //Construct
             VoronoiWrapper.ConstructVoronoi();
@@ -151,8 +154,8 @@ namespace SharpBoostVoronoi
         public void AddSegment(double x1, double y1, double x2, double y2)
         {
             InputSegments.Add(new Segment(
-                 Convert.ToInt32(x1 * ScaleFactor), 
-                 Convert.ToInt32(y1 * ScaleFactor), 
+                 Convert.ToInt32(x1 * ScaleFactor),
+                 Convert.ToInt32(y1 * ScaleFactor),
                  Convert.ToInt32(x2 * ScaleFactor), 
                  Convert.ToInt32(y2 * ScaleFactor)
             ));
@@ -181,8 +184,13 @@ namespace SharpBoostVoronoi
             Point pointSite = null;
             Segment segmentSite = null;
 
-            if (Cells[edge.Cell].ContainsPoint == Cells[Edges[edge.Twin].Cell].ContainsPoint)
-                throw new Exception("Sites for cell and twin edge cell can not both have the same input type");
+            Cell m_cell = Cells[edge.Cell];
+            Cell m_reverse_cell = Cells[Edges[edge.Twin].Cell];
+
+            if (m_cell.ContainsSegment == true && m_reverse_cell.ContainsSegment == true)
+                                return new List<Vertex>(){Vertices[edge.Start],Vertices[edge.End]};
+
+
 
             if(Cells[edge.Cell].ContainsPoint)
             {
@@ -199,10 +207,13 @@ namespace SharpBoostVoronoi
             segmentSite = RetrieveSegment(Cells[lineCell]);
 
             if (pointSite.HasSameCoordinates(segmentSite.Start))
-                throw new InvalidCurveInputSites("The point site of one cell is located on the starting point of the segment site of the other cell");
+                throw new InvalidCurveInputSites(String.Format(
+                    "The point site of one cell is located on the starting point of the segment site of the other cell. Point Site: {0}, Segment Site: {1}, Point Cell Type: {2}",
+                    pointSite.ToString(), segmentSite.ToString(), Cells[pointCell].SourceCategory));
 
             if (pointSite.HasSameCoordinates(segmentSite.End))
-                throw new InvalidCurveInputSites("The point site of one cell is located on the ending point of the segment site of the other cell");
+                throw new InvalidCurveInputSites(String.Format("The point site of one cell is located on the ending point of the segment site of the other cell. Point Site: {0}, Segment Site: {1}, Point Cell Type: {2}",
+                    pointSite.ToString(), segmentSite.ToString(), Cells[pointCell].SourceCategory));
         
             List<Vertex> discretization = new List<Vertex>(){
                 Vertices[edge.Start],
@@ -212,139 +223,41 @@ namespace SharpBoostVoronoi
             if (edge.IsLinear)
                 return discretization;
 
-            return Discretize(pointSite, segmentSite, max_distance, discretization);
+            //return Discretize(pointSite, segmentSite, max_distance, discretization);
+            return DiscretizeByRotation.Densify(pointSite, segmentSite, discretization[0], discretization[1], max_distance);
         }
 
 
 
         private Point RetrievePoint(Cell cell)
         {
+            Point pointNoScaled = null;
             if(cell.SourceCategory == CellSourceCatory.SinglePoint)
-                return InputPoints[cell.Site];
+                pointNoScaled =  InputPoints[cell.Site];
             else if (cell.SourceCategory == CellSourceCatory.SegmentStartPoint)
-                return InputSegments[cell.Site].Start;
+            {
+                Segment segment = InputSegments[RetriveInputSegmentIndex(cell)];
+                pointNoScaled = InputSegments[RetriveInputSegmentIndex(cell)].Start;
+            }
             else
-                return InputSegments[cell.Site].End;
+                pointNoScaled = InputSegments[RetriveInputSegmentIndex(cell)].End;
+            return new Point(pointNoScaled.X / ScaleFactor, pointNoScaled.Y / ScaleFactor);
         }
 
         private Segment RetrieveSegment(Cell cell)
         {
-            return InputSegments[cell.Site - InputPoints.Count];
+            Segment segmentNotScaled = InputSegments[RetriveInputSegmentIndex(cell)];
+            return new Segment(new Point(segmentNotScaled.Start.X / ScaleFactor, segmentNotScaled.Start.Y / ScaleFactor), 
+                new Point(segmentNotScaled.End.X / ScaleFactor, segmentNotScaled.End.Y / ScaleFactor));
         }
 
-        /// <summary>
-        /// Discretized a curved segment from the voronoi results. Curved segments generally appears when a segment is at the border
-        /// of a cell generated around an input point and a cell generated around an input segment.
-        /// </summary>
-        /// <param name="point">The input point associated on one side of the curved edge</param>
-        /// <param name="segment">The input segment associated on one side of the curved edge</param>
-        /// <param name="max_dist">maximum discretization distance.</param>
-        /// <param name="discretization">The output segment to discretize</param>
-        /// <returns></returns>
-        private List<Vertex> Discretize(Point point, Segment segment, double max_dist, List<Vertex> discretization)
+        private int RetriveInputSegmentIndex(Cell cell)
         {
-            //Since this list if supposed to represent a voronoi edge, it has to have 2 vertices
-            if (discretization.Count != 2)
-                throw new InvalidNumberOfVertexException();
-
-            double low_segment_x = segment.Start.X < segment.End.X ? segment.Start.X : segment.End.X;
-            double low_segment_y = segment.Start.Y < segment.End.Y ? segment.Start.Y : segment.End.Y;
-
-            double max_segment_x = segment.Start.X < segment.End.X ? segment.End.X : segment.Start.X;
-            double max_segment_y = segment.Start.Y < segment.End.Y ? segment.End.Y : segment.Start.Y;
-
-            // Apply the linear transformation to move start point of the segment to
-            // the point with coordinates (0, 0) and the direction of the segment to
-            // coincide the positive direction of the x-axis.
-            double segm_vec_x = max_segment_x - low_segment_x;
-            double segm_vec_y = max_segment_y - low_segment_y;
-            double sqr_segment_length = segm_vec_x * segm_vec_x + segm_vec_y * segm_vec_y;
-
-            // Compute x-coordinates of the endpoints of the edge
-            // in the transformed space.
-            double projection_start = sqr_segment_length * GetPointProjection(discretization.First(), segment);
-            double projection_end = sqr_segment_length * GetPointProjection(discretization.Last(), segment);
-
-            // Compute parabola parameters in the transformed space.
-            // Parabola has next representation:
-            // f(x) = ((x-rot_x)^2 + rot_y^2) / (2.0*rot_y).
-            double point_vec_x = point.X - low_segment_x;
-            double point_vec_y = point.Y - low_segment_y;
-            double rot_x = segm_vec_x * point_vec_x + segm_vec_y * point_vec_y;
-            double rot_y = segm_vec_x * point_vec_y - segm_vec_y * point_vec_x;
-
-            // Save the last point.
-            Vertex last_point = discretization.Last();
-            List<Vertex> discretizedPoint = new List<Vertex>() { discretization.First() };
-
-
-            // Use stack to avoid recursion.
-            Stack<double> point_stack = new Stack<double>();
-            point_stack.Push(projection_end);
-
-            double cur_x = projection_start;
-            double cur_y = parabola_y(cur_x, rot_x, rot_y);
-
-            // Adjust max_dist parameter in the transformed space.
-            double max_dist_transformed = max_dist * max_dist * sqr_segment_length;
-            while (point_stack.Count != 0)
-            {
-                double new_x = point_stack.Peek();
-                double new_y = parabola_y(new_x, rot_x, rot_y);
-
-                // Compute coordinates of the point of the parabola that is
-                // furthest from the current line segment.
-                double mid_x = (new_y - cur_y) / (new_x - cur_x) * rot_y + rot_x;
-                double mid_y = parabola_y(mid_x, rot_x, rot_y);
-
-                double dist = (new_y - cur_y) * (mid_x - cur_x) -
-                    (new_x - cur_x) * (mid_y - cur_y);
-                dist = dist * dist / ((new_y - cur_y) * (new_y - cur_y) +
-                    (new_x - cur_x) * (new_x - cur_x));
-
-                if (dist <= max_dist_transformed)
-                {
-                    // Distance between parabola and line segment is less than max_dist.
-                    point_stack.Pop();
-                    double inter_x = (segm_vec_x * new_x - segm_vec_y * new_y) /
-                        sqr_segment_length + low_segment_x;
-                    double inter_y = (segm_vec_x * new_y + segm_vec_y * new_x) /
-                        sqr_segment_length + low_segment_y;
-
-                    discretizedPoint.Add(new Vertex(inter_x, inter_y));
-                    cur_x = new_x;
-                    cur_y = new_y;
-                }
-                else
-                {
-                    point_stack.Push(mid_x);
-                }
-            }
-            discretizedPoint[discretizedPoint.Count - 1] = last_point;
-            return discretizedPoint;
+            if (cell.SourceCategory == CellSourceCatory.SinglePoint)
+                throw new Exception("Attempting to retrive an input segment on a cell that was built around a point");
+            return cell.Site - InputPoints.Count;
         }
 
-        private double parabola_y(double x, double a, double b)
-        {
-            return ((x - a) * (x - a) + b * b) / (b + b);
-        }
-
-        private double GetPointProjection(Vertex point, Segment segment)
-        {
-            double low_segment_x = segment.Start.X < segment.End.X ? segment.Start.X : segment.End.X;
-            double low_segment_y = segment.Start.Y < segment.End.Y ? segment.Start.Y : segment.End.Y;
-            double max_segment_x = segment.Start.X < segment.End.X ? segment.End.X : segment.Start.X;
-            double max_segment_y = segment.Start.Y < segment.End.Y ? segment.End.Y : segment.Start.Y;
-
-            double segment_vec_x = max_segment_x - low_segment_x;
-            double segment_vec_y = max_segment_y - low_segment_y;
-            double point_vec_x = point.X - low_segment_x;
-            double point_vec_y = point.Y - low_segment_y;
-
-            double sqr_segment_length = segment_vec_x * segment_vec_x + segment_vec_y * segment_vec_y;
-            double vec_dot = segment_vec_x * point_vec_x + segment_vec_y * point_vec_y;
-            return vec_dot / sqr_segment_length;
-        }
         #endregion
     }
 }

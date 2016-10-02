@@ -23,5 +23,10 @@ namespace SharpBoostVoronoi.Input
             Start = new Point(x1, y1);
             End = new Point(x2, y2);
         }
+
+        public override string ToString()
+        {
+            return String.Format("Start: {0}, End: {1}", Start.ToString(), End.ToString());
+        }
     }
 }

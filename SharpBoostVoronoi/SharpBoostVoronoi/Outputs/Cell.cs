@@ -79,5 +79,10 @@ namespace SharpBoostVoronoi.Output
         }
 
 
+        public string FormattedCellInputInformation()
+        {
+            return String.Format("Site: {0}, Source Category: {1}", Site, SourceCategory);
+        }
+
     }
 }

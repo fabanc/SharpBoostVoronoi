@@ -62,11 +62,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoostVoronoi.cs" />
+    <Compile Include="CurveSampling\DiscretizeByRotation.cs" />
+    <Compile Include="Maths\DistanceManager.cs" />
     <Compile Include="Exceptions\InvalidCurveInputSites.cs" />
     <Compile Include="Exceptions\InvalidNumberOfVertexException.cs" />
     <Compile Include="Exceptions\InvalidScaleFactorException.cs" />
+    <Compile Include="Exceptions\ParabolaProblemInformation.cs" />
+    <Compile Include="Exceptions\UnsolvableVertexException.cs" />
     <Compile Include="Inputs\Point.cs" />
     <Compile Include="Inputs\Segment.cs" />
+    <Compile Include="Maths\Rotation.cs" />
+    <Compile Include="Maths\Translation.cs" />
+    <Compile Include="Maths\VerticalParabola.cs" />
     <Compile Include="Outputs\Cell.cs" />
     <Compile Include="Outputs\Edge.cs" />
     <Compile Include="Outputs\Vertex.cs" />
