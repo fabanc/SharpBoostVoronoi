@@ -20,26 +20,25 @@ namespace SharpBoostVoronoi.Maths
         /// <param name="shift_x">The translation along the x-axis used during the rotation.</param>
         /// <param name="shift_y">The translation along the y-axis used during the rotation.</param>
         /// <returns></returns>
-        public static Vertex rotate(Vertex p, double theta, double shift_x, double shift_y)
+        public static Vertex Rotate(Vertex p, double theta, double shift_x, double shift_y)
         {
-            return rotate(p, theta, new Vertex(p.X - shift_x, p.Y - shift_y));
+            return Rotate(new Vertex(p.X - shift_x, p.Y - shift_y), theta);
         }
 
         /// <summary>
         /// Rotate a point around another point (anchor)
         /// </summary>
-        /// <param name="p">The point to rotate</param>
+        /// <param name="point">The anchor point used for the rotation</param>
         /// <param name="theta">The angle for the rotation</param>
-        /// <param name="anchor">The anchor point used for the rotation</param>
         /// <returns>The rotated point</returns>
-        public static Vertex rotate(Vertex p, double theta, Vertex anchor)
+        public static Vertex Rotate(Vertex point, double theta)
         {
             double t = -1 * theta;
             double cos = Math.Cos(t);
             double sin = Math.Sin(t);
             return new Vertex(
-                (anchor.X * cos) - (anchor.Y * sin),
-                (anchor.X * sin) + (anchor.Y * cos)
+                (point.X * cos) - (point.Y * sin),
+                (point.X * sin) + (point.Y * cos)
                 );
         }
 
@@ -51,7 +50,7 @@ namespace SharpBoostVoronoi.Maths
         /// <param name="shift_x">The translation along the x-axis used during the rotation.</param>
         /// <param name="shift_y">The translation along the y-axis used during the rotation.</param>
         /// <returns></returns>
-        public static Vertex unrotate(Vertex p, double theta, double shift_x, double shift_y)
+        public static Vertex Unrotate(Vertex p, double theta, double shift_x, double shift_y)
         {
             double cos = Math.Cos(theta);
             double sin = Math.Sin(theta);

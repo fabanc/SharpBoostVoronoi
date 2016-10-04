@@ -100,34 +100,34 @@ namespace SharpBoostVoronoi.CurveSampling
             double shift_Y = Math.Min(dir_start.Y, dir_end.Y);
             double angle = GetLineAngleAsRadiant(dir_start, dir_end);
 
-            Vertex focus_rotated = Rotation.rotate(
+            Vertex focus_rotated = Rotation.Rotate(
                 inputVertex, 
                 angle, 
                 shift_X, 
                 shift_Y
             );
 
-            Vertex dir_startPoint_rotated = Rotation.rotate(
+            Vertex dir_startPoint_rotated = Rotation.Rotate(
                 dir_start,
                 angle,
                 shift_X,
                 shift_Y
             );
 
-            Vertex dir_endPoint_rotated = Rotation.rotate(
+            Vertex dir_endPoint_rotated = Rotation.Rotate(
                 dir_end,
                 angle,
                 shift_X,
                 shift_Y);
 
-            Vertex par_startPoint_rotated = Rotation.rotate(
+            Vertex par_startPoint_rotated = Rotation.Rotate(
                 par_start, 
                 angle, 
                 shift_X, 
                 shift_Y
             );
             
-            Vertex par_endPoint_rotated = Rotation.rotate(
+            Vertex par_endPoint_rotated = Rotation.Rotate(
                 par_end, 
                 angle, 
                 shift_X, 
@@ -225,7 +225,7 @@ namespace SharpBoostVoronoi.CurveSampling
             #endregion
 
             #region Unrotate and validate
-            List<Vertex> densified = densified_rotated.Select(w => Rotation.unrotate(w, angle, shift_X, shift_Y)).ToList();
+            List<Vertex> densified = densified_rotated.Select(w => Rotation.Unrotate(w, angle, shift_X, shift_Y)).ToList();
             
             //reset the first and last points so they match exactly.
             if (Math.Abs(densified[0].X - par_start.X) > snapTolerance ||
