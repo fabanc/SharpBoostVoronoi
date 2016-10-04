@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SharpBoostVoronoi.CurveSampling;
+using SharpBoostVoronoi.Parabolas;
 
 namespace BoostVoronoiTests
 {

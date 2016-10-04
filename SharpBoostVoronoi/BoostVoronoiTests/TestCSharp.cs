@@ -303,7 +303,7 @@ namespace BoostVoronoiTests
             Edge testEdge = sharpEdges[testEdgeIndex];
             Vertex startVertex = vertices[testEdge.Start];
             Vertex endVertex = vertices[testEdge.End];
-            List<Vertex> dvertices = bv.SampleCurvedEdge(testEdge, DistanceManager.ComputeDistanceBetweenPoints(startVertex, endVertex) / 2);
+            List<Vertex> dvertices = bv.SampleCurvedEdge(testEdge, Distance.ComputeDistanceBetweenPoints(startVertex, endVertex) / 2);
             int lastDicretizedVertexIndex = dvertices.Count - 1;
 
             //Make sure that the end points are consistents

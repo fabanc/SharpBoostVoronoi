@@ -1,4 +1,5 @@
 ﻿using SharpBoostVoronoi.Output;
+using SharpBoostVoronoi.Parabolas;
 using System;
 using System.Collections.Generic;
 using System.Linq;

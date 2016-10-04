@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SharpBoostVoronoi.Maths
 {
-    public class DistanceManager
+    public class Distance
     {
         /// <summary>
         /// Fetch the distance between two points

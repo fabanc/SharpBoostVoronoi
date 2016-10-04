@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpBoostVoronoi.CurveSampling
+namespace SharpBoostVoronoi.Parabolas
 {
-    public class DiscretizeByRotation
+    public class ParabolaComputation
     {
 
 
@@ -156,7 +156,7 @@ namespace SharpBoostVoronoi.CurveSampling
 
 
             double distanceFocusToDirectix = 0;
-            DistanceManager.GetClosestPointOnLine(inputVertex, dir_start, dir_end, out distanceFocusToDirectix);
+            Distance.GetClosestPointOnLine(inputVertex, dir_start, dir_end, out distanceFocusToDirectix);
             if (distanceFocusToDirectix == 0)
                 throw new FocusOnDirectixException(nonRotatedInformation);
 
@@ -210,7 +210,7 @@ namespace SharpBoostVoronoi.CurveSampling
                 Vertex current = next.Peek();
                 Vertex mid_cord = new Vertex((previous.X + current.X) / 2, (previous.Y + current.Y) / 2);
                 Vertex mid_curve = new Vertex(mid_cord.X, ParabolaY(mid_cord.X, focus_rotated, directrix));
-                double distance = DistanceManager.ComputeDistanceBetweenPoints(current, previous);
+                double distance = Distance.ComputeDistanceBetweenPoints(current, previous);
                 if (distance > max_distance)
                 {
                     next.Push(mid_curve);
@@ -258,9 +258,9 @@ namespace SharpBoostVoronoi.CurveSampling
             double maxX = Math.Max(Math.Max(Math.Max(rotatedInformation.DirectixSegmentStart.X, rotatedInformation.DirectixSegmentStart.X), boostPoint.X), parabolaPoint.X);
 
             //Compute the distance between the input parabola point
-            double distanceBoostPointToFocus = DistanceManager.ComputeDistanceBetweenPoints(boostPoint, rotatedInformation.FocusPoint);
+            double distanceBoostPointToFocus = Distance.ComputeDistanceBetweenPoints(boostPoint, rotatedInformation.FocusPoint);
             double distanceBoostPointToDirectix = 0;
-            DistanceManager.GetClosestPointOnLine(
+            Distance.GetClosestPointOnLine(
                     new Vertex(minX, rotatedInformation.DirectixSegmentEnd.Y),
                     new Vertex(maxX, rotatedInformation.DirectixSegmentEnd.Y),
                     boostPoint, 
@@ -268,9 +268,9 @@ namespace SharpBoostVoronoi.CurveSampling
             );
 
 
-            double distanceComputedPointToFocus = DistanceManager.ComputeDistanceBetweenPoints(parabolaPoint, rotatedInformation.FocusPoint);
+            double distanceComputedPointToFocus = Distance.ComputeDistanceBetweenPoints(parabolaPoint, rotatedInformation.FocusPoint);
             double distanceComputedPointToDirectix = 0;
-            DistanceManager.GetClosestPointOnLine(
+            Distance.GetClosestPointOnLine(
                     new Vertex(minX, rotatedInformation.DirectixSegmentEnd.Y),
                     new Vertex(maxX, rotatedInformation.DirectixSegmentEnd.Y),
                     parabolaPoint,

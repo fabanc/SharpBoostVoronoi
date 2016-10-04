@@ -1,5 +1,5 @@
 ﻿using boost;
-using SharpBoostVoronoi.CurveSampling;
+using SharpBoostVoronoi.Parabolas;
 using SharpBoostVoronoi.Exceptions;
 using SharpBoostVoronoi.Input;
 using SharpBoostVoronoi.Output;
@@ -214,7 +214,7 @@ namespace SharpBoostVoronoi
             if (edge.IsLinear)
                 return discretization;
 
-            return DiscretizeByRotation.Densify(pointSite, segmentSite, discretization[0], discretization[1], max_distance);
+            return ParabolaComputation.Densify(pointSite, segmentSite, discretization[0], discretization[1], max_distance);
         }
 
 
