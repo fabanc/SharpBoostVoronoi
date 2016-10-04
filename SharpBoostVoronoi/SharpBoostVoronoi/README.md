@@ -169,3 +169,13 @@ The boost API does not provide an ad-hoc method to draw those curves. The SharpB
                 }
             }
 ```
+##Exceptions
+
+Trying to interpolate curves into a set of segments can return an exception for 2 identified cases:
+
+1. FocusOnDirectixException: The input point is actually located on the input line. In that case, there can not be any computation of a parabola since a parabola is a line of equal distance between a point (focus) and a line (directix).
+2. UnsolvableVertexException: The point computed by at the start / end of the parabola does not match the point returned by Boost, even though the point computed is indeed at mid distance between the input point and the input segment. In that case, we can not rely on the parabola equation.
+
+The current recommendation is to trap those exceptions an draw the voronoi edge as a straight line. Both of those exception will return an attribute of type ParabolaProblemInformation returning all the parameters that were used when attempting to solve the parabola equation. This can be used for logging purposes.
+At that point it is not sure why Boost sometimes return cases that trigger those exceptions. This is currently under investigation.
+

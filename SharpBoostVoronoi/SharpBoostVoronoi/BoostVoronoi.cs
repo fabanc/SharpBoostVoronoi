@@ -205,15 +205,6 @@ namespace SharpBoostVoronoi
         
             pointSite = RetrievePoint(Cells[pointCell]);
             segmentSite = RetrieveSegment(Cells[lineCell]);
-
-            if (pointSite.HasSameCoordinates(segmentSite.Start))
-                throw new InvalidCurveInputSites(String.Format(
-                    "The point site of one cell is located on the starting point of the segment site of the other cell. Point Site: {0}, Segment Site: {1}, Point Cell Type: {2}",
-                    pointSite.ToString(), segmentSite.ToString(), Cells[pointCell].SourceCategory));
-
-            if (pointSite.HasSameCoordinates(segmentSite.End))
-                throw new InvalidCurveInputSites(String.Format("The point site of one cell is located on the ending point of the segment site of the other cell. Point Site: {0}, Segment Site: {1}, Point Cell Type: {2}",
-                    pointSite.ToString(), segmentSite.ToString(), Cells[pointCell].SourceCategory));
         
             List<Vertex> discretization = new List<Vertex>(){
                 Vertices[edge.Start],

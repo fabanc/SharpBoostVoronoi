@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SharpBoostVoronoi.Exceptions
 {
-    public class UnsolvableVertexException:Exception
+    public class UnsolvableVertexException:Exception, IParabolaException
     {
         public Vertex BoostVertex { get; set; }
         public Vertex ComputedVertex { get; set; }

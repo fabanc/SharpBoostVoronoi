@@ -23,5 +23,16 @@ namespace SharpBoostVoronoi.Exceptions
             ParabolaStart = parabolaStart;
             ParabolaEnd = parabolaEnd;
         }
+
+        public List<Tuple<Vertex, string>> GetAsVertexList()
+        {
+            return new List<Tuple<Vertex, string>>(){
+                Tuple.Create<Vertex, string>(FocusPoint, "Focus"),
+                Tuple.Create<Vertex, string>(DirectixSegmentStart, "DirectixStart"),
+                Tuple.Create<Vertex, string>(DirectixSegmentEnd, "DirectixEnd"),
+                Tuple.Create<Vertex, string>(ParabolaStart, "ParabolaStart"),
+                Tuple.Create<Vertex, string>(ParabolaEnd, "ParabolaEnd")
+            };
+        }
     }
 }

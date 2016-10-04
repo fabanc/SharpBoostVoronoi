@@ -37,6 +37,9 @@ namespace SharpBoostVoronoi.CurveSampling
         /// <returns>The y value associated with x</returns>
         static double ParabolaY(double x, Vertex focus, double directrix_y)
         {
+            double numerator = (2 * (focus.Y - directrix_y));
+            double denominator = (Math.Pow(x - focus.X, 2) + Math.Pow(focus.Y, 2) - Math.Pow(directrix_y, 2));
+
             return (Math.Pow(x - focus.X, 2) + Math.Pow(focus.Y, 2) - Math.Pow(directrix_y, 2)) / (2 * (focus.Y - directrix_y));
         }
 
@@ -150,6 +153,12 @@ namespace SharpBoostVoronoi.CurveSampling
                     par_start,
                     par_end
             );
+
+
+            double distanceFocusToDirectix = 0;
+            DistanceManager.GetClosestPointOnLine(inputVertex, dir_start, dir_end, out distanceFocusToDirectix);
+            if (distanceFocusToDirectix == 0)
+                throw new FocusOnDirectixException(nonRotatedInformation);
 
             ParabolaProblemInformation rotatedInformation = new ParabolaProblemInformation(
                 focus_rotated,
@@ -268,7 +277,10 @@ namespace SharpBoostVoronoi.CurveSampling
                     out distanceComputedPointToDirectix
             );
 
-            if (distanceComputedPointToFocus == distanceComputedPointToDirectix)
+            double distanceDiff = distanceComputedPointToFocus > distanceComputedPointToDirectix ?
+                distanceComputedPointToFocus - distanceComputedPointToDirectix : distanceComputedPointToDirectix - distanceComputedPointToFocus;
+
+            if (distanceDiff < 0.0001 || Double.IsNaN(distanceDiff) || Double.IsInfinity(distanceDiff))
                 throw new UnsolvableVertexException(nonRotatedInformation, rotatedInformation, boostPoint, parabolaPoint,
                     distanceBoostPointToFocus, distanceComputedPointToFocus, distanceBoostPointToDirectix, distanceComputedPointToDirectix);
 
