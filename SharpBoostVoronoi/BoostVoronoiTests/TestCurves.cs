@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpBoostVoronoi.Parabolas;
+using SharpBoostVoronoi.Maths;
+using SharpBoostVoronoi.Input;
 
 namespace BoostVoronoiTests
 {
@@ -10,6 +12,7 @@ namespace BoostVoronoiTests
         [TestMethod]
         public void TestRotationSampling()
         {
+
             //DiscretizeByRotation.Densify()
         }
     }

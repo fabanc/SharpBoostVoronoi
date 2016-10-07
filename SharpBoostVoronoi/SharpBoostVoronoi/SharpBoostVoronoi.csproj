@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoostVoronoi.cs" />
+    <Compile Include="Exceptions\StackException.cs" />
     <Compile Include="Parabolas\ParabolaComputation.cs" />
     <Compile Include="Exceptions\FocusOnDirectixException.cs" />
     <Compile Include="Exceptions\IParabolaException.cs" />

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SharpBoostVoronoi.Maths
 {
-    class Rotation
+    public class Rotation
     {
         /// <summary>
         /// Rotate a point by an angle around another point (origin). 

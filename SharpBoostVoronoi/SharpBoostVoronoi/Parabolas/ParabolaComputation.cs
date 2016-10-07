@@ -37,9 +37,6 @@ namespace SharpBoostVoronoi.Parabolas
         /// <returns>The y value associated with x</returns>
         static double ParabolaY(double x, Vertex focus, double directrix_y)
         {
-            double numerator = (2 * (focus.Y - directrix_y));
-            double denominator = (Math.Pow(x - focus.X, 2) + Math.Pow(focus.Y, 2) - Math.Pow(directrix_y, 2));
-
             return (Math.Pow(x - focus.X, 2) + Math.Pow(focus.Y, 2) - Math.Pow(directrix_y, 2)) / (2 * (focus.Y - directrix_y));
         }
 
@@ -55,44 +52,10 @@ namespace SharpBoostVoronoi.Parabolas
         /// <param name="par_end">The point on the parabola used as a ending point.</param>
         /// <param name="tolerance">The maximum distance between 2 points on the parabola</param>
         /// <returns></returns>
-        public static List<Vertex> Densify(Point focus, Segment dir, Vertex par_start, Vertex par_end, double tolerance)
+        public static List<Vertex> Densify(Vertex focus, Vertex dir_start, Vertex dir_end, Vertex par_start, Vertex par_end, double tolerance)
         {
             
-            //Convert the input data structure into output data structure
-            Vertex inputVertex = new Vertex(focus.X, focus.Y);
-            Vertex dir_start = new Vertex(dir.Start.X, dir.Start.Y);
-            Vertex dir_end = new Vertex(dir.End.X, dir.End.Y);
-            
-            #region Commented
-
-            //Vertex projected_parabola_start = DistanceManager.GetClosestPointOnLine(dir_start, dir_end, par_start);
-            //Vertex projected_parabola_end = DistanceManager.GetClosestPointOnLine(dir_start, dir_end, par_end);
-
-
-            //Try with projected points
-            //Vertex dir_startPoint_rotated = Rotation.rotate(
-            //    projected_parabola_start,
-            //    angle, 
-            //    shift_X, 
-            //    shift_Y
-            //);
-            //
-            //Vertex dir_endPoint_rotated = Rotation.rotate(
-            //    projected_parabola_end, 
-            //    angle, 
-            //    shift_X, 
-            //    shift_Y);
-
-
-            //double distance = 0;
-            //Vertex closestPointFromFromFocus = DistanceManager.GetClosestPointOnLine(dir_start, dir_end, inputVertex, out distance);
-            //
-            ////Get the direct x for the parabola
-            //double directrix = (dir_startPoint_rotated.Y > focus_rotated.Y) ?
-            //    focus_rotated.Y + distance : focus_rotated.Y - distance;
-
-            #endregion
-
+           
             #region Rotate Input Points
 
             //Compute the information required to perform rotation
@@ -101,7 +64,7 @@ namespace SharpBoostVoronoi.Parabolas
             double angle = GetLineAngleAsRadiant(dir_start, dir_end);
 
             Vertex focus_rotated = Rotation.Rotate(
-                inputVertex, 
+                focus, 
                 angle, 
                 shift_X, 
                 shift_Y
@@ -147,7 +110,7 @@ namespace SharpBoostVoronoi.Parabolas
             Stack<Vertex> next = new Stack<Vertex>();
 
             ParabolaProblemInformation nonRotatedInformation = new ParabolaProblemInformation(
-                    inputVertex,
+                    focus,
                     dir_start,
                     dir_end,
                     par_start,
@@ -156,7 +119,7 @@ namespace SharpBoostVoronoi.Parabolas
 
 
             double distanceFocusToDirectix = 0;
-            Distance.GetClosestPointOnLine(inputVertex, dir_start, dir_end, out distanceFocusToDirectix);
+            Distance.GetClosestPointOnLine(focus, dir_start, dir_end, out distanceFocusToDirectix);
             if (distanceFocusToDirectix == 0)
                 throw new FocusOnDirectixException(nonRotatedInformation);
 
@@ -207,6 +170,10 @@ namespace SharpBoostVoronoi.Parabolas
 
             while (next.Count > 0)
             {
+                if(next.Count > 75)
+                {
+                    throw new StackException(nonRotatedInformation);
+                }
                 Vertex current = next.Peek();
                 Vertex mid_cord = new Vertex((previous.X + current.X) / 2, (previous.Y + current.Y) / 2);
                 Vertex mid_curve = new Vertex(mid_cord.X, ParabolaY(mid_cord.X, focus_rotated, directrix));

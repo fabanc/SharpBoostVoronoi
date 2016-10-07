@@ -214,7 +214,14 @@ namespace SharpBoostVoronoi
             if (edge.IsLinear)
                 return discretization;
 
-            return ParabolaComputation.Densify(pointSite, segmentSite, discretization[0], discretization[1], max_distance);
+            return ParabolaComputation.Densify(
+                new Vertex(Convert.ToDouble(pointSite.X) / Convert.ToDouble(ScaleFactor), Convert.ToDouble(pointSite.Y) / Convert.ToDouble(ScaleFactor)), 
+                new Vertex(Convert.ToDouble(segmentSite.Start.X) / Convert.ToDouble(ScaleFactor), Convert.ToDouble(segmentSite.Start.Y) / Convert.ToDouble(ScaleFactor)),
+                new Vertex(Convert.ToDouble(segmentSite.End.X) / Convert.ToDouble(ScaleFactor), Convert.ToDouble(segmentSite.End.Y) / Convert.ToDouble(ScaleFactor)), 
+                discretization[0], 
+                discretization[1], 
+                max_distance
+            );
         }
 
 
@@ -231,14 +238,14 @@ namespace SharpBoostVoronoi
             }
             else
                 pointNoScaled = InputSegments[RetriveInputSegmentIndex(cell)].End;
-            return new Point(pointNoScaled.X / ScaleFactor, pointNoScaled.Y / ScaleFactor);
+            return new Point(pointNoScaled.X, pointNoScaled.Y);
         }
 
         private Segment RetrieveSegment(Cell cell)
         {
             Segment segmentNotScaled = InputSegments[RetriveInputSegmentIndex(cell)];
-            return new Segment(new Point(segmentNotScaled.Start.X / ScaleFactor, segmentNotScaled.Start.Y / ScaleFactor), 
-                new Point(segmentNotScaled.End.X / ScaleFactor, segmentNotScaled.End.Y / ScaleFactor));
+            return new Segment(new Point(segmentNotScaled.Start.X, segmentNotScaled.Start.Y), 
+                new Point(segmentNotScaled.End.X, segmentNotScaled.End.Y));
         }
 
         private int RetriveInputSegmentIndex(Cell cell)
