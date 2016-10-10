@@ -156,7 +156,7 @@ namespace SharpBoostVoronoi.Parabolas
                     GenerateParabolaIssueInformation(rotatedInformation, nonRotatedInformation, point.Item1, point.Item2);
                     throw new Exception(
                         String.Format(
-                            "The computed Y on the parabola for the starting point is different from the rotated point returned by Boost. Difference: {0}",
+                            "The computed Y on the parabola for the starting / ending point is different from the rotated point returned by Boost. Difference: {0}",
                             delta)
                          );
                 }
