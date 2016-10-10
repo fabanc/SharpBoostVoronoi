@@ -170,13 +170,9 @@ namespace SharpBoostVoronoi.Parabolas
 
             while (next.Count > 0)
             {
-                if(next.Count > 75)
-                {
-                    throw new StackException(nonRotatedInformation);
-                }
                 Vertex current = next.Peek();
-                Vertex mid_cord = new Vertex((previous.X + current.X) / 2, (previous.Y + current.Y) / 2);
-                Vertex mid_curve = new Vertex(mid_cord.X, ParabolaY(mid_cord.X, focus_rotated, directrix));
+                double mid_cord_x = (previous.X + current.X) / 2;
+                Vertex mid_curve = new Vertex(mid_cord_x, ParabolaY(mid_cord_x, focus_rotated, directrix));
                 double distance = Distance.ComputeDistanceBetweenPoints(current, previous);
                 if (distance > max_distance)
                 {
