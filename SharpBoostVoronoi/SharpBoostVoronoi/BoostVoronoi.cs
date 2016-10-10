@@ -14,6 +14,10 @@ namespace SharpBoostVoronoi
     public class BoostVoronoi
     {
 
+
+        private int _scaleFactor = 0;
+
+
         /// <summary>
         /// The reference to the CLR wrapper class
         /// </summary>
@@ -44,10 +48,16 @@ namespace SharpBoostVoronoi
         /// </summary>
         public List<Cell> Cells { get; set; }
 
+
         /// <summary>
         /// A scale factor. It will be used as a multiplier for input coordinates. Output coordinates will be divided by the scale factor automatically.
         /// </summary>
-        private int ScaleFactor { get; set; }
+        private int ScaleFactor { get { return _scaleFactor; } set { _scaleFactor = value; Tolerance = Convert.ToDouble(1) / _scaleFactor; } }
+
+        /// <summary>
+        /// A property used to define tolerance to parabola interpolation.
+        /// </summary>
+        public double Tolerance { get; set; } 
 
         /// <summary>
         /// Default constructor
@@ -190,8 +200,6 @@ namespace SharpBoostVoronoi
             if (m_cell.ContainsSegment == true && m_reverse_cell.ContainsSegment == true)
                                 return new List<Vertex>(){Vertices[edge.Start],Vertices[edge.End]};
 
-
-
             if(Cells[edge.Cell].ContainsPoint)
             {
                 pointCell = edge.Cell;
@@ -220,7 +228,8 @@ namespace SharpBoostVoronoi
                 new Vertex(Convert.ToDouble(segmentSite.End.X) / Convert.ToDouble(ScaleFactor), Convert.ToDouble(segmentSite.End.Y) / Convert.ToDouble(ScaleFactor)), 
                 discretization[0], 
                 discretization[1], 
-                max_distance
+                max_distance,
+                Tolerance
             );
         }
 

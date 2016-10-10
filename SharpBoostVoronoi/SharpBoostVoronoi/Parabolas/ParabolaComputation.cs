@@ -12,9 +12,6 @@ namespace SharpBoostVoronoi.Parabolas
 {
     public class ParabolaComputation
     {
-
-
-
         /// <summary>
         /// Return the angle between 2 points as radians
         /// </summary>
@@ -50,12 +47,18 @@ namespace SharpBoostVoronoi.Parabolas
         /// <param name="dir">The input segment that will be used a the directix</param>
         /// <param name="par_start">The point on the parabola used as a starting point.</param>
         /// <param name="par_end">The point on the parabola used as a ending point.</param>
+        /// <param name="max_distance">The maximum distance between 2 points on the parabola</param>
         /// <param name="tolerance">The maximum distance between 2 points on the parabola</param>
         /// <returns></returns>
-        public static List<Vertex> Densify(Vertex focus, Vertex dir_start, Vertex dir_end, Vertex par_start, Vertex par_end, double tolerance)
+        public static List<Vertex> Densify(Vertex focus, Vertex dir_start, Vertex dir_end, Vertex par_start, Vertex par_end, double max_distance, double tolerance)
         {
-            
-           
+
+            if (max_distance <= 0)
+                throw new ArgumentOutOfRangeException(String.Format("The maximum distance must be greater than 0. Value passed: {0}", max_distance));
+
+            if (tolerance < 0)
+                throw new ArgumentOutOfRangeException(String.Format("The tolerance must be greater than or equal to 0. Value passed: {0}", tolerance));
+
             #region Rotate Input Points
 
             //Compute the information required to perform rotation
@@ -102,7 +105,6 @@ namespace SharpBoostVoronoi.Parabolas
             #region Validate the equation on first and last points given by Boost
             //Set parabola parameters
             double directrix = dir_endPoint_rotated.Y;
-            double max_distance = tolerance;
             double snapTolerance = 5;
 
 
@@ -153,7 +155,7 @@ namespace SharpBoostVoronoi.Parabolas
 
                 if (delta > snapTolerance)
                 {
-                    GenerateParabolaIssueInformation(rotatedInformation, nonRotatedInformation, point.Item1, point.Item2);
+                    GenerateParabolaIssueInformation(rotatedInformation, nonRotatedInformation, point.Item1, point.Item2, 0.001);
                     throw new Exception(
                         String.Format(
                             "The computed Y on the parabola for the starting / ending point is different from the rotated point returned by Boost. Difference: {0}",
@@ -211,12 +213,16 @@ namespace SharpBoostVoronoi.Parabolas
         /// <summary>
         /// Generate an exception when the point computed by the parabola equation is different from the point computed by boost.
         /// </summary>
-        /// <param name="rotatedInformation"></param>
-        /// <param name="nonRotatedInformation"></param>
-        /// <param name="boostPoint"></param>
-        /// <param name="parabolaPoint"></param>
-        private static void GenerateParabolaIssueInformation(ParabolaProblemInformation rotatedInformation, ParabolaProblemInformation nonRotatedInformation, Vertex boostPoint, Vertex parabolaPoint)
+        /// <param name="rotatedInformation">The information used to solve parabola. This is the is the information before the rotation.</param>
+        /// <param name="nonRotatedInformation">The information used to solve parabola. This is the is the information after the rotation.</param>
+        /// <param name="boostPoint">The point on the parabola returned by Boost.</param>
+        /// <param name="parabolaPoint">The point on the parabola computed.</param>
+        /// <param name="tolerance">The tolerance used to decide if an exception need to be raise.</param>
+        private static void GenerateParabolaIssueInformation(ParabolaProblemInformation rotatedInformation, ParabolaProblemInformation nonRotatedInformation, Vertex boostPoint, Vertex parabolaPoint, double tolerance)
         {
+            if (tolerance < 0)
+                throw new ArgumentOutOfRangeException(String.Format("Tolenrance must be greater than 0"));
+
             double minX = Math.Min(Math.Min(Math.Min(rotatedInformation.DirectixSegmentStart.X, rotatedInformation.DirectixSegmentStart.X), boostPoint.X), parabolaPoint.X);
             double maxX = Math.Max(Math.Max(Math.Max(rotatedInformation.DirectixSegmentStart.X, rotatedInformation.DirectixSegmentStart.X), boostPoint.X), parabolaPoint.X);
 
@@ -243,7 +249,7 @@ namespace SharpBoostVoronoi.Parabolas
             double distanceDiff = distanceComputedPointToFocus > distanceComputedPointToDirectix ?
                 distanceComputedPointToFocus - distanceComputedPointToDirectix : distanceComputedPointToDirectix - distanceComputedPointToFocus;
 
-            if (distanceDiff < 0.0001 || Double.IsNaN(distanceDiff) || Double.IsInfinity(distanceDiff))
+            if (distanceDiff < tolerance || Double.IsNaN(distanceDiff) || Double.IsInfinity(distanceDiff))
                 throw new UnsolvableVertexException(nonRotatedInformation, rotatedInformation, boostPoint, parabolaPoint,
                     distanceBoostPointToFocus, distanceComputedPointToFocus, distanceBoostPointToDirectix, distanceComputedPointToDirectix);
 

@@ -14,14 +14,13 @@ namespace BoostVoronoiTests
         [TestMethod]
         public void TestRotationSampling()
         {
-            Vertex focus = new Vertex(-8497612.8036, 5686669.417599998);
-            Vertex dir_start = new Vertex(-8497346.9281, 5686392.4868);
-            Vertex dir_end = new Vertex(-8497375.7487, 5686444.038099997);
-            Vertex par_start = new Vertex(-8497912.816628259, 5686117.636838556);
-            Vertex par_end = new Vertex(-8497875.094202437, 5686156.284323769);
-            double max_dist = 5.4005643438;
-            List<Vertex> vertices = ParabolaComputation.Densify(focus, dir_start, dir_end, par_start, par_end, max_dist);
-            string test = "done";
+            //Vertex focus = new Vertex(-8496176.682, 5685101.868299998);
+            //Vertex dir_start = new Vertex(-8496179.5985, 5685106.101499997);
+            //Vertex dir_end = new Vertex(-8496758.894, 5685732.971299998);
+            //Vertex par_start = new Vertex(-8497194.930129534, 5684221.662449725);
+            //Vertex par_end = new Vertex(-8496235.265591182, 5685061.651492846);
+            //double max_dist = 127.535783948;
+            //List<Vertex> vertices = ParabolaComputation.Densify(focus, dir_start, dir_end, par_start, par_end, max_dist, 0.001);
         }
     }
 }
