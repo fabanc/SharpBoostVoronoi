@@ -2,16 +2,16 @@
   AssemblyInfo.cpp
   BoostVoronoi_4x5x0.cpp
 c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(48): warning C4244: 'return' : conversion from 'const double' to 'boost::polygon::point_traits<Point>::coordinate_type', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(194): warning C4244: 'argument' : conversion from '__int64' to 'size_t', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(249): warning C4244: 'argument' : conversion from '__int64' to 'long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(255): warning C4244: 'argument' : conversion from '__int64' to 'const long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(289): warning C4244: 'argument' : conversion from '__int64' to 'unsigned int', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(289): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(321): warning C4018: '<' : signed/unsigned mismatch
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(344): warning C4018: '<' : signed/unsigned mismatch
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(346): warning C4244: 'argument' : conversion from '__int64' to 'long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(359): warning C4018: '<' : signed/unsigned mismatch
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(363): warning C4018: '<' : signed/unsigned mismatch
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(193): warning C4244: 'argument' : conversion from '__int64' to 'size_t', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(248): warning C4244: 'argument' : conversion from '__int64' to 'long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(254): warning C4244: 'argument' : conversion from '__int64' to 'const long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(288): warning C4244: 'argument' : conversion from '__int64' to 'unsigned int', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(288): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(323): warning C4018: '<' : signed/unsigned mismatch
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(348): warning C4018: '<' : signed/unsigned mismatch
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(351): warning C4244: 'argument' : conversion from '__int64' to 'long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(364): warning C4018: '<' : signed/unsigned mismatch
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(368): warning C4018: '<' : signed/unsigned mismatch
   Generating Code...
   .NETFramework,Version=v4.5.AssemblyAttributes.cpp
   BoostVoronoi_4x5x0.vcxproj -> C:\github\SharpBoostVoronoi\SharpBoostVoronoi\C++Wrapper\Release\BoostVoronoi_4x5x0.dll

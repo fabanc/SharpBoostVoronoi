@@ -127,23 +127,18 @@ namespace boost {
 	public:
 		std::vector<Point> points;
 		std::vector<Segment> segments;
-		voronoi_diagram<double> vd;
+		
 
 		//Output data storage
-		std::map<const voronoi_diagram<double>::vertex_type*, long long> vertexMap;
-		std::map<const voronoi_diagram<double>::edge_type*, long long> edgeMap;
-
 		std::vector<c_Vertex> vertices;
 		std::vector<c_Edge> edges;
 		std::vector<c_Cell> cells;
-
 
 		void AddPoint(int x, int y);
 		void AddSegment(int x1, int y1, int x2, int y2);
 		void ConstructVoronoi();
 
 		List<Tuple<double, double>^>^ GetVertices();
-		List<Tuple<double, double>^>^ GetVerticesUnmapped();
 		List<Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>^>^ GetEdges();
 		List<Tuple<long, long, bool, bool, List<long>^, bool, int>^>^ GetCells();
 
@@ -151,9 +146,12 @@ namespace boost {
 
 	void Voronoi::ConstructVoronoi()
 	{
+		voronoi_diagram<double> vd;
 		boost::polygon::construct_voronoi(points.begin(), points.end(), segments.begin(), segments.end(), &vd);
 
-		//Iterate through the results
+		//Data structure for numbering
+		std::map<const voronoi_diagram<double>::vertex_type*, long long> vertexMap;
+		std::map<const voronoi_diagram<double>::edge_type*, long long> edgeMap;
 
 		//An identifier for cells
 		long long cell_identifier = 0;
@@ -295,6 +293,9 @@ namespace boost {
 				}
 			}
 		}
+
+		vertexMap.clear();
+		edgeMap.clear();
 	};
 
 	void Voronoi::AddPoint(int x, int y)
@@ -325,24 +326,18 @@ namespace boost {
 		return ret;
 	};
 
-	List<Tuple<double, double>^>^ Voronoi::GetVerticesUnmapped()
-	{
-		List<Tuple<double, double>^>^ ret = gcnew List<Tuple<double, double>^>();
-		for (voronoi_diagram<double>::const_vertex_iterator it = vd.vertices().begin(); it != vd.vertices().end(); ++it) {
-			Tuple<double, double>^ t = gcnew Tuple<double, double>(it->x(), it->y());
-			ret->Add(t);
-		}
-		return ret;
-	}
 
 	/// <summary>
 	/// Return the list of edges
 	/// </summary>
 	List<Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>^>^ Voronoi::GetEdges()
 	{
-		List<Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>^>^ ret = gcnew List<Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>^>();
+		List<Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>^>^ ret = 
+			gcnew List<Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>^>();
+
 		for (int i = 0; i < edges.size(); i++) {
-			Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>^ t = gcnew Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>(i, edges[i].start, edges[i].end,
+			Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>^ t = 
+				gcnew Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>(i, edges[i].start, edges[i].end,
 				edges[i].site, gcnew Tuple<bool, bool, bool, long, long>(edges[i].isPrimary, edges[i].isLinear, edges[i].isFinite, edges[i].cell, edges[i].twin));
 			ret->Add(t);
 		}
@@ -417,10 +412,6 @@ namespace boost {
 			return v->GetCells();
 		}
 
-		List<Tuple<double, double>^>^ GetVerticesUnmapped()
-		{
-			return v->GetVerticesUnmapped();
-		};
 	};
 
 }  // boost

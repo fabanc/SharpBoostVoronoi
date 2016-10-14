@@ -32,9 +32,37 @@ namespace PerformanceTesting
             segments = PopulateSegment(100, 2500);
             ConstructAndMeasure(ref points, ref segments);
 
+            points = new List<Point>();
+            segments = PopulateSegment(100, 3500);
+            ConstructAndMeasure(ref points, ref segments);
+
+            points = new List<Point>();
+            segments = PopulateSegment(100, 4000);
+            ConstructAndMeasure(ref points, ref segments);
+
+
+            points = new List<Point>();
+            segments = PopulateSegment(100, 4500);
+            ConstructAndMeasure(ref points, ref segments);
 
             points = new List<Point>();
             segments = PopulateSegment(100, 5000);
+            ConstructAndMeasure(ref points, ref segments);
+
+            points = new List<Point>();
+            segments = PopulateSegment(100, 5500);
+            ConstructAndMeasure(ref points, ref segments);
+
+            points = new List<Point>();
+            segments = PopulateSegment(100, 6000);
+            ConstructAndMeasure(ref points, ref segments);
+
+            points = new List<Point>();
+            segments = PopulateSegment(100, 6500);
+            ConstructAndMeasure(ref points, ref segments);
+
+            points = new List<Point>();
+            segments = PopulateSegment(100, 7000);
             ConstructAndMeasure(ref points, ref segments);
 
             points = new List<Point>();
@@ -56,7 +84,9 @@ namespace PerformanceTesting
             {
                 for (int j = 0; j < maxY; j++)
                 {
-                    segments.Add(new Segment(new Point(i, j), new Point(i + 1, j + 1)));
+                    segments.Add(new Segment(new Point(i, j), new Point(i, j + 1)));
+                    //segments.Add(new Segment(new Point(i, j), new Point(i + 1, j)));
+                    //segments.Add(new Segment(new Point(i, j), new Point(i + 1, j + 1)));
                 }
             }
             return segments;
