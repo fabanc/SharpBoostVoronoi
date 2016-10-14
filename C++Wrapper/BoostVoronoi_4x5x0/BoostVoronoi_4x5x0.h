@@ -75,12 +75,12 @@ namespace boost {
 
 
 	struct c_Edge {
-		long long start;
-		long long end;
+		long start;
+		long end;
 
 		bool isPrimary;
 
-		size_t site;
+		long site;
 
 		bool isLinear;
 		bool isFinite;
@@ -88,7 +88,7 @@ namespace boost {
 		long cell;
 		long twin;
 
-		c_Edge(long long start = -1, long long end = -1, bool isPrimary = false, size_t site = -1, bool isLinear = false, bool isFinite = false, long cell = -1, long twin = -1) {
+		c_Edge(long start = -1, long end = -1, bool isPrimary = false, long site = -1, bool isLinear = false, bool isFinite = false, long cell = -1, long twin = -1) {
 			this->start = start;
 			this->end = end;
 			this->isPrimary = isPrimary;
@@ -101,8 +101,8 @@ namespace boost {
 	};
 
 	struct c_Cell{
-		size_t cellId;
-		size_t source_index;
+		long  cellId;
+		long source_index;
 		bool contains_point;
 		bool contains_segment;
 		bool is_open;
@@ -112,7 +112,7 @@ namespace boost {
 
 		short source_category;
 
-		c_Cell(size_t cellId = -1, size_t source_index = -1, bool contains_point = false, bool contains_segment = false, bool is_open = false, short source_category = -1){
+		c_Cell(long cellId = -1, long source_index = -1, bool contains_point = false, bool contains_segment = false, bool is_open = false, short source_category = -1){
 			this->cellId = cellId;
 			this->source_index = source_index;
 			this->contains_point = contains_point;
@@ -154,7 +154,7 @@ namespace boost {
 		std::map<const voronoi_diagram<double>::edge_type*, long long> edgeMap;
 
 		//An identifier for cells
-		long long cell_identifier = 0;
+		long cell_identifier = 0;
 
 		//Iterate through cells
 		for (voronoi_diagram<double>::const_cell_iterator it = vd.cells().begin(); it != vd.cells().end(); ++it) {
