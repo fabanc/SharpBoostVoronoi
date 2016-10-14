@@ -150,8 +150,8 @@ namespace boost {
 		boost::polygon::construct_voronoi(points.begin(), points.end(), segments.begin(), segments.end(), &vd);
 
 		//Data structure for numbering
-		std::map<const voronoi_diagram<double>::vertex_type*, long long> vertexMap;
-		std::map<const voronoi_diagram<double>::edge_type*, long long> edgeMap;
+		std::map<const voronoi_diagram<double>::vertex_type*, long> vertexMap;
+		std::map<const voronoi_diagram<double>::edge_type*, long> edgeMap;
 
 		//An identifier for cells
 		long cell_identifier = 0;
@@ -204,7 +204,7 @@ namespace boost {
 						if (v0 != 0){
 
 							//Check if the vertex exists in the map
-							std::map<const voronoi_diagram<double>::vertex_type*, long long>::iterator vertexMapIterator = 
+							std::map<const voronoi_diagram<double>::vertex_type*, long>::iterator vertexMapIterator = 
 								vertexMap.find(v0);
 
 							//If the vertex is not in the map, add it to the vector and the map. If not fetch the index.
@@ -224,7 +224,7 @@ namespace boost {
 						if (v1 != 0){
 
 							//Check if the vertex exists in the map
-							std::map<const voronoi_diagram<double>::vertex_type*, long long>::iterator vertexMapIterator = 
+							std::map<const voronoi_diagram<double>::vertex_type*, long>::iterator vertexMapIterator = 
 								vertexMap.find(v1);
 
 							//If the vertex is not in the map, add it to the vector and the map. If not fetch the index.
@@ -276,7 +276,7 @@ namespace boost {
 				{
 					do {
 						long long edge_id = -1;
-						std::map<const voronoi_diagram<double>::edge_type *, long long>::iterator edgeMapIterator = edgeMap.find(edge);
+						std::map<const voronoi_diagram<double>::edge_type *, long>::iterator edgeMapIterator = edgeMap.find(edge);
 						if (edgeMapIterator != edgeMap.end()){
 							edge_id = edgeMapIterator->second;
 						}
