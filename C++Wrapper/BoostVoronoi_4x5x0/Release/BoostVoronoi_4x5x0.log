@@ -8,10 +8,6 @@ c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\Boos
 c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(252): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data
 c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(253): warning C4244: 'argument' : conversion from '__int64' to 'const long', possible loss of data
 c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(287): warning C4244: 'argument' : conversion from '__int64' to 'unsigned int', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(322): warning C4018: '<' : signed/unsigned mismatch
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(338): warning C4018: '<' : signed/unsigned mismatch
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(354): warning C4018: '<' : signed/unsigned mismatch
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(358): warning C4018: '<' : signed/unsigned mismatch
   Generating Code...
   .NETFramework,Version=v4.5.AssemblyAttributes.cpp
   BoostVoronoi_4x5x0.vcxproj -> C:\github\SharpBoostVoronoi\SharpBoostVoronoi\C++Wrapper\Release\BoostVoronoi_4x5x0.dll

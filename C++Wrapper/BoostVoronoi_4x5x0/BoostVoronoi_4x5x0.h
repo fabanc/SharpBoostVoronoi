@@ -319,7 +319,7 @@ namespace boost {
 	List<Tuple<double, double>^>^ Voronoi::GetVertices()
 	{
 		List<Tuple<double, double>^>^ ret = gcnew List<Tuple<double, double>^>();
-		for (int i = 0; i < vertices.size(); i++) {
+		for (size_t i = 0; i < vertices.size(); i++) {
 			Tuple<double, double>^ t = gcnew Tuple<double, double>(vertices[i].X, vertices[i].Y);
 			ret->Add(t);
 		}
@@ -335,7 +335,7 @@ namespace boost {
 		List<Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>^>^ ret = 
 			gcnew List<Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>^>();
 
-		for (int i = 0; i < edges.size(); i++) {
+		for (size_t i = 0; i < edges.size(); i++) {
 			Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>^ t = 
 				gcnew Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>(i, edges[i].start, edges[i].end,
 				edges[i].site, gcnew Tuple<bool, bool, bool, long, long>(edges[i].isPrimary, edges[i].isLinear, edges[i].isFinite, edges[i].cell, edges[i].twin));
@@ -351,11 +351,11 @@ namespace boost {
 	{
 		long cell_identifier = 0;
 		List<Tuple<long, long, bool, bool, List<long>^, bool, short>^>^ ret = gcnew List<Tuple<long, long, bool, bool, List<long>^, bool, short>^>();
-		for (int i = 0; i < cells.size(); i++) {
+		for (size_t i = 0; i < cells.size(); i++) {
 
 			//Create the list of identifiers
 			List<long>^ edge_list = gcnew List<long>();
-			for (int j = 0; j < cells[i].edges.size(); j++) {
+			for (size_t j = 0; j < cells[i].edges.size(); j++) {
 				edge_list->Add(cells[i].edges[j]);
 			}
 
