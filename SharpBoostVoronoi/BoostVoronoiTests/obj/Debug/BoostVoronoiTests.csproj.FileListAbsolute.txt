@@ -5,12 +5,12 @@ c:\users\fancelin\documents\visual studio 2013\Projects\SharpBoostVoronoi\BoostV
 c:\users\fancelin\documents\visual studio 2013\Projects\SharpBoostVoronoi\BoostVoronoiTests\obj\Debug\BoostVoronoiTests.dll
 c:\users\fancelin\documents\visual studio 2013\Projects\SharpBoostVoronoi\BoostVoronoiTests\obj\Debug\BoostVoronoiTests.pdb
 c:\users\fancelin\documents\visual studio 2013\Projects\SharpBoostVoronoi\BoostVoronoiTests\obj\Debug\BoostVoronoiTests.csprojResolveAssemblyReference.cache
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\BoostVoronoiTests\obj\Debug\BoostVoronoiTests.csprojResolveAssemblyReference.cache
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\BoostVoronoiTests\bin\Debug\BoostVoronoiTests.dll
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\BoostVoronoiTests\bin\Debug\BoostVoronoiTests.pdb
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\BoostVoronoiTests\bin\Debug\BoostVoronoi_4x5x0.dll
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\BoostVoronoiTests\bin\Debug\SharpBoostVoronoi.dll
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\BoostVoronoiTests\bin\Debug\SharpBoostVoronoi.pdb
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\BoostVoronoiTests\bin\Debug\BoostVoronoi_4x5x0.pdb
-C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\BoostVoronoiTests\obj\Debug\BoostVoronoiTests.csprojResolveAssemblyReference.cache
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\BoostVoronoiTests\obj\Debug\BoostVoronoiTests.dll
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\BoostVoronoiTests\obj\Debug\BoostVoronoiTests.pdb

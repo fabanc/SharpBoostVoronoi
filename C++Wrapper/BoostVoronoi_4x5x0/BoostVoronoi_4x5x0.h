@@ -107,12 +107,12 @@ namespace boost {
 		bool contains_segment;
 		bool is_open;
 
-		std::vector<long> vertices;
+		//std::vector<long> vertices;
 		std::vector<long> edges;
 
-		int source_category;
+		short source_category;
 
-		c_Cell(size_t cellId = -1, size_t source_index = -1, bool contains_point = false, bool contains_segment = false, bool is_open = false, int source_category = -1){
+		c_Cell(size_t cellId = -1, size_t source_index = -1, bool contains_point = false, bool contains_segment = false, bool is_open = false, short source_category = -1){
 			this->cellId = cellId;
 			this->source_index = source_index;
 			this->contains_point = contains_point;
@@ -140,7 +140,7 @@ namespace boost {
 
 		List<Tuple<double, double>^>^ GetVertices();
 		List<Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>^>^ GetEdges();
-		List<Tuple<long, long, bool, bool, List<long>^, bool, int>^>^ GetCells();
+		List<Tuple<long, long, bool, bool, List<long>^, bool, short>^>^ GetCells();
 
 	};
 
@@ -347,10 +347,10 @@ namespace boost {
 	/// <summary>
 	/// Return the list of cells
 	/// </summary>
-	List<Tuple<long, long, bool, bool, List<long>^, bool, int>^>^ Voronoi::GetCells()
+	List<Tuple<long, long, bool, bool, List<long>^, bool, short>^>^ Voronoi::GetCells()
 	{
 		long cell_identifier = 0;
-		List<Tuple<long, long, bool, bool, List<long>^, bool, int>^>^ ret = gcnew List<Tuple<long, long, bool, bool, List<long>^, bool, int>^>();
+		List<Tuple<long, long, bool, bool, List<long>^, bool, short>^>^ ret = gcnew List<Tuple<long, long, bool, bool, List<long>^, bool, short>^>();
 		for (int i = 0; i < cells.size(); i++) {
 
 			//Create the list of identifiers
@@ -360,7 +360,7 @@ namespace boost {
 			}
 
 			//Populate the cells info
-			Tuple<long, long, bool, bool, List<long>^, bool, int>^ t = gcnew Tuple <long, long, bool, bool, List<long>^, bool, int>(
+			Tuple<long, long, bool, bool, List<long>^, bool, short>^ t = gcnew Tuple <long, long, bool, bool, List<long>^, bool, short>(
 				cells[i].cellId, 
 				cells[i].source_index,
 				cells[i].contains_point, 
@@ -407,7 +407,7 @@ namespace boost {
 			return v->GetEdges();
 		};
 
-		List<Tuple<long, long, bool, bool, List<long>^, bool, int>^>^ GetCells()
+		List<Tuple<long, long, bool, bool, List<long>^, bool, short>^>^ GetCells()
 		{
 			return v->GetCells();
 		}
