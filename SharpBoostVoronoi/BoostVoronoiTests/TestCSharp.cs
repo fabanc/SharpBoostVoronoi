@@ -413,7 +413,73 @@ namespace BoostVoronoiTests
         }
 
 
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void TestFindInputPointSiteException()
+        {
+            List<Point> inputPoint = new List<Point>() { new Point(5, 5) };
+            List<Segment> inputSegment = new List<Segment>();
+            inputSegment.Add(new Segment(0, 0, 0, 10));
+            inputSegment.Add(new Segment(0, 0, 10, 0));
+            inputSegment.Add(new Segment(0, 10, 10, 10));
+            inputSegment.Add(new Segment(10, 0, 10, 10));
 
+            //Build the C# Voronoi
+            BoostVoronoi bv = new BoostVoronoi();
+            foreach (var p in inputPoint)
+                bv.AddPoint(p.X, p.Y);
+            foreach (var s in inputSegment)
+                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+
+            bv.Construct();
+            List<Vertex> vertices = bv.Vertices;
+            List<Edge> sharpEdges = bv.Edges;
+            List<Cell> cells = bv.Cells;
+
+            for (int i = 0; i < cells.Count; i++)
+            {
+                if(cells[i].SourceCategory != CellSourceCatory.SegmentStartPoint 
+                    && cells[i].SourceCategory != CellSourceCatory.SegmentEndPoint 
+                    && cells[i].SourceCategory != CellSourceCatory.SinglePoint)
+                {
+                    bv.RetrieveInputPoint(cells[i]);
+                }   
+            }
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void TestFindInputSegmentSiteException()
+        {
+            List<Point> inputPoint = new List<Point>() { new Point(5, 5) };
+            List<Segment> inputSegment = new List<Segment>();
+            inputSegment.Add(new Segment(0, 0, 0, 10));
+            inputSegment.Add(new Segment(0, 0, 10, 0));
+            inputSegment.Add(new Segment(0, 10, 10, 10));
+            inputSegment.Add(new Segment(10, 0, 10, 10));
+
+            //Build the C# Voronoi
+            BoostVoronoi bv = new BoostVoronoi();
+            foreach (var p in inputPoint)
+                bv.AddPoint(p.X, p.Y);
+            foreach (var s in inputSegment)
+                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+
+            bv.Construct();
+            List<Vertex> vertices = bv.Vertices;
+            List<Edge> sharpEdges = bv.Edges;
+            List<Cell> cells = bv.Cells;
+
+            for (int i = 0; i < cells.Count; i++)
+            {
+                if (cells[i].SourceCategory != CellSourceCatory.InitialSegment
+                    && cells[i].SourceCategory != CellSourceCatory.ReverseSegment)
+                {
+                    bv.RetrieveInputSegment(cells[i]);
+                }
+            }
+        }
 
     }
 }

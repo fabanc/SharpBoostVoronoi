@@ -22,5 +22,7 @@ namespace BoostVoronoiTests
             //double max_dist = 127.535783948;
             //List<Vertex> vertices = ParabolaComputation.Densify(focus, dir_start, dir_end, par_start, par_end, max_dist, 0.001);
         }
+
+
     }
 }
