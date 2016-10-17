@@ -52,7 +52,7 @@ namespace SharpBoostVoronoi
         /// <summary>
         /// A scale factor. It will be used as a multiplier for input coordinates. Output coordinates will be divided by the scale factor automatically.
         /// </summary>
-        private int ScaleFactor { get { return _scaleFactor; } set { _scaleFactor = value; Tolerance = Convert.ToDouble(1) / _scaleFactor; } }
+        public int ScaleFactor { get { return _scaleFactor; } private set { _scaleFactor = value; Tolerance = Convert.ToDouble(1) / _scaleFactor; } }
 
         /// <summary>
         /// A property used to define tolerance to parabola interpolation.
@@ -211,8 +211,8 @@ namespace SharpBoostVoronoi
                 pointCell = Edges[edge.Twin].Cell;
             }
         
-            pointSite = RetrievePoint(Cells[pointCell]);
-            segmentSite = RetrieveSegment(Cells[lineCell]);
+            pointSite = RetrieveInputPoint(Cells[pointCell]);
+            segmentSite = RetrieveInputSegment(Cells[lineCell]);
         
             List<Vertex> discretization = new List<Vertex>(){
                 Vertices[edge.Start],
@@ -234,23 +234,39 @@ namespace SharpBoostVoronoi
         }
 
 
-
-        private Point RetrievePoint(Cell cell)
+        /// <summary>
+        ///  Retrieve the input point site asssociated with a cell. The point returned is the one
+        ///  sent to boost. If a scale factor was used, then the output coordinates should be divided by the
+        ///  scale factor. An exception will be returned if this method is called on a cell that does
+        ///  not contain a point site.
+        /// </summary>
+        /// <param name="cell">The cell that contains the point site.</param>
+        /// <returns>The input point site of the cell.</returns>
+        public Point RetrieveInputPoint(Cell cell)
         {
             Point pointNoScaled = null;
-            if(cell.SourceCategory == CellSourceCatory.SinglePoint)
-                pointNoScaled =  InputPoints[cell.Site];
+            if (cell.SourceCategory == CellSourceCatory.SinglePoint)
+                pointNoScaled = InputPoints[cell.Site];
             else if (cell.SourceCategory == CellSourceCatory.SegmentStartPoint)
-            {
-                Segment segment = InputSegments[RetriveInputSegmentIndex(cell)];
                 pointNoScaled = InputSegments[RetriveInputSegmentIndex(cell)].Start;
-            }
-            else
+            else if (cell.SourceCategory == CellSourceCatory.SegmentEndPoint)
                 pointNoScaled = InputSegments[RetriveInputSegmentIndex(cell)].End;
+            else
+                throw new Exception("This cells does not have a point as input site");
+
             return new Point(pointNoScaled.X, pointNoScaled.Y);
         }
 
-        private Segment RetrieveSegment(Cell cell)
+
+        /// <summary>
+        ///  Retrieve the input segment site asssociated with a cell. The segment returned is the one
+        ///  sent to boost. If a scale factor was used, then the output coordinates should be divided by the
+        ///  scale factor. An exception will be returned if this method is called on a cell that does
+        ///  not contain a segment site.
+        /// </summary>
+        /// <param name="cell">The cell that contains the segment site.</param>
+        /// <returns>The input segment site of the cell.</returns>
+        public Segment RetrieveInputSegment(Cell cell)
         {
             Segment segmentNotScaled = InputSegments[RetriveInputSegmentIndex(cell)];
             return new Segment(new Point(segmentNotScaled.Start.X, segmentNotScaled.Start.Y), 
