@@ -1,0 +1,9 @@
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\PerformanceTesting\bin\Release\PerformanceTesting.exe.config
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\PerformanceTesting\bin\Release\PerformanceTesting.exe
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\PerformanceTesting\bin\Release\PerformanceTesting.pdb
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\PerformanceTesting\bin\Release\SharpBoostVoronoi.dll
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\PerformanceTesting\bin\Release\BoostVoronoi_4x5x0.dll
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\PerformanceTesting\bin\Release\SharpBoostVoronoi.pdb
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\PerformanceTesting\bin\Release\BoostVoronoi_4x5x0.pdb
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\PerformanceTesting\obj\Release\PerformanceTesting.exe
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\PerformanceTesting\obj\Release\PerformanceTesting.pdb
