@@ -41,37 +41,42 @@ namespace PerformanceTesting
             ConstructAndMeasure(ref points, ref segments);
 
 
-            points = new List<Point>();
-            segments = PopulateSegment(100, 4500);
-            ConstructAndMeasure(ref points, ref segments);
+            //points = new List<Point>();
+            //segments = PopulateSegment(100, 4500);
+            //ConstructAndMeasure(ref points, ref segments);
 
-            points = new List<Point>();
-            segments = PopulateSegment(100, 5000);
-            ConstructAndMeasure(ref points, ref segments);
+            //points = new List<Point>();
+            //segments = PopulateSegment(100, 5000);
+            //ConstructAndMeasure(ref points, ref segments);
 
-            points = new List<Point>();
-            segments = PopulateSegment(100, 5500);
-            ConstructAndMeasure(ref points, ref segments);
+            //points = new List<Point>();
+            //segments = PopulateSegment(100, 5500);
+            //ConstructAndMeasure(ref points, ref segments);
 
-            points = new List<Point>();
-            segments = PopulateSegment(100, 6000);
-            ConstructAndMeasure(ref points, ref segments);
+            //points = new List<Point>();
+            //segments = PopulateSegment(100, 6000);
+            //ConstructAndMeasure(ref points, ref segments);
 
-            points = new List<Point>();
-            segments = PopulateSegment(100, 6500);
-            ConstructAndMeasure(ref points, ref segments);
+            //points = new List<Point>();
+            //segments = PopulateSegment(100, 6500);
+            //ConstructAndMeasure(ref points, ref segments);
 
-            points = new List<Point>();
-            segments = PopulateSegment(100, 7000);
-            ConstructAndMeasure(ref points, ref segments);
+            //points = new List<Point>();
+            //segments = PopulateSegment(100, 7000);
+            //ConstructAndMeasure(ref points, ref segments);
 
-            points = new List<Point>();
-            segments = PopulateSegment(100, 7500);
-            ConstructAndMeasure(ref points, ref segments);
+            //points = new List<Point>();
+            //segments = PopulateSegment(100, 7500);
+            //ConstructAndMeasure(ref points, ref segments);
 
-            points = new List<Point>();
-            segments = PopulateSegment(100, 10000);
-            ConstructAndMeasure(ref points, ref segments);
+            //points = new List<Point>();
+            //segments = PopulateSegment(100, 10000);
+            //ConstructAndMeasure(ref points, ref segments);
+
+            //points = new List<Point>();
+            //segments = PopulateSegment(100, 12500);
+            //ConstructAndMeasure(ref points, ref segments);
+
 
             Console.In.ReadLine();
         }
