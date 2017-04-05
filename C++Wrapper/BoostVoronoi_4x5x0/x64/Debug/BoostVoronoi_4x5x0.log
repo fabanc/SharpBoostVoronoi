@@ -2,17 +2,18 @@
   AssemblyInfo.cpp
   BoostVoronoi_4x5x0.cpp
 c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(48): warning C4244: 'return' : conversion from 'const double' to 'boost::polygon::point_traits<Point>::coordinate_type', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(192): warning C4267: 'argument' : conversion from 'size_t' to 'long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(215): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(235): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(247): warning C4267: 'argument' : conversion from 'size_t' to 'long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(247): warning C4244: 'argument' : conversion from '__int64' to 'long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(252): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(253): warning C4244: 'argument' : conversion from '__int64' to 'const long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(321): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(336): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(341): warning C4267: 'argument' : conversion from 'size_t' to 'long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(353): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(197): warning C4267: 'argument' : conversion from 'size_t' to 'long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(220): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(240): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(252): warning C4267: 'argument' : conversion from 'size_t' to 'long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(252): warning C4244: 'argument' : conversion from '__int64' to 'long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(257): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(258): warning C4244: 'argument' : conversion from '__int64' to 'const long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(326): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(341): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(346): warning C4267: 'argument' : conversion from 'size_t' to 'long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(358): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(362): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
   Generating Code...
   .NETFramework,Version=v4.5.AssemblyAttributes.cpp
   BoostVoronoi_4x5x0.vcxproj -> C:\github\SharpBoostVoronoi\SharpBoostVoronoi\C++Wrapper\x64\Debug\BoostVoronoi_4x5x0.dll

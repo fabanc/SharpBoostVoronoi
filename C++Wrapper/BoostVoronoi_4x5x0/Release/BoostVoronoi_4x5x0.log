@@ -2,12 +2,12 @@
   AssemblyInfo.cpp
   BoostVoronoi_4x5x0.cpp
 c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(48): warning C4244: 'return' : conversion from 'const double' to 'boost::polygon::point_traits<Point>::coordinate_type', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(215): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(235): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(247): warning C4244: 'argument' : conversion from '__int64' to 'long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(252): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(253): warning C4244: 'argument' : conversion from '__int64' to 'const long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(287): warning C4244: 'argument' : conversion from '__int64' to 'unsigned int', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(220): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(240): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(252): warning C4244: 'argument' : conversion from '__int64' to 'long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(257): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(258): warning C4244: 'argument' : conversion from '__int64' to 'const long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(292): warning C4244: 'argument' : conversion from '__int64' to 'unsigned int', possible loss of data
   Generating Code...
   .NETFramework,Version=v4.5.AssemblyAttributes.cpp
   BoostVoronoi_4x5x0.vcxproj -> C:\github\SharpBoostVoronoi\SharpBoostVoronoi\C++Wrapper\Release\BoostVoronoi_4x5x0.dll

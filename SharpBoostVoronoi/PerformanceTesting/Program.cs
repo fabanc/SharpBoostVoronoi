@@ -115,7 +115,8 @@ namespace PerformanceTesting
 
             // Stop timing.
             stopwatch.Stop();
-            Console.WriteLine("Time elapsed: {0:hh\\:mm\\:ss\\:ff}", stopwatch.Elapsed);
+            Console.WriteLine(String.Format("Vertices: {0}, Edges: {1}, Cells: {2}", bv.Vertices.Count, bv.Edges.Count, bv.Cells.Count));
+            Console.WriteLine("Time elapsed: {0:hh\\:mm\\:ss\\:ff}.", stopwatch.Elapsed);
 
         }
     }
