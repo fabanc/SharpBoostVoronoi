@@ -125,9 +125,15 @@ namespace boost {
 	public class Voronoi
 	{
 	public:
+
+		//Data structure for numbering
+		std::map<const voronoi_diagram<double>::vertex_type*, long> vertexMap;
+		std::map<const voronoi_diagram<double>::edge_type*, long long> edgeMap;
+		std::map<const voronoi_diagram<double>::cell_type*, long long> cellMap;
+
 		std::vector<Point> points;
 		std::vector<Segment> segments;
-		
+		voronoi_diagram<double> vd;
 
 		//Output data storage
 		std::vector<c_Vertex> vertices;
@@ -138,6 +144,14 @@ namespace boost {
 		void AddSegment(int x1, int y1, int x2, int y2);
 		void ConstructVoronoi();
 
+
+
+		void Construct();
+		void CreateMaps();
+		void CreateVertexMap();
+		void CreateSegmentMap();
+		void CreateCellMap();
+
 		List<Tuple<double, double>^>^ GetVertices();
 		List<Tuple<long, long, long, Tuple<bool, bool, bool, long, long long>^>^>^ GetEdges();
 		List<Tuple<long, long, bool, bool, List<long long>^, bool, short>^>^ GetCells();
@@ -147,6 +161,93 @@ namespace boost {
 		Tuple<long, long, bool, bool, List<long long>^, bool, short>^ GetCell(long i);
 	};
 
+
+	void Voronoi::Construct()
+	{
+		boost::polygon::construct_voronoi(points.begin(), points.end(), segments.begin(), segments.end(), &vd);
+	}
+
+	void Voronoi::CreateVertexMap()
+	{
+		for (voronoi_diagram<double>::const_edge_iterator it = vd.edges().begin();
+			it != vd.edges().end(); ++it) {
+
+			//Get the vertices and add them to the map if required
+			const voronoi_diagram<double>::vertex_type* v0 = it->vertex0();
+			const voronoi_diagram<double>::vertex_type* v1 = it->vertex1();
+
+			long start_index = -1;
+			if (v0 != 0){
+
+				//Check if the vertex exists in the map
+				std::map<const voronoi_diagram<double>::vertex_type*, long>::iterator vertexMapIterator =
+					vertexMap.find(v0);
+
+				//If the vertex is not in the map, add it to the vector and the map. If not fetch the index.
+				if (vertexMapIterator == vertexMap.end()){
+					start_index = vertices.size();
+					c_Vertex start = c_Vertex(v0->x(), v0->y());
+					vertices.push_back(start);
+					vertexMap[v0] = start_index;
+				}
+				else{
+					start_index = vertexMapIterator->second;
+				}
+			}
+
+
+			long end_index = -1;
+			if (v1 != 0){
+
+				//Check if the vertex exists in the map
+				std::map<const voronoi_diagram<double>::vertex_type*, long>::iterator vertexMapIterator =
+					vertexMap.find(v1);
+
+				//If the vertex is not in the map, add it to the vector and the map. If not fetch the index.
+				if (vertexMapIterator == vertexMap.end()){
+					end_index = vertices.size();
+					c_Vertex end = c_Vertex(v1->x(), v1->y());
+					vertices.push_back(end);
+					vertexMap[v1] = end_index;
+				}
+				else{
+					end_index = vertexMapIterator->second;
+				}
+			}
+		}
+	}
+
+	void Voronoi::CreateSegmentMap()
+	{
+		long long index = 0;
+		for (voronoi_diagram<double>::const_edge_iterator it = vd.edges().begin();
+			it != vd.edges().end(); ++it) {
+
+			//const voronoi_diagram<double>::cell_type &cell = *it;
+			const voronoi_diagram<double>::edge_type &edge = *it;
+			edgeMap[it->twin()->twin()] = index;
+		}
+
+	}
+
+	void Voronoi::CreateCellMap()
+	{
+		long long index = 0;
+		for (voronoi_diagram<double>::const_cell_iterator it = vd.cells().begin();
+			it != vd.cells().end(); ++it) {
+
+			const voronoi_diagram<double>::cell_type &cell = *it;
+			cellMap[cell.incident_edge()->cell()] = index;
+		}
+	}
+
+	void Voronoi::CreateMaps()
+	{
+		CreateVertexMap();
+		CreateSegmentMap();
+		CreateCellMap();
+	}
+
 	void Voronoi::ConstructVoronoi()
 	{
 		voronoi_diagram<double> vd;
@@ -154,7 +255,7 @@ namespace boost {
 
 		//Data structure for numbering
 		std::map<const voronoi_diagram<double>::vertex_type*, long> vertexMap;
-		std::map<const voronoi_diagram<double>::edge_type*, long long> edgeMap;
+		//std::map<const voronoi_diagram<double>::edge_type*, long long> edgeMap;
 
 		//Initialize collections
 		cells.reserve(vd.num_cells());
