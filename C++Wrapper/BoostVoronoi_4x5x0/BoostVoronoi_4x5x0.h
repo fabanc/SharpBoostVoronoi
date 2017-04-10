@@ -127,9 +127,14 @@ namespace boost {
 	public:
 
 		//Data structure for numbering
-		std::map<const voronoi_diagram<double>::vertex_type*, long> vertexMap;
+		std::map<const voronoi_diagram<double>::vertex_type*, long long> vertexMap;
 		std::map<const voronoi_diagram<double>::edge_type*, long long> edgeMap;
 		std::map<const voronoi_diagram<double>::cell_type*, long long> cellMap;
+
+
+		std::map<long long, const voronoi_diagram<double>::vertex_type*> vertexMap2;
+		std::map<long long, const voronoi_diagram<double>::edge_type*> edgeMap2;
+		std::map<long long, const voronoi_diagram<double>::cell_type*> cellMap2;
 
 		std::vector<Point> points;
 		std::vector<Segment> segments;
@@ -144,19 +149,20 @@ namespace boost {
 		void AddSegment(int x1, int y1, int x2, int y2);
 		void ConstructVoronoi();
 
-
-
 		void Construct();
 		void CreateMaps();
 		void CreateVertexMap();
 		void CreateSegmentMap();
 		void CreateCellMap();
+		long long CountVertices();
+		long long CountEdges();
+		long long CountCells();
 
 		List<Tuple<double, double>^>^ GetVertices();
 		List<Tuple<long, long, long, Tuple<bool, bool, bool, long, long long>^>^>^ GetEdges();
 		List<Tuple<long, long, bool, bool, List<long long>^, bool, short>^>^ GetCells();
 
-		Tuple<double, double>^ GetVertex(long i);
+		Tuple<long long, double, double>^ GetVertex(long long i);
 		Tuple<long, long, long, Tuple<bool, bool, bool, long, long long>^>^ GetEdge(long long i);
 		Tuple<long, long, bool, bool, List<long long>^, bool, short>^ GetCell(long i);
 	};
@@ -167,77 +173,98 @@ namespace boost {
 		boost::polygon::construct_voronoi(points.begin(), points.end(), segments.begin(), segments.end(), &vd);
 	}
 
+	long long Voronoi::CountVertices()
+	{
+		return vd.num_vertices();
+	}
+
+	long long Voronoi::CountEdges()
+	{
+		return vd.num_edges();
+	}
+
+	long long Voronoi::CountCells()
+	{
+		return vd.num_cells();
+	}
+
 	void Voronoi::CreateVertexMap()
 	{
-		for (voronoi_diagram<double>::const_edge_iterator it = vd.edges().begin();
-			it != vd.edges().end(); ++it) {
-
-			//Get the vertices and add them to the map if required
-			const voronoi_diagram<double>::vertex_type* v0 = it->vertex0();
-			const voronoi_diagram<double>::vertex_type* v1 = it->vertex1();
-
-			long start_index = -1;
-			if (v0 != 0){
-
-				//Check if the vertex exists in the map
-				std::map<const voronoi_diagram<double>::vertex_type*, long>::iterator vertexMapIterator =
-					vertexMap.find(v0);
-
-				//If the vertex is not in the map, add it to the vector and the map. If not fetch the index.
-				if (vertexMapIterator == vertexMap.end()){
-					start_index = vertices.size();
-					c_Vertex start = c_Vertex(v0->x(), v0->y());
-					vertices.push_back(start);
-					vertexMap[v0] = start_index;
-				}
-				else{
-					start_index = vertexMapIterator->second;
-				}
-			}
-
-
-			long end_index = -1;
-			if (v1 != 0){
-
-				//Check if the vertex exists in the map
-				std::map<const voronoi_diagram<double>::vertex_type*, long>::iterator vertexMapIterator =
-					vertexMap.find(v1);
-
-				//If the vertex is not in the map, add it to the vector and the map. If not fetch the index.
-				if (vertexMapIterator == vertexMap.end()){
-					end_index = vertices.size();
-					c_Vertex end = c_Vertex(v1->x(), v1->y());
-					vertices.push_back(end);
-					vertexMap[v1] = end_index;
-				}
-				else{
-					end_index = vertexMapIterator->second;
-				}
-			}
+		long long index = 0;
+		for (voronoi_diagram<double>::const_vertex_iterator it = vd.vertices().begin(); it != vd.vertices().end(); ++it) {
+			const voronoi_diagram<double>::vertex_type* vertex = &(*it);
+			vertexMap2[index] = vertex;
+			index++;
 		}
 	}
+
+	//void Voronoi::CreateVertexMap()
+	//{
+	//	for (voronoi_diagram<double>::const_edge_iterator it = vd.edges().begin();
+	//		it != vd.edges().end(); ++it) {
+
+	//		//Get the vertices and add them to the map if required
+	//		const voronoi_diagram<double>::vertex_type* v0 = it->vertex0();
+	//		const voronoi_diagram<double>::vertex_type* v1 = it->vertex1();
+
+	//		long start_index = -1;
+	//		if (v0 != 0){
+
+	//			//Check if the vertex exists in the map
+	//			std::map<const voronoi_diagram<double>::vertex_type*, long>::iterator vertexMapIterator =
+	//				vertexMap.find(v0);
+
+	//			//If the vertex is not in the map, add it to the vector and the map. If not fetch the index.
+	//			if (vertexMapIterator == vertexMap.end()){
+	//				start_index = vertices.size();
+	//				c_Vertex start = c_Vertex(v0->x(), v0->y());
+	//				vertices.push_back(start);
+	//				vertexMap[v0] = start_index;
+	//			}
+	//			else{
+	//				start_index = vertexMapIterator->second;
+	//			}
+	//		}
+
+
+	//		long end_index = -1;
+	//		if (v1 != 0){
+
+	//			//Check if the vertex exists in the map
+	//			std::map<const voronoi_diagram<double>::vertex_type*, long>::iterator vertexMapIterator =
+	//				vertexMap.find(v1);
+
+	//			//If the vertex is not in the map, add it to the vector and the map. If not fetch the index.
+	//			if (vertexMapIterator == vertexMap.end()){
+	//				end_index = vertices.size();
+	//				c_Vertex end = c_Vertex(v1->x(), v1->y());
+	//				vertices.push_back(end);
+	//				vertexMap[v1] = end_index;
+	//			}
+	//			else{
+	//				end_index = vertexMapIterator->second;
+	//			}
+	//		}
+	//	}
+	//}
 
 	void Voronoi::CreateSegmentMap()
 	{
 		long long index = 0;
-		for (voronoi_diagram<double>::const_edge_iterator it = vd.edges().begin();
-			it != vd.edges().end(); ++it) {
-
-			//const voronoi_diagram<double>::cell_type &cell = *it;
-			const voronoi_diagram<double>::edge_type &edge = *it;
-			edgeMap[it->twin()->twin()] = index;
+		for (voronoi_diagram<double>::const_edge_iterator it = vd.edges().begin(); it != vd.edges().end(); ++it) {
+			const voronoi_diagram<double>::edge_type* edge = &(*it);
+			edgeMap2[index] = edge;
+			index++;
 		}
-
 	}
 
 	void Voronoi::CreateCellMap()
 	{
 		long long index = 0;
-		for (voronoi_diagram<double>::const_cell_iterator it = vd.cells().begin();
-			it != vd.cells().end(); ++it) {
-
-			const voronoi_diagram<double>::cell_type &cell = *it;
-			cellMap[cell.incident_edge()->cell()] = index;
+		for (voronoi_diagram<double>::const_cell_iterator it = vd.cells().begin(); it != vd.cells().end(); ++it) {
+			const voronoi_diagram<double>::cell_type* cell = &(*it);
+			cellMap2[index] = cell;
+			index++;
 		}
 	}
 
@@ -420,8 +447,6 @@ namespace boost {
 	};
 
 
-
-
 	/// <summary>
 	/// Return the list of points
 	/// </summary>
@@ -435,9 +460,15 @@ namespace boost {
 		return ret;
 	};
 
-	Tuple<double, double>^ Voronoi::GetVertex(long i)
+	Tuple<long long, double, double>^ Voronoi::GetVertex(long long index)
 	{
-		return gcnew Tuple<double, double>(vertices[i].X, vertices[i].Y);
+		std::map<long long, const voronoi_diagram<double>::vertex_type *>::iterator mapIterator = vertexMap2.find(index);
+		if (mapIterator != vertexMap2.end()){
+			double x = mapIterator->second->x();
+			double y = mapIterator->second->y();
+			return gcnew Tuple<long long, double, double>(mapIterator->first, x, y);
+		}
+		return gcnew Tuple<long long, double, double>(-1, -1 ,-1);
 	}
 
 	/// <summary>
@@ -531,6 +562,25 @@ namespace boost {
 		List<Tuple<long, long, bool, bool, List<long long>^, bool, short>^>^ GetCells()
 		{
 			return v->GetCells();
+		}
+
+
+		//New Stuffs to integrate in SharpBoostVoronoi
+		long CountVertices(){
+			return v->CountVertices();
+		}
+
+		long CountEdges(){
+			return v->CountEdges();
+		}
+
+		long CountCells(){
+			return v->CountCells();
+		}
+
+		Tuple<long long, double, double>^ GetVertex(long long index)
+		{
+			return v->GetVertex(index);
 		}
 
 	};

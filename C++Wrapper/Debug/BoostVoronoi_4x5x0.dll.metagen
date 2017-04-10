@@ -22,3 +22,7 @@ Class boost.VoronoiWrapper: AutoLayout, AnsiClass, Class, Public, BeforeFieldIni
     GetVertices(): PrivateScope, Public, HideBySig
     GetEdges(): PrivateScope, Public, HideBySig
     GetCells(): PrivateScope, Public, HideBySig
+    CountVertices(): PrivateScope, Public, HideBySig
+    CountEdges(): PrivateScope, Public, HideBySig
+    CountCells(): PrivateScope, Public, HideBySig
+    GetVertex(Int64): PrivateScope, Public, HideBySig
