@@ -86,9 +86,9 @@ namespace boost {
 		bool isFinite;
 
 		long cell;
-		long long twin;
+		long twin;
 
-		c_Edge(long start = -1, long end = -1, bool isPrimary = false, long site = -1, bool isLinear = false, bool isFinite = false, long cell = -1, long long twin = -1) {
+		c_Edge(long start = -1, long end = -1, bool isPrimary = false, long site = -1, bool isLinear = false, bool isFinite = false, long cell = -1, long twin = -1) {
 			this->start = start;
 			this->end = end;
 			this->isPrimary = isPrimary;
@@ -108,7 +108,7 @@ namespace boost {
 		bool is_open;
 
 		//std::vector<long> vertices;
-		std::vector<long long> edges;
+		std::vector<long> edges;
 
 		short source_category;
 
@@ -159,11 +159,11 @@ namespace boost {
 		long long CountCells();
 
 		List<Tuple<double, double>^>^ GetVertices();
-		List<Tuple<long, long, long, Tuple<bool, bool, bool, long, long long>^>^>^ GetEdges();
-		List<Tuple<long, long, bool, bool, List<long long>^, bool, short>^>^ GetCells();
+		List<Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>^>^ GetEdges();
+		List<Tuple<long, long, bool, bool, List<long>^, bool, short>^>^ GetCells();
 
 		Tuple<long long, double, double>^ GetVertex(long long i);
-		Tuple<long, long, long, Tuple<bool, bool, bool, long, long long>^>^ GetEdge(long long i);
+		Tuple<long long, Tuple<double, double>^, Tuple<double, double>^, bool, bool, bool>^ GetEdge(long long i);
 		Tuple<long, long, bool, bool, List<long long>^, bool, short>^ GetCell(long i);
 	};
 
@@ -474,45 +474,61 @@ namespace boost {
 	/// <summary>
 	/// Return the list of edges
 	/// </summary>
-	List<Tuple<long, long, long, Tuple<bool, bool, bool, long, long long>^>^>^ Voronoi::GetEdges()
+	List<Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>^>^ Voronoi::GetEdges()
 	{
-		List<Tuple<long, long, long, Tuple<bool, bool, bool, long, long long>^>^>^ ret = 
-			gcnew List<Tuple<long, long, long, Tuple<bool, bool, bool, long, long long>^>^>(edges.size());
+		List<Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>^>^ ret = 
+			gcnew List<Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>^>(edges.size());
 
 		for (size_t i = 0; i < edges.size(); i++) {
-			Tuple<long, long, long, Tuple<bool, bool, bool, long, long long>^>^ t = 
-				gcnew Tuple<long, long, long, Tuple<bool, bool, bool, long, long long>^>(edges[i].start, edges[i].end,
-				edges[i].site, gcnew Tuple<bool, bool, bool, long, long long>(edges[i].isPrimary, edges[i].isLinear, edges[i].isFinite, edges[i].cell, edges[i].twin));
+			Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>^ t = 
+				gcnew Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>(i, edges[i].start, edges[i].end,
+				edges[i].site, gcnew Tuple<bool, bool, bool, long, long>(edges[i].isPrimary, edges[i].isLinear, edges[i].isFinite, edges[i].cell, edges[i].twin));
 			ret->Add(t);
 		}
 		return ret;
 	};
 
 
-	Tuple<long, long, long, Tuple<bool, bool, bool, long, long long>^>^ Voronoi::GetEdge(long long i)
+	Tuple<long long, Tuple<double, double>^, Tuple<double, double>^, bool, bool, bool>^ Voronoi::GetEdge(long long index)
 	{
-		return gcnew Tuple<long, long, long, Tuple<bool, bool, bool, long, long long>^>(edges[i].start, edges[i].end,
-			edges[i].site, gcnew Tuple<bool, bool, bool, long, long long>(edges[i].isPrimary, edges[i].isLinear, edges[i].isFinite, edges[i].cell, edges[i].twin));
 
-	};
+		std::map<long long, const voronoi_diagram<double>::edge_type *>::iterator mapIterator = edgeMap2.find(index);
+		if (mapIterator != edgeMap2.end()){
+			
+			const voronoi_diagram<double>::vertex_type * start = mapIterator->second->vertex0();
+			const voronoi_diagram<double>::vertex_type * end = mapIterator->second->vertex1();
+	
+			Tuple<long long, Tuple<double, double>^, Tuple<double, double>^, bool, bool, bool>^ t =
+				gcnew Tuple<long long, Tuple<double, double>^, Tuple<double, double>^, bool, bool, bool>(
+				index,
+				gcnew Tuple<double, double>(start->x(), start->y()),
+				gcnew Tuple<double, double>(end->x(), end->y()),
+				mapIterator->second->is_primary(),
+				mapIterator->second->is_linear(),
+				mapIterator->second->is_finite()
+				);
+
+			return t;
+		}
+	}
 
 	/// <summary>
 	/// Return the list of cells
 	/// </summary>
-	List<Tuple<long, long, bool, bool, List<long long>^, bool, short>^>^ Voronoi::GetCells()
+	List<Tuple<long, long, bool, bool, List<long>^, bool, short>^>^ Voronoi::GetCells()
 	{
 		long cell_identifier = 0;
-		List<Tuple<long, long, bool, bool, List<long long>^, bool, short>^>^ ret = gcnew List<Tuple<long, long, bool, bool, List<long long>^, bool, short>^>(cells.size());
+		List<Tuple<long, long, bool, bool, List<long>^, bool, short>^>^ ret = gcnew List<Tuple<long, long, bool, bool, List<long>^, bool, short>^>(cells.size());
 		for (size_t i = 0; i < cells.size(); i++) {
 
 			//Create the list of identifiers
-			List<long long>^ edge_list = gcnew List<long long>(cells[i].edges.size());
+			List<long>^ edge_list = gcnew List<long>(cells[i].edges.size());
 			for (size_t j = 0; j < cells[i].edges.size(); j++) {
 				edge_list->Add(cells[i].edges[j]);
 			}
 
 			//Populate the cells info
-			Tuple<long, long, bool, bool, List<long long>^, bool, short>^ t = gcnew Tuple <long, long, bool, bool, List<long long>^, bool, short>(
+			Tuple<long, long, bool, bool, List<long>^, bool, short>^ t = gcnew Tuple <long, long, bool, bool, List<long>^, bool, short>(
 				cells[i].cellId, 
 				cells[i].source_index,
 				cells[i].contains_point, 
@@ -554,18 +570,23 @@ namespace boost {
 			return v->GetVertices();
 		};
 
-		List<Tuple<long, long, long, Tuple<bool, bool, bool, long, long long>^>^>^ GetEdges()
+		List<Tuple<long, long, long, long, Tuple<bool, bool, bool, long, long>^>^>^ GetEdges()
 		{
 			return v->GetEdges();
 		};
 
-		List<Tuple<long, long, bool, bool, List<long long>^, bool, short>^>^ GetCells()
+		List<Tuple<long, long, bool, bool, List<long>^, bool, short>^>^ GetCells()
 		{
 			return v->GetCells();
 		}
 
 
 		//New Stuffs to integrate in SharpBoostVoronoi
+		void Construct()
+		{
+			v->Construct();
+		}
+
 		long CountVertices(){
 			return v->CountVertices();
 		}
@@ -578,10 +599,17 @@ namespace boost {
 			return v->CountCells();
 		}
 
+		void CreateVertexMap()
+		{
+			v->CreateVertexMap();
+		}
+
 		Tuple<long long, double, double>^ GetVertex(long long index)
 		{
 			return v->GetVertex(index);
 		}
+
+
 
 	};
 

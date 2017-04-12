@@ -104,13 +104,10 @@ namespace SharpBoostVoronoi
                         s.End.X, 
                         s.End.Y );
 
-            //Construct
-            VoronoiWrapper.ConstructVoronoi();
-
             //Store the output
             Vertices = new List<Vertex>();
             foreach (var t in VoronoiWrapper.GetVertices())
-                Vertices.Add(new Vertex(t,ScaleFactor));
+                Vertices.Add(new Vertex(t, ScaleFactor));
 
             Edges = new List<Edge>();
             foreach (var t in VoronoiWrapper.GetEdges())
@@ -121,6 +118,50 @@ namespace SharpBoostVoronoi
                 Cells.Add(new Cell(t));
         }
 
+
+        /// <summary>
+        /// Calls the voronoi API in order to build the voronoi cells.
+        /// </summary>
+        public void Construct2()
+        {
+            //Pass the input
+            foreach (var p in InputPoints)
+                VoronoiWrapper.AddPoint(p.X, p.Y);
+
+            foreach (var s in InputSegments)
+                VoronoiWrapper.AddSegment(
+                        s.Start.X,
+                        s.Start.Y,
+                        s.End.X,
+                        s.End.Y);
+
+            //Construct
+            VoronoiWrapper.Construct();
+
+            //Build Maps
+            VoronoiWrapper.CreateVertexMap();
+            
+
+            //Get count and iterates
+            long vertexCount = VoronoiWrapper.CountVertices();
+            for (long i = 0; i < vertexCount; i++)
+            {
+                Tuple<long, double, double> vertex = VoronoiWrapper.GetVertex(i);
+            }
+
+            //Store the output
+            Vertices = new List<Vertex>();
+            foreach (var t in VoronoiWrapper.GetVertices())
+                Vertices.Add(new Vertex(t, ScaleFactor));
+
+            Edges = new List<Edge>();
+            foreach (var t in VoronoiWrapper.GetEdges())
+                Edges.Add(new Edge(t));
+
+            Cells = new List<Cell>();
+            foreach (var t in VoronoiWrapper.GetCells())
+                Cells.Add(new Cell(t));
+        }
         /// <summary>
         /// Add a point to the list of input points
         /// </summary>
