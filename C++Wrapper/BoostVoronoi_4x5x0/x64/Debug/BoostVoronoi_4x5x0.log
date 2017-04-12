@@ -2,20 +2,24 @@
   AssemblyInfo.cpp
   BoostVoronoi_4x5x0.cpp
 c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(48): warning C4244: 'return' : conversion from 'const double' to 'boost::polygon::point_traits<Point>::coordinate_type', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(328): warning C4267: 'argument' : conversion from 'size_t' to 'long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(348): warning C4267: '=' : conversion from 'size_t' to 'long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(368): warning C4267: '=' : conversion from 'size_t' to 'long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(383): warning C4267: 'argument' : conversion from 'size_t' to 'long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(389): warning C4244: 'argument' : conversion from '__int64' to 'const long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(423): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(455): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(480): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(485): warning C4267: 'argument' : conversion from 'size_t' to 'long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(505): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(509): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(575): warning C4244: 'return' : conversion from '__int64' to 'long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(579): warning C4244: 'return' : conversion from '__int64' to 'long', possible loss of data
-c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(583): warning C4244: 'return' : conversion from '__int64' to 'long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(342): warning C4267: 'argument' : conversion from 'size_t' to 'long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(362): warning C4267: '=' : conversion from 'size_t' to 'long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(382): warning C4267: '=' : conversion from 'size_t' to 'long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(397): warning C4267: 'argument' : conversion from 'size_t' to 'long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(403): warning C4244: 'argument' : conversion from '__int64' to 'const long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(437): warning C4244: '=' : conversion from '__int64' to 'long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(469): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(494): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(499): warning C4267: 'argument' : conversion from 'size_t' to 'long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(519): warning C4244: 'initializing' : conversion from '__int64' to 'long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(520): warning C4244: 'initializing' : conversion from '__int64' to 'long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(672): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(676): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(742): warning C4244: 'return' : conversion from '__int64' to 'long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(746): warning C4244: 'return' : conversion from '__int64' to 'long', possible loss of data
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\BoostVoronoi_4x5x0.h(750): warning C4244: 'return' : conversion from '__int64' to 'long', possible loss of data
   Generating Code...
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\boostvoronoi_4x5x0.h(569): warning C4715: 'boost::Voronoi::GetEdge' : not all control paths return a value
+c:\github\sharpboostvoronoi\sharpboostvoronoi\c++wrapper\boostvoronoi_4x5x0\boostvoronoi_4x5x0.h(628): warning C4715: 'boost::Voronoi::GetCell' : not all control paths return a value
   .NETFramework,Version=v4.5.AssemblyAttributes.cpp
   BoostVoronoi_4x5x0.vcxproj -> C:\github\SharpBoostVoronoi\SharpBoostVoronoi\C++Wrapper\x64\Debug\BoostVoronoi_4x5x0.dll

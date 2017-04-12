@@ -140,27 +140,31 @@ namespace SharpBoostVoronoi
 
             //Build Maps
             VoronoiWrapper.CreateVertexMap();
-            
+            VoronoiWrapper.CreateEdgeMap();
+            VoronoiWrapper.CreateCellMap();
 
-            //Get count and iterates
-            long vertexCount = VoronoiWrapper.CountVertices();
-            for (long i = 0; i < vertexCount; i++)
-            {
-                Tuple<long, double, double> vertex = VoronoiWrapper.GetVertex(i);
-            }
+            ////Get count and iterates
+            //long vertexCount = VoronoiWrapper.CountVertices();
+            //for (long i = 0; i < vertexCount; i++)
+            //{
+            //    Tuple<long, double, double> vertex = VoronoiWrapper.GetVertex(i);
+            //}
 
-            //Store the output
-            Vertices = new List<Vertex>();
-            foreach (var t in VoronoiWrapper.GetVertices())
-                Vertices.Add(new Vertex(t, ScaleFactor));
+            //long cellsCount = VoronoiWrapper.CountCells();
+            //for (long i = 0; i < cellsCount; i++)
+            //{
 
-            Edges = new List<Edge>();
-            foreach (var t in VoronoiWrapper.GetEdges())
-                Edges.Add(new Edge(t));
+            //}
 
-            Cells = new List<Cell>();
-            foreach (var t in VoronoiWrapper.GetCells())
-                Cells.Add(new Cell(t));
+
+            //long edgesCount = VoronoiWrapper.CountEdges();
+            ////List<Tuple<long, Tuple<long, double, double>, Tuple<long, double, double>, bool, bool, bool, Tuple<long, long>>> listEdges = 
+            ////    new List<Tuple<long, Tuple<long, double, double>, Tuple<long, double, double>, bool, bool, bool, Tuple<long, long>>>();
+            //for (long i = 0; i < edgesCount; i++)
+            //{
+            //    Tuple<long, Tuple<long, double, double>, Tuple<long, double, double>, bool, bool, bool, Tuple<long, long>> edge = VoronoiWrapper.GetEdge(i);
+            //    //listEdges.Add(edge);
+            //}
         }
         /// <summary>
         /// Add a point to the list of input points

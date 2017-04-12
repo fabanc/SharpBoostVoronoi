@@ -111,7 +111,7 @@ namespace PerformanceTesting
 
 
 
-            bv.Construct();
+            bv.Construct2();
 
             // Stop timing.
             stopwatch.Stop();
