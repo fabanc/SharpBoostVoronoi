@@ -59,6 +59,11 @@ namespace SharpBoostVoronoi
         /// </summary>
         public double Tolerance { get; set; } 
 
+
+        public long CountVertices {get; private set;}
+        public long CountEdges {get; private set;}
+        public long CountCells {get; private set;}
+
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -91,38 +96,38 @@ namespace SharpBoostVoronoi
         /// <summary>
         /// Calls the voronoi API in order to build the voronoi cells.
         /// </summary>
-        public void Construct()
-        {
-            //Pass the input
-            foreach (var p in InputPoints)
-                VoronoiWrapper.AddPoint(p.X, p.Y);
+        //public void Construct()
+        //{
+        //    //Pass the input
+        //    foreach (var p in InputPoints)
+        //        VoronoiWrapper.AddPoint(p.X, p.Y);
 
-            foreach (var s in InputSegments)
-                VoronoiWrapper.AddSegment(
-                        s.Start.X, 
-                        s.Start.Y,
-                        s.End.X, 
-                        s.End.Y );
+        //    foreach (var s in InputSegments)
+        //        VoronoiWrapper.AddSegment(
+        //                s.Start.X, 
+        //                s.Start.Y,
+        //                s.End.X, 
+        //                s.End.Y );
 
-            //Store the output
-            Vertices = new List<Vertex>();
-            foreach (var t in VoronoiWrapper.GetVertices())
-                Vertices.Add(new Vertex(t, ScaleFactor));
+        //    //Store the output
+        //    Vertices = new List<Vertex>();
+        //    foreach (var t in VoronoiWrapper.GetVertices())
+        //        Vertices.Add(new Vertex(t, ScaleFactor));
 
-            Edges = new List<Edge>();
-            foreach (var t in VoronoiWrapper.GetEdges())
-                Edges.Add(new Edge(t));
+        //    Edges = new List<Edge>();
+        //    foreach (var t in VoronoiWrapper.GetEdges())
+        //        Edges.Add(new Edge(t));
 
-            Cells = new List<Cell>();
-            foreach (var t in VoronoiWrapper.GetCells())
-                Cells.Add(new Cell(t));
-        }
+        //    Cells = new List<Cell>();
+        //    foreach (var t in VoronoiWrapper.GetCells())
+        //        Cells.Add(new Cell(t));
+        //}
 
 
         /// <summary>
         /// Calls the voronoi API in order to build the voronoi cells.
         /// </summary>
-        public void Construct2()
+        public void Construct()
         {
             //Pass the input
             foreach (var p in InputPoints)
@@ -143,6 +148,21 @@ namespace SharpBoostVoronoi
             VoronoiWrapper.CreateEdgeMap();
             VoronoiWrapper.CreateCellMap();
 
+            this.CountVertices = VoronoiWrapper.CountVertices();
+            this.CountEdges = VoronoiWrapper.CountEdges();
+            this.CountCells = VoronoiWrapper.CountCells();
+
+
+            for (long i = 0; i < this.CountVertices; i++)
+                Vertices.Add(this.GetVertex(i));
+
+            for (long i = 0; i < this.CountEdges; i++)
+                Edges.Add(this.GetEdge(i));
+
+            for (long i = 0; i < this.CountCells; i++)
+                Cells.Add(this.GetCell(i));
+
+            string toto = "toto";
             ////Get count and iterates
             //long vertexCount = VoronoiWrapper.CountVertices();
             //for (long i = 0; i < vertexCount; i++)
@@ -166,6 +186,27 @@ namespace SharpBoostVoronoi
             //    //listEdges.Add(edge);
             //}
         }
+
+
+        public Vertex GetVertex(long index)
+        {
+            return new Vertex(VoronoiWrapper.GetVertex(index));
+        }
+
+        public Edge GetEdge(long index)
+        {
+            return new Edge(VoronoiWrapper.GetEdge(index));
+        }
+
+        public Cell GetCell(long index)
+        {
+            return new Cell(VoronoiWrapper.GetCell(index));
+        }
+
+        
+
+
+
         /// <summary>
         /// Add a point to the list of input points
         /// </summary>
@@ -229,8 +270,8 @@ namespace SharpBoostVoronoi
         /// <returns></returns>
         public List<Vertex> SampleCurvedEdge(Edge edge, double max_distance)
         {
-            int pointCell = -1;
-            int lineCell = -1;
+            long pointCell = -1;
+            long lineCell = -1;
 
             //Max distance to be refined
             if (max_distance <= 0)
@@ -239,33 +280,35 @@ namespace SharpBoostVoronoi
             Point pointSite = null;
             Segment segmentSite = null;
 
-            Cell m_cell = Cells[edge.Cell];
-            Cell m_reverse_cell = Cells[Edges[edge.Twin].Cell];
+            Edge twin = this.GetEdge(edge.Twin);
+            Cell m_cell = this.GetCell(edge.Cell);
+            Cell m_reverse_cell = this.GetCell(twin.Cell);
 
             if (m_cell.ContainsSegment == true && m_reverse_cell.ContainsSegment == true)
-                                return new List<Vertex>(){Vertices[edge.Start],Vertices[edge.End]};
+                                return new List<Vertex>(){this.GetVertex(edge.Start),this.GetVertex(edge.End)};
 
-            if(Cells[edge.Cell].ContainsPoint)
+            if (m_cell.ContainsPoint)
             {
                 pointCell = edge.Cell;
-                lineCell = Edges[edge.Twin].Cell;
+                lineCell = twin.Cell;
             }
             else
             {
                 lineCell = edge.Cell;
-                pointCell = Edges[edge.Twin].Cell;
+                pointCell = twin.Cell;
             }
         
-            pointSite = RetrieveInputPoint(Cells[pointCell]);
-            segmentSite = RetrieveInputSegment(Cells[lineCell]);
+            pointSite = RetrieveInputPoint(this.GetCell(pointCell));
+            segmentSite = RetrieveInputSegment(this.GetCell(lineCell));
         
             List<Vertex> discretization = new List<Vertex>(){
-                Vertices[edge.Start],
-                Vertices[edge.End]
+                this.GetVertex(edge.Start),
+                this.GetVertex(edge.End)
             };
 
             if (edge.IsLinear)
                 return discretization;
+
 
             return ParabolaComputation.Densify(
                 new Vertex(Convert.ToDouble(pointSite.X) / Convert.ToDouble(ScaleFactor), Convert.ToDouble(pointSite.Y) / Convert.ToDouble(ScaleFactor)), 

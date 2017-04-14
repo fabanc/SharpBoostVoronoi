@@ -21,6 +21,12 @@ namespace SharpBoostVoronoi.Output
             Y = t.Item2;
         }
 
+        public Vertex(Tuple<long, double, double> t)
+        {
+            X = t.Item2;
+            Y = t.Item3;
+        }
+
         public  Vertex(double x, double y)
         {
             X = x;

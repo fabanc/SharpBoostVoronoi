@@ -91,47 +91,53 @@ namespace SampleWPFApp.Views
 
             }
 
-            
-            foreach (var outputSegment in gData.VoronoiSolution.Edges)
+
+            for (long edgeIndex = 0; edgeIndex < gData.VoronoiSolution.CountEdges; edgeIndex++)
             {
-                //if (outputSegment.Start == -1 || outputSegment.End == -1)
+                Edge outputSegment = gData.VoronoiSolution.GetEdge(edgeIndex);
                 if (!outputSegment.IsFinite)
                     continue;
 
+                Vertex start = gData.VoronoiSolution.GetVertex(outputSegment.Start);
+                Vertex end = gData.VoronoiSolution.GetVertex(outputSegment.End);
+
                 if (outputSegment.IsLinear)
                 {
+
+
                     DrawingArea.Children.Add(new Line()
                     {
-                        X1 = ov[outputSegment.Start].X,
-                        Y1 = ov[outputSegment.Start].Y,
-                        X2 = ov[outputSegment.End].X,
-                        Y2 = ov[outputSegment.End].Y,
+                        X1 = start.X,
+                        Y1 = start.Y,
+                        X2 = end.X,
+                        Y2 = end.Y,
                         Stroke = OutputStroke
                     });
 
-                    DrawPoint(ov[outputSegment.Start].X, ov[outputSegment.Start].Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);
-                    DrawPoint(ov[outputSegment.End].X, ov[outputSegment.End].Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);
+                    DrawPoint(start.X, start.Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);
+                    DrawPoint(end.X, end.Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);
                 }
                 else
                 {
-                    List<Vertex> discretizedEdge = gData.VoronoiSolution.SampleCurvedEdge(outputSegment,2);
+                    List<Vertex> discretizedEdge = gData.VoronoiSolution.SampleCurvedEdge(outputSegment, 2);
                     for (int i = 1; i < discretizedEdge.Count; i++)
                     {
-                    DrawingArea.Children.Add(new Line()
-                    {
-                        X1 = discretizedEdge[i-1].X,
-                        Y1 = discretizedEdge[i-1].Y,
-                        X2 = discretizedEdge[i].X,
-                        Y2 = discretizedEdge[i].Y,
-                        Stroke = OutputStroke
-                    });
-                
-                    DrawPoint(ov[outputSegment.Start].X, ov[outputSegment.Start].Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);
-                    DrawPoint(ov[outputSegment.End].X, ov[outputSegment.End].Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);                        
+                        DrawingArea.Children.Add(new Line()
+                        {
+                            X1 = discretizedEdge[i - 1].X,
+                            Y1 = discretizedEdge[i - 1].Y,
+                            X2 = discretizedEdge[i].X,
+                            Y2 = discretizedEdge[i].Y,
+                            Stroke = OutputStroke
+                        });
+
+                        DrawPoint(start.X, start.Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);
+                        DrawPoint(end.X, end.Y, OutputPointColoBrush, outputPointWidth, outputPointRadius);
                     }
                 }
             }
         }
+
 
         private void DrawPoint(double x, double y, SolidColorBrush mySolidColorBrush, int pointWidth, int pointRadius)
         {
