@@ -5,6 +5,5 @@ C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\PerformanceTesti
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\PerformanceTesting\bin\Release\BoostVoronoi_4x5x0.dll
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\PerformanceTesting\bin\Release\SharpBoostVoronoi.pdb
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\PerformanceTesting\bin\Release\BoostVoronoi_4x5x0.pdb
-C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\PerformanceTesting\obj\Release\PerformanceTesting.csprojResolveAssemblyReference.cache
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\PerformanceTesting\obj\Release\PerformanceTesting.exe
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\PerformanceTesting\obj\Release\PerformanceTesting.pdb

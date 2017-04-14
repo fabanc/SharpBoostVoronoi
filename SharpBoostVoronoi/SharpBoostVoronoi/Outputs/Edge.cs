@@ -63,8 +63,8 @@ namespace SharpBoostVoronoi.Output
             IsFinite = t.Item6;
             SiteIndex = -1;
 
-            Cell = t.Item7.Item1;
-            Twin = t.Item7.Item2;
+            Twin = t.Item7.Item1;
+            Cell = t.Item7.Item2;
         }
 
        

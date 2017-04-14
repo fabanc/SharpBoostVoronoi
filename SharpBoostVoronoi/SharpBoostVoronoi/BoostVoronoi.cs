@@ -153,16 +153,6 @@ namespace SharpBoostVoronoi
             this.CountCells = VoronoiWrapper.CountCells();
 
 
-            for (long i = 0; i < this.CountVertices; i++)
-                Vertices.Add(this.GetVertex(i));
-
-            for (long i = 0; i < this.CountEdges; i++)
-                Edges.Add(this.GetEdge(i));
-
-            for (long i = 0; i < this.CountCells; i++)
-                Cells.Add(this.GetCell(i));
-
-            string toto = "toto";
             ////Get count and iterates
             //long vertexCount = VoronoiWrapper.CountVertices();
             //for (long i = 0; i < vertexCount; i++)
@@ -187,7 +177,20 @@ namespace SharpBoostVoronoi
             //}
         }
 
+        public void ConstructLists()
+        {
+            Vertices = new List<Vertex>();
+            for (long i = 0; i < this.CountVertices; i++)
+                Vertices.Add(this.GetVertex(i));
 
+            Edges = new List<Edge>();
+            for (long i = 0; i < this.CountEdges; i++)
+                Edges.Add(this.GetEdge(i));
+
+            Cells = new List<Cell>();
+            for (long i = 0; i < this.CountCells; i++)
+                Cells.Add(this.GetCell(i));
+        }
         public Vertex GetVertex(long index)
         {
             return new Vertex(VoronoiWrapper.GetVertex(index));

@@ -36,6 +36,11 @@ namespace SharpBoostVoronoi.Output
         public List<long> EdgesIndex { get; set; }
 
         /// <summary>
+        /// Indexes of the vertices that makes the cell
+        /// </summary>
+        public List<long> VerticesIndex { get; set; }
+
+        /// <summary>
         /// True if the cell has a segment that is infinite
         /// </summary>
         public bool IsOpen { get; set; }
@@ -67,7 +72,7 @@ namespace SharpBoostVoronoi.Output
         }
 
 
-        public Cell(Tuple<long, int, short, Tuple<bool, bool, bool, bool>, List<long>> t)
+        public Cell(Tuple<long, int, short, Tuple<bool, bool, bool, bool>, List<long>, List<long>> t)
         {
             Index = t.Item1;
             Site = t.Item2;
@@ -77,7 +82,7 @@ namespace SharpBoostVoronoi.Output
             IsOpen = t.Item4.Item3;
             IsDegnerate = t.Item4.Item4;
             EdgesIndex = t.Item5;
-
+            VerticesIndex = t.Item6;
         }
 
 
