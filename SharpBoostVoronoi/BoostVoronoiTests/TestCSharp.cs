@@ -183,19 +183,6 @@ namespace BoostVoronoiTests
             inputSegment.Add(new Segment(0, 10, 10, 10));
             inputSegment.Add(new Segment(10, 0, 10, 10));
 
-
-            ////Build the CLR voronoi
-            //VoronoiWrapper vw = new VoronoiWrapper();
-
-            //foreach (var p in inputPoint)
-            //    vw.AddPoint(p.X, p.Y);
-
-            //foreach (var s in inputSegment)
-            //    vw.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
-
-            //vw.Construct();
-            //List<Tuple<int, int, bool, bool, List<int>, bool, short>> clrCells = vw.GetCells();
-
             //Build the C# Voronoi
             BoostVoronoi bv = new BoostVoronoi();
             foreach (var p in inputPoint)
@@ -204,9 +191,6 @@ namespace BoostVoronoiTests
                 bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
             bv.Construct();
-            //List<Vertex> vertices = bv.Vertices;
-            //List<Edge> sharpEdges = bv.Edges;
-            //List<Cell> sharpCells = bv.Cells;
 
             long testEdgeIndex = 2;
 
@@ -254,19 +238,6 @@ namespace BoostVoronoiTests
             inputSegment.Add(new Segment(0, 10, 10, 10));
             inputSegment.Add(new Segment(10, 0, 10, 10));
 
-
-            ////Build the CLR voronoi
-            //VoronoiWrapper vw = new VoronoiWrapper();
-
-            //foreach (var p in inputPoint)
-            //    vw.AddPoint(p.X, p.Y);
-
-            //foreach (var s in inputSegment)
-            //    vw.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
-
-            //vw.Construct();
-            //List<Tuple<int, int, bool, bool, List<int>, bool, short>> clrCells = vw.GetCells();
-
             //Build the C# Voronoi
             BoostVoronoi bv = new BoostVoronoi();
             foreach (var p in inputPoint)
@@ -275,8 +246,6 @@ namespace BoostVoronoiTests
                 bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
             bv.Construct();
-            //List<Vertex> vertices = bv.Vertices;
-            //List<Edge> sharpEdges = bv.Edges;
 
             int countPrimary = 0;
             int countSecondary = 0;
@@ -321,9 +290,6 @@ namespace BoostVoronoiTests
                 bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
             bv.Construct();
-            //List<Vertex> vertices = bv.Vertices;
-            //List<Edge> sharpEdges = bv.Edges;
-            //List<Cell> cells = bv.Cells;
 
             for (long i = 0; i < bv.CountCells; i++)
             {
@@ -359,9 +325,6 @@ namespace BoostVoronoiTests
                 bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
             bv.Construct();
-            //List<Vertex> vertices = bv.Vertices;
-            //List<Edge> sharpEdges = bv.Edges;
-            //List<Cell> cells = bv.Cells;
 
             for (long i = 0; i < bv.CountCells; i++)
             {
@@ -395,9 +358,6 @@ namespace BoostVoronoiTests
                 bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
             bv.Construct();
-            //List<Vertex> vertices = bv.Vertices;
-            //List<Edge> sharpEdges = bv.Edges;
-            //List<Cell> cells = bv.Cells;
 
             for (long i = 0; i < bv.CountCells; i++)
             {
