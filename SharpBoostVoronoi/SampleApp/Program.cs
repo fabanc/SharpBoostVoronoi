@@ -35,10 +35,6 @@ namespace SampleApp
             bv.Construct();
 
             //Get the voronoi output
-            //List<Cell> cells = bv.Cells;
-            //List<Edge> edges = bv.Edges;
-            //List<Vertex> vertices = bv.Vertices;
-
             for (long i = 0; i < bv.CountCells; i++ )
             {
                 Cell cell = bv.GetCell(i);
