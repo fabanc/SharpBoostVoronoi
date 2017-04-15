@@ -35,18 +35,19 @@ namespace SampleApp
             bv.Construct();
 
             //Get the voronoi output
-            List<Cell> cells = bv.Cells;
-            List<Edge> edges = bv.Edges;
-            List<Vertex> vertices = bv.Vertices;
+            //List<Cell> cells = bv.Cells;
+            //List<Edge> edges = bv.Edges;
+            //List<Vertex> vertices = bv.Vertices;
 
-            foreach (var cell in cells)
+            for (long i = 0; i < bv.CountCells; i++ )
             {
+                Cell cell = bv.GetCell(i);
                 Console.Out.WriteLine(String.Format("Cell Identifier {0}. Is open = {1}", cell.Index, cell.IsOpen));
                 foreach (var edgeIndex in cell.EdgesIndex)
                 {
-                    Edge edge = edges[edgeIndex];
+                    Edge edge = bv.GetEdge(edgeIndex);
                     Console.Out.WriteLine(
-                        String.Format("  Edge Index: {0}. Start vertex index: {1}, End vertex index: {2}", 
+                        String.Format("  Edge Index: {0}. Start vertex index: {1}, End vertex index: {2}",
                         edgeIndex,
                         edge.Start,
                         edge.End));
@@ -54,8 +55,8 @@ namespace SampleApp
                     //If the vertex index equals -1, it means the edge is infinite. It is impossible to print the coordinates.
                     if (edge.IsLinear)
                     {
-                        Vertex start = vertices[edge.Start];
-                        Vertex end = vertices[edge.End];
+                        Vertex start = bv.GetVertex(edge.Start);
+                        Vertex end = bv.GetVertex(edge.End);
 
                         Console.Out.WriteLine(
                             String.Format("     From:{0}, To: {1}",

@@ -1,1 +1,12 @@
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SampleApp\obj\Debug\SampleApp.csprojResolveAssemblyReference.cache
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SampleApp\bin\Debug\SampleApp.exe.config
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SampleApp\bin\Debug\SampleApp.exe
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SampleApp\bin\Debug\SampleApp.pdb
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SampleApp\bin\Debug\BoostVoronoiTests.dll
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SampleApp\bin\Debug\SharpBoostVoronoi.dll
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SampleApp\bin\Debug\BoostVoronoi_4x5x0.dll
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SampleApp\bin\Debug\BoostVoronoiTests.pdb
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SampleApp\bin\Debug\SharpBoostVoronoi.pdb
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SampleApp\bin\Debug\BoostVoronoi_4x5x0.pdb
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SampleApp\obj\Debug\SampleApp.exe
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SampleApp\obj\Debug\SampleApp.pdb

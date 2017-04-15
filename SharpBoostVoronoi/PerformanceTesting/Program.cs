@@ -15,22 +15,22 @@ namespace PerformanceTesting
         {
             List<Point> points = new List<Point>();
             List<Segment> segments = new List<Segment>();
-            int limit = 10;
-            segments = PopulateSegment(limit, limit);
-            ConstructAndMeasure(ref points, ref segments);
+            //int limit = 10;
+            //segments = PopulateSegment(limit, limit);
+            //ConstructAndMeasure(ref points, ref segments);
 
 
-            points = new List<Point>();
-            segments = PopulateSegment(100, 100);
-            ConstructAndMeasure(ref points, ref segments);
+            //points = new List<Point>();
+            //segments = PopulateSegment(100, 100);
+            //ConstructAndMeasure(ref points, ref segments);
 
-            points = new List<Point>();
-            segments = PopulateSegment(100, 1000);
-            ConstructAndMeasure(ref points, ref segments);
+            //points = new List<Point>();
+            //segments = PopulateSegment(100, 1000);
+            //ConstructAndMeasure(ref points, ref segments);
 
-            points = new List<Point>();
-            segments = PopulateSegment(100, 2500);
-            ConstructAndMeasure(ref points, ref segments);
+            //points = new List<Point>();
+            //segments = PopulateSegment(100, 2500);
+            //ConstructAndMeasure(ref points, ref segments);
 
             points = new List<Point>();
             segments = PopulateSegment(100, 3500);
@@ -41,9 +41,9 @@ namespace PerformanceTesting
             ConstructAndMeasure(ref points, ref segments);
 
 
-            //points = new List<Point>();
-            //segments = PopulateSegment(100, 4500);
-            //ConstructAndMeasure(ref points, ref segments);
+            points = new List<Point>();
+            segments = PopulateSegment(100, 4500);
+            ConstructAndMeasure(ref points, ref segments);
 
             //points = new List<Point>();
             //segments = PopulateSegment(100, 5000);
@@ -115,7 +115,7 @@ namespace PerformanceTesting
 
             // Stop timing.
             stopwatch.Stop();
-            Console.WriteLine(String.Format("Vertices: {0}, Edges: {1}, Cells: {2}", bv.Vertices.Count, bv.Edges.Count, bv.Cells.Count));
+            Console.WriteLine(String.Format("Vertices: {0}, Edges: {1}, Cells: {2}", bv.CountVertices, bv.CountEdges, bv.CountCells));
             Console.WriteLine("Time elapsed: {0:hh\\:mm\\:ss\\:ff}.", stopwatch.Elapsed);
 
         }

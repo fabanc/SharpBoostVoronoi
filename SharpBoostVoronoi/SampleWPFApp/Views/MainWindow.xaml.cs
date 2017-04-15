@@ -65,7 +65,9 @@ namespace SampleWPFApp.Views
 
             //Get the graph data
             GraphData gData = vm.Graphs[(sender as ComboBox).SelectedIndex];
-            List<SharpBoostVoronoi.Output.Vertex> ov = gData.VoronoiSolution.Vertices;
+            List<SharpBoostVoronoi.Output.Vertex> ov = new List<SharpBoostVoronoi.Output.Vertex>();
+            for (long i = 0; i < gData.VoronoiSolution.CountVertices; i++)
+                ov.Add(gData.VoronoiSolution.GetVertex(i));
 
 
             foreach (var inputPoint in gData.VoronoiSolution.InputPoints)

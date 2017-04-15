@@ -34,22 +34,6 @@ namespace SharpBoostVoronoi
         public List<Segment> InputSegments { get; private set; }
 
         /// <summary>
-        /// The output list of vertices
-        /// </summary>
-        public List<Vertex> Vertices { get; set; }
-
-        /// <summary>
-        /// The output list of edges
-        /// </summary>
-        public List<Edge> Edges { get; set; }
-
-        /// <summary>
-        /// The output list of cells
-        /// </summary>
-        public List<Cell> Cells { get; set; }
-
-
-        /// <summary>
         /// A scale factor. It will be used as a multiplier for input coordinates. Output coordinates will be divided by the scale factor automatically.
         /// </summary>
         public int ScaleFactor { get { return _scaleFactor; } private set { _scaleFactor = value; Tolerance = Convert.ToDouble(1) / _scaleFactor; } }
@@ -73,6 +57,9 @@ namespace SharpBoostVoronoi
             InputSegments = new List<Segment>();
             VoronoiWrapper = new VoronoiWrapper();
             ScaleFactor = 1;
+            CountVertices = -1;
+            CountEdges = -1;
+            CountCells = -1;
         }
 
         /// <summary>
@@ -148,6 +135,9 @@ namespace SharpBoostVoronoi
             VoronoiWrapper.CreateEdgeMap();
             VoronoiWrapper.CreateCellMap();
 
+            //long maxEdgeSize = VoronoiWrapper.GetEdgeMapMaxSize();
+            //long maxEdgeIndexSize = VoronoiWrapper.GetEdgeIndexMapMaxSize();
+
             this.CountVertices = VoronoiWrapper.CountVertices();
             this.CountEdges = VoronoiWrapper.CountEdges();
             this.CountCells = VoronoiWrapper.CountCells();
@@ -177,20 +167,6 @@ namespace SharpBoostVoronoi
             //}
         }
 
-        public void ConstructLists()
-        {
-            Vertices = new List<Vertex>();
-            for (long i = 0; i < this.CountVertices; i++)
-                Vertices.Add(this.GetVertex(i));
-
-            Edges = new List<Edge>();
-            for (long i = 0; i < this.CountEdges; i++)
-                Edges.Add(this.GetEdge(i));
-
-            Cells = new List<Cell>();
-            for (long i = 0; i < this.CountCells; i++)
-                Cells.Add(this.GetCell(i));
-        }
         public Vertex GetVertex(long index)
         {
             return new Vertex(VoronoiWrapper.GetVertex(index));
