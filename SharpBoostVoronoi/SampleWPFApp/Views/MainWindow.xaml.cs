@@ -105,8 +105,6 @@ namespace SampleWPFApp.Views
 
                 if (outputSegment.IsLinear)
                 {
-
-
                     DrawingArea.Children.Add(new Line()
                     {
                         X1 = start.X,
