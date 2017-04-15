@@ -13,7 +13,7 @@ namespace SharpBoostVoronoi.Output
         /// <summary>
         /// The voronoi cell identifier
         /// </summary>
-        public int Index { get; set; }
+        public long Index { get; set; }
 
         /// <summary>
         /// The index of the source feature
@@ -33,12 +33,22 @@ namespace SharpBoostVoronoi.Output
         /// <summary>
         /// Indexes of the segment that makes the cell
         /// </summary>
-        public List<int> EdgesIndex { get; set; }
+        public List<long> EdgesIndex { get; set; }
+
+        /// <summary>
+        /// Indexes of the vertices that makes the cell
+        /// </summary>
+        public List<long> VerticesIndex { get; set; }
 
         /// <summary>
         /// True if the cell has a segment that is infinite
         /// </summary>
         public bool IsOpen { get; set; }
+
+        /// <summary>
+        /// Returns true if the cell doesn't have an incident edge. Can happen if a few input segments share a common endpoint.
+        /// </summary>
+        public bool IsDegnerate { get; set; }
 
         /// <summary>
         /// The type of element used to create the edge.
@@ -49,7 +59,7 @@ namespace SharpBoostVoronoi.Output
         /// Constructor
         /// </summary>
         /// <param name="t">A tuple returned by the CLR wrapper.</param>
-        public Cell(Tuple <int, int, bool, bool, List<int>, bool, short> t)
+        public Cell(Tuple <int, int, bool, bool, List<long>, bool, short> t)
         {
             Index = t.Item1;
             Site = t.Item2;
@@ -61,22 +71,37 @@ namespace SharpBoostVoronoi.Output
 
         }
 
+
+        public Cell(Tuple<long, int, short, Tuple<bool, bool, bool, bool>, List<long>, List<long>> t)
+        {
+            Index = t.Item1;
+            Site = t.Item2;
+            SourceCategory = (CellSourceCatory)t.Item3;
+            ContainsPoint = t.Item4.Item1;
+            ContainsSegment = t.Item4.Item2;
+            IsOpen = t.Item4.Item3;
+            IsDegnerate = t.Item4.Item4;
+            EdgesIndex = t.Item5;
+            VerticesIndex = t.Item6;
+        }
+
+
         /// <summary>
         /// Derive the list of vertices in the cell from the list of segments
         /// </summary>
-        public List<int> GetVertices(ref List<Edge> edges)
-        {
-            //Assume the segments are returned chained, which they should be.
-            List<int> vertices = new List<int>();
-            for (int i = 0; i < EdgesIndex.Count; i++)
-            {
-                Edge edge = edges[EdgesIndex[i]];
-                vertices.Add(edge.Start);
-                if (vertices.Count == EdgesIndex.Count)
-                    vertices.Add(edge.End);
-            }
-            return vertices;
-        }
+        //public List<int> GetVertices(ref List<Edge> edges)
+        //{
+        //    //Assume the segments are returned chained, which they should be.
+        //    List<int> vertices = new List<int>();
+        //    for (int i = 0; i < EdgesIndex.Count; i++)
+        //    {
+        //        Edge edge = edges[EdgesIndex[i]];
+        //        vertices.Add(edge.Start);
+        //        if (vertices.Count == EdgesIndex.Count)
+        //            vertices.Add(edge.End);
+        //    }
+        //    return vertices;
+        //}
 
 
         public string FormattedCellInputInformation()

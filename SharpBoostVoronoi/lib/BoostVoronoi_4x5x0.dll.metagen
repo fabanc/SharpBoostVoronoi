@@ -18,7 +18,13 @@ Class boost.VoronoiWrapper: AutoLayout, AnsiClass, Class, Public, BeforeFieldIni
   Methods:
     AddPoint(Int32, Int32): PrivateScope, Public, HideBySig
     AddSegment(Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
-    ConstructVoronoi(): PrivateScope, Public, HideBySig
-    GetVertices(): PrivateScope, Public, HideBySig
-    GetEdges(): PrivateScope, Public, HideBySig
-    GetCells(): PrivateScope, Public, HideBySig
+    Construct(): PrivateScope, Public, HideBySig
+    CountVertices(): PrivateScope, Public, HideBySig
+    CountEdges(): PrivateScope, Public, HideBySig
+    CountCells(): PrivateScope, Public, HideBySig
+    CreateVertexMap(): PrivateScope, Public, HideBySig
+    CreateEdgeMap(): PrivateScope, Public, HideBySig
+    CreateCellMap(): PrivateScope, Public, HideBySig
+    GetVertex(Int64): PrivateScope, Public, HideBySig
+    GetEdge(Int64): PrivateScope, Public, HideBySig
+    GetCell(Int64): PrivateScope, Public, HideBySig

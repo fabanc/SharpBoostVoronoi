@@ -12,205 +12,121 @@ namespace BoostVoronoiTests
     [TestClass]
     public class TestCSharp
     {
-        [TestMethod]
-        public void TestVerticesCount()
-        {
-            List<Segment> input = new List<Segment>();
-            input.Add(new Segment(0, 0, 0, 10));
-            input.Add(new Segment(0, 10, 10, 10));
-            input.Add(new Segment(10, 10, 10, 0));
-            input.Add(new Segment(10, 0, 0, 0));
-            input.Add(new Segment(0, 0, 5, 5));
-            input.Add(new Segment(5, 5, 10, 10));
 
-            //Build the CLR voronoi
-            VoronoiWrapper vw = new VoronoiWrapper();
-            foreach (var s in input)
-                vw.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);   
-            
-            vw.ConstructVoronoi();
-            List<Tuple<double, double>> clrVertices = vw.GetVertices();
-            
-            //Build the C# Voronoi
-            BoostVoronoi bv = new BoostVoronoi();
-            foreach (var s in input)
-                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
-            bv.Construct();
-            List<Vertex> sharpVertices = bv.Vertices;
 
-            //Test that the outputs have the same length
-            Assert.AreEqual(clrVertices.Count, sharpVertices.Count);
-        }
+        //[TestMethod]
+        //public void TestVerticesSequence()
+        //{
+        //    List<Segment> input = new List<Segment>();
+        //    input.Add(new Segment(0, 0, 0, 10));
+        //    input.Add(new Segment(0, 10, 10, 10));
+        //    input.Add(new Segment(10, 10, 10, 0));
+        //    input.Add(new Segment(10, 0, 0, 0));
+        //    input.Add(new Segment(0, 0, 5, 5));
+        //    input.Add(new Segment(5, 5, 10, 10));
 
-        [TestMethod]
-        public void TestVerticesSequence()
-        {
-            List<Segment> input = new List<Segment>();
-            input.Add(new Segment(0, 0, 0, 10));
-            input.Add(new Segment(0, 10, 10, 10));
-            input.Add(new Segment(10, 10, 10, 0));
-            input.Add(new Segment(10, 0, 0, 0));
-            input.Add(new Segment(0, 0, 5, 5));
-            input.Add(new Segment(5, 5, 10, 10));
+        //    //Build the CLR voronoi
+        //    VoronoiWrapper vw = new VoronoiWrapper();
+        //    foreach (var s in input)
+        //        vw.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
-            //Build the CLR voronoi
-            VoronoiWrapper vw = new VoronoiWrapper();
-            foreach (var s in input)
-                vw.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+        //    vw.ConstructVoronoi();
+        //    List<Tuple<long, double, double>> clrVertices = new List<Tuple<long, double, double>>();
+        //    for (long i = 0; i < vw.CountVertices(); i++)
+        //        clrVertices.Add(vw.GetVertex(i));
 
-            vw.ConstructVoronoi();
-            List<Tuple<double, double>> clrVertices = vw.GetVertices();
+        //    //Build the C# Voronoi
+        //    BoostVoronoi bv = new BoostVoronoi();
+        //    foreach (var s in input)
+        //        bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+        //    bv.Construct();
+        //    List<Vertex> sharpVertices = bv.Vertices;
 
-            //Build the C# Voronoi
-            BoostVoronoi bv = new BoostVoronoi();
-            foreach (var s in input)
-                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
-            bv.Construct();
-            List<Vertex> sharpVertices = bv.Vertices;
+        //    //Test that the outputs have the same length
+        //    Assert.AreEqual(clrVertices.Count, sharpVertices.Count);
 
-            //Test that the outputs have the same length
-            Assert.AreEqual(clrVertices.Count, sharpVertices.Count);
+        //    for (int i = 0; i < sharpVertices.Count; i++)
+        //    {
+        //        Assert.AreEqual(clrVertices[i].Item2, sharpVertices[i].X);
+        //        Assert.AreEqual(clrVertices[i].Item3, sharpVertices[i].Y);
+        //    }
+        //}
 
-            for (int i = 0; i < sharpVertices.Count; i++)
-            {
-                Assert.AreEqual(clrVertices[i].Item1, sharpVertices[i].X);
-                Assert.AreEqual(clrVertices[i].Item2, sharpVertices[i].Y);
-            }
-        }
 
-        [TestMethod]
-        public void TestEdgesCount()
-        {
-            List<Segment> input = new List<Segment>();
-            input.Add(new Segment(0, 0, 0, 10));
-            input.Add(new Segment(0, 10, 10, 10));
-            input.Add(new Segment(10, 10, 10, 0));
-            input.Add(new Segment(10, 0, 0, 0));
-            input.Add(new Segment(0, 0, 5, 5));
-            input.Add(new Segment(5, 5, 10, 10));
+        //[TestMethod]
+        //public void TestEdgesSequence()
+        //{
+        //    List<Segment> input = new List<Segment>();
+        //    input.Add(new Segment(0, 0, 0, 10));
+        //    input.Add(new Segment(0, 10, 10, 10));
+        //    input.Add(new Segment(10, 10, 10, 0));
+        //    input.Add(new Segment(10, 0, 0, 0));
+        //    input.Add(new Segment(0, 0, 5, 5));
+        //    input.Add(new Segment(5, 5, 10, 10));
 
-            //Build the CLR voronoi
-            VoronoiWrapper vw = new VoronoiWrapper();
-            foreach (var s in input)
-                vw.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+        //    //Build the CLR voronoi
+        //    VoronoiWrapper vw = new VoronoiWrapper();
+        //    foreach (var s in input)
+        //        vw.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
-            vw.ConstructVoronoi();
-            List<Tuple<int,int,int,int,Tuple<bool,bool,bool, int, int>>> clrEdges = vw.GetEdges();
+        //    vw.ConstructVoronoi();
+        //    List<Tuple<int, int, int, int, Tuple<bool, bool, bool, int, int>>> clrEdges = vw.GetEdges();
 
-            //Build the C# Voronoi
-            BoostVoronoi bv = new BoostVoronoi();
-            foreach (var s in input)
-                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
-            bv.Construct();
-            List<Edge> sharpEdges = bv.Edges;
+        //    //Build the C# Voronoi
+        //    BoostVoronoi bv = new BoostVoronoi();
+        //    foreach (var s in input)
+        //        bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+        //    bv.Construct();
+        //    List<Edge> sharpEdges = bv.Edges;
 
-            //Test that the outputs have the same length
-            Assert.AreEqual(clrEdges.Count, sharpEdges.Count);
-        }
+        //    //Test that the outputs have the same length
+        //    Assert.AreEqual(clrEdges.Count, sharpEdges.Count);
 
-        [TestMethod]
-        public void TestEdgesSequence()
-        {
-            List<Segment> input = new List<Segment>();
-            input.Add(new Segment(0, 0, 0, 10));
-            input.Add(new Segment(0, 10, 10, 10));
-            input.Add(new Segment(10, 10, 10, 0));
-            input.Add(new Segment(10, 0, 0, 0));
-            input.Add(new Segment(0, 0, 5, 5));
-            input.Add(new Segment(5, 5, 10, 10));
+        //    for (int i = 0; i < clrEdges.Count; i++)
+        //    {
+        //        Assert.AreEqual(clrEdges[i].Item2, sharpEdges[i].Start);
+        //        Assert.AreEqual(clrEdges[i].Item3, sharpEdges[i].End);
+        //    }
+        //}
 
-            //Build the CLR voronoi
-            VoronoiWrapper vw = new VoronoiWrapper();
-            foreach (var s in input)
-                vw.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
-            vw.ConstructVoronoi();
-            List<Tuple<int, int, int, int, Tuple<bool, bool, bool, int, int>>> clrEdges = vw.GetEdges();
+        //[TestMethod]
+        //public void TestCellsSequence()
+        //{
+        //    List<Segment> input = new List<Segment>();
+        //    input.Add(new Segment(0, 0, 0, 10));
+        //    input.Add(new Segment(0, 10, 10, 10));
+        //    input.Add(new Segment(10, 10, 10, 0));
+        //    input.Add(new Segment(10, 0, 0, 0));
+        //    input.Add(new Segment(0, 0, 5, 5));
+        //    input.Add(new Segment(5, 5, 10, 10));
 
-            //Build the C# Voronoi
-            BoostVoronoi bv = new BoostVoronoi();
-            foreach (var s in input)
-                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
-            bv.Construct();
-            List<Edge> sharpEdges = bv.Edges;
+        //    //Build the CLR voronoi
+        //    VoronoiWrapper vw = new VoronoiWrapper();
+        //    foreach (var s in input)
+        //        vw.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
-            //Test that the outputs have the same length
-            Assert.AreEqual(clrEdges.Count, sharpEdges.Count);
+        //    vw.ConstructVoronoi();
+        //    List<Tuple<int, int, bool, bool, List<int>, bool, short>> clrCells = vw.GetCells();
 
-            for (int i = 0; i < clrEdges.Count; i++)
-            {
-                Assert.AreEqual(clrEdges[i].Item2, sharpEdges[i].Start);
-                Assert.AreEqual(clrEdges[i].Item3, sharpEdges[i].End);
-            }
-        }
+        //    //Build the C# Voronoi
+        //    BoostVoronoi bv = new BoostVoronoi();
+        //    foreach (var s in input)
+        //        bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+        //    bv.Construct();
+        //    List<Cell> sharpCells = bv.Cells;
 
-        [TestMethod]
-        public void TestCellsCount()
-        {
-            List<Segment> input = new List<Segment>();
-            input.Add(new Segment(0, 0, 0, 10));
-            input.Add(new Segment(0, 10, 10, 10));
-            input.Add(new Segment(10, 10, 10, 0));
-            input.Add(new Segment(10, 0, 0, 0));
-            input.Add(new Segment(0, 0, 5, 5));
-            input.Add(new Segment(5, 5, 10, 10));
+        //    //Test that the outputs have the same length
+        //    Assert.AreEqual(clrCells.Count, sharpCells.Count);
 
-            //Build the CLR voronoi
-            VoronoiWrapper vw = new VoronoiWrapper();
-            foreach (var s in input)
-                vw.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
-
-            vw.ConstructVoronoi();
-            List<Tuple<int, int, bool, bool, List<int>, bool, short>> clrCells = vw.GetCells();
-
-            //Build the C# Voronoi
-            BoostVoronoi bv = new BoostVoronoi();
-            foreach (var s in input)
-                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
-            bv.Construct();
-            List<Cell> sharpCells = bv.Cells;
-
-            //Test that the outputs have the same length
-            Assert.AreEqual(clrCells.Count, sharpCells.Count);
-        }
-
-        [TestMethod]
-        public void TestCellsSequence()
-        {
-            List<Segment> input = new List<Segment>();
-            input.Add(new Segment(0, 0, 0, 10));
-            input.Add(new Segment(0, 10, 10, 10));
-            input.Add(new Segment(10, 10, 10, 0));
-            input.Add(new Segment(10, 0, 0, 0));
-            input.Add(new Segment(0, 0, 5, 5));
-            input.Add(new Segment(5, 5, 10, 10));
-
-            //Build the CLR voronoi
-            VoronoiWrapper vw = new VoronoiWrapper();
-            foreach (var s in input)
-                vw.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
-
-            vw.ConstructVoronoi();
-            List<Tuple<int, int, bool, bool, List<int>, bool, short>> clrCells = vw.GetCells();
-
-            //Build the C# Voronoi
-            BoostVoronoi bv = new BoostVoronoi();
-            foreach (var s in input)
-                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
-            bv.Construct();
-            List<Cell> sharpCells = bv.Cells;
-
-            //Test that the outputs have the same length
-            Assert.AreEqual(clrCells.Count, sharpCells.Count);
-
-            for (int i = 0; i < clrCells.Count; i++)
-            {
-                for (int j = 0; j < clrCells[i].Item5.Count; j++)
-                {
-                    Assert.AreEqual(clrCells[i].Item5[j], sharpCells[i].EdgesIndex[j]);
-                }
-            }
-        }
+        //    for (int i = 0; i < clrCells.Count; i++)
+        //    {
+        //        for (int j = 0; j < clrCells[i].Item5.Count; j++)
+        //        {
+        //            Assert.AreEqual(clrCells[i].Item5[j], sharpCells[i].EdgesIndex[j]);
+        //        }
+        //    }
+        //}
 
 
         [TestMethod]
@@ -234,8 +150,8 @@ namespace BoostVoronoiTests
             foreach (var s in inputSegment)
                 vw.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
-            vw.ConstructVoronoi();
-            List<Tuple<int, int, bool, bool, List<int>, bool, short>> clrCells = vw.GetCells();
+            vw.Construct();
+            //List<Tuple<int, int, bool, bool, List<int>, bool, short>> clrCells = vw.GetCells();
 
             //Build the C# Voronoi
             BoostVoronoi bv = new BoostVoronoi();
@@ -245,15 +161,18 @@ namespace BoostVoronoiTests
                 bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
             bv.Construct();
-            List<Edge> sharpEdges = bv.Edges;
+            
 
             //Test twin reciprocity
-            for (int i = 0; i < sharpEdges.Count; i++)
+            for (long i = 0; i < bv.CountEdges; i++)
             {
-                Assert.AreEqual(i, sharpEdges[sharpEdges[i].Twin].Twin);
+                Edge edge = bv.GetEdge(i);
+                Edge twin = bv.GetEdge(edge.Twin);
+                Assert.AreEqual(i, twin.Twin);
             }
         }
 
+        //FA: To rewrite with new code
         [TestMethod]
         public void TestSegmentDicretization()
         {
@@ -263,19 +182,19 @@ namespace BoostVoronoiTests
             inputSegment.Add(new Segment(0, 0, 10, 0));
             inputSegment.Add(new Segment(0, 10, 10, 10));
             inputSegment.Add(new Segment(10, 0, 10, 10));
-            
 
-            //Build the CLR voronoi
-            VoronoiWrapper vw = new VoronoiWrapper();
 
-            foreach (var p in inputPoint)
-                vw.AddPoint(p.X, p.Y);
+            ////Build the CLR voronoi
+            //VoronoiWrapper vw = new VoronoiWrapper();
 
-            foreach (var s in inputSegment)
-                vw.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+            //foreach (var p in inputPoint)
+            //    vw.AddPoint(p.X, p.Y);
 
-            vw.ConstructVoronoi();
-            List<Tuple<int, int, bool, bool, List<int>, bool, short>> clrCells = vw.GetCells();
+            //foreach (var s in inputSegment)
+            //    vw.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+
+            //vw.Construct();
+            //List<Tuple<int, int, bool, bool, List<int>, bool, short>> clrCells = vw.GetCells();
 
             //Build the C# Voronoi
             BoostVoronoi bv = new BoostVoronoi();
@@ -285,24 +204,30 @@ namespace BoostVoronoiTests
                 bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
             bv.Construct();
-            List<Vertex> vertices = bv.Vertices;
-            List<Edge> sharpEdges = bv.Edges;
-            List<Cell> sharpCells = bv.Cells;
+            //List<Vertex> vertices = bv.Vertices;
+            //List<Edge> sharpEdges = bv.Edges;
+            //List<Cell> sharpCells = bv.Cells;
 
-            int testEdgeIndex = 2;
+            long testEdgeIndex = 2;
 
-            for (int i = 0; i < sharpEdges.Count; i++)
+            for (long i = 0; i < bv.CountEdges; i++)
             {
-                if (sharpCells[sharpEdges[sharpEdges[i].Twin].Cell].SourceCategory == CellSourceCatory.SinglePoint
+                Edge edge = bv.GetEdge(i);
+                Edge twin = bv.GetEdge(edge.Twin);
+
+                Cell edgeCell = bv.GetCell(edge.Cell);
+                Cell twinCell = bv.GetCell(twin.Cell);
+
+                if (twinCell.SourceCategory == CellSourceCatory.SinglePoint
                     &&
-                    sharpCells[sharpEdges[i].Cell].Site == 1)
+                    edgeCell.Site == 1)
                     testEdgeIndex = i;
 
             }
 
-            Edge testEdge = sharpEdges[testEdgeIndex];
-            Vertex startVertex = vertices[testEdge.Start];
-            Vertex endVertex = vertices[testEdge.End];
+            Edge testEdge = bv.GetEdge(testEdgeIndex);
+            Vertex startVertex = bv.GetVertex(testEdge.Start);
+            Vertex endVertex = bv.GetVertex(testEdge.End);
             List<Vertex> dvertices = bv.SampleCurvedEdge(testEdge, Distance.ComputeDistanceBetweenPoints(startVertex, endVertex) / 2);
             int lastDicretizedVertexIndex = dvertices.Count - 1;
 
@@ -330,17 +255,17 @@ namespace BoostVoronoiTests
             inputSegment.Add(new Segment(10, 0, 10, 10));
 
 
-            //Build the CLR voronoi
-            VoronoiWrapper vw = new VoronoiWrapper();
+            ////Build the CLR voronoi
+            //VoronoiWrapper vw = new VoronoiWrapper();
 
-            foreach (var p in inputPoint)
-                vw.AddPoint(p.X, p.Y);
+            //foreach (var p in inputPoint)
+            //    vw.AddPoint(p.X, p.Y);
 
-            foreach (var s in inputSegment)
-                vw.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+            //foreach (var s in inputSegment)
+            //    vw.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
-            vw.ConstructVoronoi();
-            List<Tuple<int, int, bool, bool, List<int>, bool, short>> clrCells = vw.GetCells();
+            //vw.Construct();
+            //List<Tuple<int, int, bool, bool, List<int>, bool, short>> clrCells = vw.GetCells();
 
             //Build the C# Voronoi
             BoostVoronoi bv = new BoostVoronoi();
@@ -350,21 +275,22 @@ namespace BoostVoronoiTests
                 bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
             bv.Construct();
-            List<Vertex> vertices = bv.Vertices;
-            List<Edge> sharpEdges = bv.Edges;
+            //List<Vertex> vertices = bv.Vertices;
+            //List<Edge> sharpEdges = bv.Edges;
 
             int countPrimary = 0;
             int countSecondary = 0;
             int countFinite = 0;
-            for (int i = 0; i < sharpEdges.Count; i++)
+            for (long i = 0; i < bv.CountEdges; i++)
             {
-                if (sharpEdges[i].IsPrimary)
+                Edge edge = bv.GetEdge(i);
+                if (edge.IsPrimary)
                     countPrimary++;
 
-                if (sharpEdges[i].IsFinite)
+                if (edge.IsFinite)
                     countFinite++;
 
-                if (!sharpEdges[i].IsPrimary && sharpEdges[i].IsFinite)
+                if (!edge.IsPrimary && edge.IsFinite)
                     countSecondary++;
             }
 
@@ -395,15 +321,16 @@ namespace BoostVoronoiTests
                 bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
             bv.Construct();
-            List<Vertex> vertices = bv.Vertices;
-            List<Edge> sharpEdges = bv.Edges;
-            List<Cell> cells = bv.Cells;
+            //List<Vertex> vertices = bv.Vertices;
+            //List<Edge> sharpEdges = bv.Edges;
+            //List<Cell> cells = bv.Cells;
 
-            for (int i = 0; i < cells.Count; i++)
+            for (long i = 0; i < bv.CountCells; i++)
             {
-                if(!cells[i].IsOpen)
+                Cell cell = bv.GetCell(i);
+                if (!cell.IsOpen)
                 {
-                    List<int> vertexIndexes = cells[i].GetVertices(ref sharpEdges);
+                    List<long> vertexIndexes = cell.VerticesIndex;
                     Assert.AreEqual(vertexIndexes.Count, 5);
                     Assert.AreEqual(vertexIndexes[0], vertexIndexes[vertexIndexes.Count - 1]);
                 }
@@ -432,17 +359,18 @@ namespace BoostVoronoiTests
                 bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
             bv.Construct();
-            List<Vertex> vertices = bv.Vertices;
-            List<Edge> sharpEdges = bv.Edges;
-            List<Cell> cells = bv.Cells;
+            //List<Vertex> vertices = bv.Vertices;
+            //List<Edge> sharpEdges = bv.Edges;
+            //List<Cell> cells = bv.Cells;
 
-            for (int i = 0; i < cells.Count; i++)
+            for (long i = 0; i < bv.CountCells; i++)
             {
-                if(cells[i].SourceCategory != CellSourceCatory.SegmentStartPoint 
-                    && cells[i].SourceCategory != CellSourceCatory.SegmentEndPoint 
-                    && cells[i].SourceCategory != CellSourceCatory.SinglePoint)
+                Cell cell = bv.GetCell(i);
+                if (cell.SourceCategory != CellSourceCatory.SegmentStartPoint
+                    && cell.SourceCategory != CellSourceCatory.SegmentEndPoint
+                    && cell.SourceCategory != CellSourceCatory.SinglePoint)
                 {
-                    bv.RetrieveInputPoint(cells[i]);
+                    bv.RetrieveInputPoint(cell);
                 }   
             }
         }
@@ -467,16 +395,17 @@ namespace BoostVoronoiTests
                 bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
             bv.Construct();
-            List<Vertex> vertices = bv.Vertices;
-            List<Edge> sharpEdges = bv.Edges;
-            List<Cell> cells = bv.Cells;
+            //List<Vertex> vertices = bv.Vertices;
+            //List<Edge> sharpEdges = bv.Edges;
+            //List<Cell> cells = bv.Cells;
 
-            for (int i = 0; i < cells.Count; i++)
+            for (long i = 0; i < bv.CountCells; i++)
             {
-                if (cells[i].SourceCategory != CellSourceCatory.InitialSegment
-                    && cells[i].SourceCategory != CellSourceCatory.ReverseSegment)
+                Cell cell = bv.GetCell(i);
+                if (cell.SourceCategory != CellSourceCatory.InitialSegment
+                    && cell.SourceCategory != CellSourceCatory.ReverseSegment)
                 {
-                    bv.RetrieveInputSegment(cells[i]);
+                    bv.RetrieveInputSegment(cell);
                 }
             }
         }
