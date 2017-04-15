@@ -410,5 +410,139 @@ namespace BoostVoronoiTests
             }
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(IndexOutOfRangeException))]
+        public void TestNegativeVertexIndexException()
+        {
+            List<Point> inputPoint = new List<Point>() { new Point(5, 5) };
+            List<Segment> inputSegment = new List<Segment>();
+            inputSegment.Add(new Segment(0, 0, 0, 10));
+            inputSegment.Add(new Segment(0, 0, 10, 0));
+            inputSegment.Add(new Segment(0, 10, 10, 10));
+            inputSegment.Add(new Segment(10, 0, 10, 10));
+
+            //Build the C# Voronoi
+            BoostVoronoi bv = new BoostVoronoi();
+            foreach (var p in inputPoint)
+                bv.AddPoint(p.X, p.Y);
+            foreach (var s in inputSegment)
+                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+
+            bv.Construct();
+            bv.GetVertex(-1);
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(IndexOutOfRangeException))]
+        public void TestNegativeEdgeIndexException()
+        {
+            List<Point> inputPoint = new List<Point>() { new Point(5, 5) };
+            List<Segment> inputSegment = new List<Segment>();
+            inputSegment.Add(new Segment(0, 0, 0, 10));
+            inputSegment.Add(new Segment(0, 0, 10, 0));
+            inputSegment.Add(new Segment(0, 10, 10, 10));
+            inputSegment.Add(new Segment(10, 0, 10, 10));
+
+            //Build the C# Voronoi
+            BoostVoronoi bv = new BoostVoronoi();
+            foreach (var p in inputPoint)
+                bv.AddPoint(p.X, p.Y);
+            foreach (var s in inputSegment)
+                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+
+            bv.Construct();
+            bv.GetEdge(-1);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(IndexOutOfRangeException))]
+        public void TestNegativeCellIndexException()
+        {
+            List<Point> inputPoint = new List<Point>() { new Point(5, 5) };
+            List<Segment> inputSegment = new List<Segment>();
+            inputSegment.Add(new Segment(0, 0, 0, 10));
+            inputSegment.Add(new Segment(0, 0, 10, 0));
+            inputSegment.Add(new Segment(0, 10, 10, 10));
+            inputSegment.Add(new Segment(10, 0, 10, 10));
+
+            //Build the C# Voronoi
+            BoostVoronoi bv = new BoostVoronoi();
+            foreach (var p in inputPoint)
+                bv.AddPoint(p.X, p.Y);
+            foreach (var s in inputSegment)
+                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+
+            bv.Construct();
+            bv.GetCell(-1);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(IndexOutOfRangeException))]
+        public void TestInvalidVertexIndexException()
+        {
+            List<Point> inputPoint = new List<Point>() { new Point(5, 5) };
+            List<Segment> inputSegment = new List<Segment>();
+            inputSegment.Add(new Segment(0, 0, 0, 10));
+            inputSegment.Add(new Segment(0, 0, 10, 0));
+            inputSegment.Add(new Segment(0, 10, 10, 10));
+            inputSegment.Add(new Segment(10, 0, 10, 10));
+
+            //Build the C# Voronoi
+            BoostVoronoi bv = new BoostVoronoi();
+            foreach (var p in inputPoint)
+                bv.AddPoint(p.X, p.Y);
+            foreach (var s in inputSegment)
+                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+
+            bv.Construct();
+            bv.GetVertex(bv.CountVertices);
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(IndexOutOfRangeException))]
+        public void TestInvalidEdgeIndexException()
+        {
+            List<Point> inputPoint = new List<Point>() { new Point(5, 5) };
+            List<Segment> inputSegment = new List<Segment>();
+            inputSegment.Add(new Segment(0, 0, 0, 10));
+            inputSegment.Add(new Segment(0, 0, 10, 0));
+            inputSegment.Add(new Segment(0, 10, 10, 10));
+            inputSegment.Add(new Segment(10, 0, 10, 10));
+
+            //Build the C# Voronoi
+            BoostVoronoi bv = new BoostVoronoi();
+            foreach (var p in inputPoint)
+                bv.AddPoint(p.X, p.Y);
+            foreach (var s in inputSegment)
+                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+
+            bv.Construct();
+            bv.GetEdge(bv.CountEdges);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(IndexOutOfRangeException))]
+        public void TestInvalidCellIndexException()
+        {
+            List<Point> inputPoint = new List<Point>() { new Point(5, 5) };
+            List<Segment> inputSegment = new List<Segment>();
+            inputSegment.Add(new Segment(0, 0, 0, 10));
+            inputSegment.Add(new Segment(0, 0, 10, 0));
+            inputSegment.Add(new Segment(0, 10, 10, 10));
+            inputSegment.Add(new Segment(10, 0, 10, 10));
+
+            //Build the C# Voronoi
+            BoostVoronoi bv = new BoostVoronoi();
+            foreach (var p in inputPoint)
+                bv.AddPoint(p.X, p.Y);
+            foreach (var s in inputSegment)
+                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+
+            bv.Construct();
+            bv.GetCell(bv.CountCells);
+        }
+
     }
 }

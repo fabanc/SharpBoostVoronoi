@@ -169,16 +169,23 @@ namespace SharpBoostVoronoi
 
         public Vertex GetVertex(long index)
         {
+            if (index < -0 || index > this.CountVertices -1)
+                throw new IndexOutOfRangeException();
+
             return new Vertex(VoronoiWrapper.GetVertex(index));
         }
 
         public Edge GetEdge(long index)
         {
+            if (index < -0 || index > this.CountEdges -1)
+                throw new IndexOutOfRangeException();
             return new Edge(VoronoiWrapper.GetEdge(index));
         }
 
         public Cell GetCell(long index)
         {
+            if (index < -0 || index > this.CountCells -1)
+                throw new IndexOutOfRangeException();
             return new Cell(VoronoiWrapper.GetCell(index));
         }
 
