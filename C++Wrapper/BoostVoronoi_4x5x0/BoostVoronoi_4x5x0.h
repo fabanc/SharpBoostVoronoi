@@ -69,58 +69,43 @@ namespace boost {
 
 	public class Voronoi
 	{
-	public:
+		public:
+			//Data structure for numbering
+			typedef boost::bimap<const voronoi_diagram<double>::vertex_type*, long long> vertices_bimap;
+			typedef vertices_bimap::value_type vertex_position;
+			vertices_bimap vertices;
 
-		//Data structure for numbering
-		//std::map<const voronoi_diagram<double>::vertex_type*, long long> vertexMap;
-		std::map<const voronoi_diagram<double>::edge_type*, long long> edgeMap;
-		std::map<const voronoi_diagram<double>::cell_type*, long long> cellMap;
+			typedef boost::bimap<const voronoi_diagram<double>::edge_type*, long long> edges_bimap;
+			typedef edges_bimap::value_type edge_position;
+			edges_bimap edges;
 
+			typedef boost::bimap<const voronoi_diagram<double>::cell_type*, long long> cells_bimap;
+			typedef cells_bimap::value_type cell_position;
+			cells_bimap cells;
 
-		//std::map<long long, const voronoi_diagram<double>::vertex_type*> vertexMap2;
-		std::map<long long, const voronoi_diagram<double>::edge_type*> edgeMap2;
-		std::map<long long, const voronoi_diagram<double>::cell_type*> cellMap2;
+			std::vector<Point> points;
+			std::vector<Segment> segments;
+			voronoi_diagram<double> vd;
 
-		typedef boost::bimap<const voronoi_diagram<double>::vertex_type*, long long> vertices_bimap;
-		typedef vertices_bimap::value_type vertex_position;
-		vertices_bimap vertices;
+			void AddPoint(int x, int y);
+			void AddSegment(int x1, int y1, int x2, int y2);
 
-		typedef boost::bimap<const voronoi_diagram<double>::edge_type*, long long> edges_bimap;
-		typedef edges_bimap::value_type edge_position;
-		edges_bimap edges;
+			void Construct();
+			void CreateMaps();
+			void CreateVertexMap();
+			void CreateEdgesMap();
+			void CreateCellMap();
+			long long CountVertices();
+			long long CountEdges();
+			long long CountCells();
 
-		typedef boost::bimap<const voronoi_diagram<double>::cell_type*, long long> cells_bimap;
-		typedef cells_bimap::value_type cell_position;
-		cells_bimap cells;
+			Tuple<long long, double, double>^ GetVertex(long long i);
+			Tuple<long long, long long, long long, bool, bool, bool, Tuple<long long, long long>^>^ GetEdge(long long i);
+			Tuple<long long, long long, short, Tuple<bool, bool, bool, bool>^, List<long long>^, List<long long>^>^ GetCell(long long i);
 
-		std::vector<Point> points;
-		std::vector<Segment> segments;
-		voronoi_diagram<double> vd;
-
-		void AddPoint(int x, int y);
-		void AddSegment(int x1, int y1, int x2, int y2);
-
-		void Construct();
-		void CreateMaps();
-		void CreateVertexMap();
-		void CreateEdgesMap();
-		void CreateCellMap();
-		long long CountVertices();
-		long long CountEdges();
-		long long CountCells();
-
-		long long GetEdgeMapMaxSize();
-		long long GetEdgeIndexMapMaxSize();
-		long long GetCellIndexMapMaxSize();
-
-
-		Tuple<long long, double, double>^ GetVertex(long long i);
-		Tuple<long long, long long, long long, bool, bool, bool, Tuple<long long, long long>^>^ GetEdge(long long i);
-		Tuple<long long, long, short, Tuple<bool, bool, bool, bool>^, List<long long>^, List<long long>^>^ GetCell(long long i);
-
-		long long GetVertexIndex(const voronoi_diagram<double>::vertex_type* vertex);
-		long long GetEdgeIndex(const voronoi_diagram<double>::edge_type* edge);
-		long long GetCellIndex(const voronoi_diagram<double>::cell_type* cell);
+			long long GetVertexIndex(const voronoi_diagram<double>::vertex_type* vertex);
+			long long GetEdgeIndex(const voronoi_diagram<double>::edge_type* edge);
+			long long GetCellIndex(const voronoi_diagram<double>::cell_type* cell);
 	};
 
 
@@ -143,21 +128,6 @@ namespace boost {
 	{
 		return vd.num_cells();
 	}
-
-	//long long Voronoi::GetEdgeMapMaxSize()
-	//{
-	//	return edgeMap.max_size();
-	//}
-
-	//long long Voronoi::GetEdgeIndexMapMaxSize()
-	//{
-	//	return edgeMap2.max_size();
-	//}
-
-	//long long Voronoi::GetCellIndexMapMaxSize()
-	//{
-	//	return cellMap2.max_size();
-	//}
 
 	void Voronoi::CreateVertexMap()
 	{
@@ -225,8 +195,8 @@ namespace boost {
 		const voronoi_diagram<double>::vertex_type * start = edge->vertex0();
 		const voronoi_diagram<double>::vertex_type * end = edge->vertex1();
 
-		long start_id = GetVertexIndex(start);
-		long end_id = GetVertexIndex(end);
+		long long start_id = GetVertexIndex(start);
+		long long end_id = GetVertexIndex(end);
 
 		//Find the twin reference using the segment object
 		const voronoi_diagram<double>::edge_type * twin = edge->twin();
@@ -257,7 +227,7 @@ namespace boost {
 	}
 
 
-	Tuple<long long, long, short, Tuple<bool, bool, bool, bool>^, List<long long>^, List<long long>^>^ Voronoi::GetCell(long long index)
+	Tuple<long long, long long, short, Tuple<bool, bool, bool, bool>^, List<long long>^, List<long long>^>^ Voronoi::GetCell(long long index)
 	{
 		//std::map<long long, const voronoi_diagram<double>::cell_type *>::iterator cellMapIterator = cellMap2.find(index);
 		const voronoi_diagram<double>::cell_type* cell = cells.right.at(index);
@@ -337,7 +307,7 @@ namespace boost {
 			cell->is_degenerate()
 			);
 
-		return gcnew Tuple<long long, long, short, Tuple<bool, bool, bool, bool>^, List<long long>^, List<long long>^>(
+		return gcnew Tuple<long long, long long, short, Tuple<bool, bool, bool, bool>^, List<long long>^, List<long long>^>(
 			index,
 			cell->source_index(),
 			source_category,
@@ -395,15 +365,15 @@ namespace boost {
 			v->Construct();
 		}
 
-		long CountVertices(){
+		long long CountVertices(){
 			return v->CountVertices();
 		}
 
-		long CountEdges(){
+		long long CountEdges(){
 			return v->CountEdges();
 		}
 
-		long CountCells(){
+		long long CountCells(){
 			return v->CountCells();
 		}
 
@@ -432,7 +402,7 @@ namespace boost {
 			return v->GetEdge(index);
 		}
 
-		Tuple<long long, long, short, Tuple<bool, bool, bool, bool>^, List<long long>^, List<long long>^>^ GetCell(long long index)
+		Tuple<long long, long long, short, Tuple<bool, bool, bool, bool>^, List<long long>^, List<long long>^>^ GetCell(long long index)
 		{
 			return v->GetCell(index);
 		}

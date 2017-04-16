@@ -18,7 +18,7 @@ namespace SharpBoostVoronoi.Output
         /// <summary>
         /// The index of the source feature
         /// </summary>
-        public int Site { get; set; }
+        public long Site { get; set; }
 
         /// <summary>
         /// True if the cell is made from a point
@@ -72,7 +72,7 @@ namespace SharpBoostVoronoi.Output
         }
 
 
-        public Cell(Tuple<long, int, short, Tuple<bool, bool, bool, bool>, List<long>, List<long>> t)
+        public Cell(Tuple<long, long, short, Tuple<bool, bool, bool, bool>, List<long>, List<long>> t)
         {
             Index = t.Item1;
             Site = t.Item2;

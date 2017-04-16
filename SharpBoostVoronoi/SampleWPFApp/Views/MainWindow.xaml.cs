@@ -70,10 +70,10 @@ namespace SampleWPFApp.Views
                 ov.Add(gData.VoronoiSolution.GetVertex(i));
 
 
-            foreach (var inputPoint in gData.VoronoiSolution.InputPoints)
+            foreach (var inputPoint in gData.VoronoiSolution.InputPoints.Values)
                 DrawPoint(inputPoint.X, inputPoint.Y, InputPointColoBrush, inputPointWidth, inputPointRadius);
 
-            foreach (var inputSegment in gData.VoronoiSolution.InputSegments)
+            foreach (var inputSegment in gData.VoronoiSolution.InputSegments.Values)
             {
 
                 //Draw the input segment

@@ -26,12 +26,12 @@ namespace SharpBoostVoronoi
         /// <summary>
         /// The input points used to construct the voronoi diagram
         /// </summary>
-        public List<Point> InputPoints { get; private set; }
+        public Dictionary<long, Point> InputPoints { get; private set; }
 
         /// <summary>
         /// The input segments used to construct the voronoi diagram
         /// </summary>
-        public List<Segment> InputSegments { get; private set; }
+        public Dictionary<long, Segment> InputSegments { get; private set; }
 
         /// <summary>
         /// A scale factor. It will be used as a multiplier for input coordinates. Output coordinates will be divided by the scale factor automatically.
@@ -53,8 +53,8 @@ namespace SharpBoostVoronoi
         /// </summary>
         public BoostVoronoi()
         {
-            InputPoints = new List<Point>();
-            InputSegments = new List<Segment>();
+            InputPoints = new Dictionary<long, Point>();
+            InputSegments = new Dictionary<long, Segment>();
             VoronoiWrapper = new VoronoiWrapper();
             ScaleFactor = 1;
             CountVertices = -1;
@@ -68,8 +68,8 @@ namespace SharpBoostVoronoi
         /// <param name="scaleFactor"> A scale factor greater than zero. It will be used as a multiplier for input coordinates. Output coordinates will be divided by the scale factor automatically.</param>
         public BoostVoronoi(int scaleFactor)
         {
-            InputPoints = new List<Point>();
-            InputSegments = new List<Segment>();
+            InputPoints = new Dictionary<long, Point>();
+            InputSegments = new Dictionary<long, Segment>();
             VoronoiWrapper = new VoronoiWrapper();
 
             if (scaleFactor <= 0)
@@ -79,54 +79,11 @@ namespace SharpBoostVoronoi
         }
 
 
-
-        /// <summary>
-        /// Calls the voronoi API in order to build the voronoi cells.
-        /// </summary>
-        //public void Construct()
-        //{
-        //    //Pass the input
-        //    foreach (var p in InputPoints)
-        //        VoronoiWrapper.AddPoint(p.X, p.Y);
-
-        //    foreach (var s in InputSegments)
-        //        VoronoiWrapper.AddSegment(
-        //                s.Start.X, 
-        //                s.Start.Y,
-        //                s.End.X, 
-        //                s.End.Y );
-
-        //    //Store the output
-        //    Vertices = new List<Vertex>();
-        //    foreach (var t in VoronoiWrapper.GetVertices())
-        //        Vertices.Add(new Vertex(t, ScaleFactor));
-
-        //    Edges = new List<Edge>();
-        //    foreach (var t in VoronoiWrapper.GetEdges())
-        //        Edges.Add(new Edge(t));
-
-        //    Cells = new List<Cell>();
-        //    foreach (var t in VoronoiWrapper.GetCells())
-        //        Cells.Add(new Cell(t));
-        //}
-
-
         /// <summary>
         /// Calls the voronoi API in order to build the voronoi cells.
         /// </summary>
         public void Construct()
         {
-            //Pass the input
-            foreach (var p in InputPoints)
-                VoronoiWrapper.AddPoint(p.X, p.Y);
-
-            foreach (var s in InputSegments)
-                VoronoiWrapper.AddSegment(
-                        s.Start.X,
-                        s.Start.Y,
-                        s.End.X,
-                        s.End.Y);
-
             //Construct
             VoronoiWrapper.Construct();
 
@@ -141,30 +98,6 @@ namespace SharpBoostVoronoi
             this.CountVertices = VoronoiWrapper.CountVertices();
             this.CountEdges = VoronoiWrapper.CountEdges();
             this.CountCells = VoronoiWrapper.CountCells();
-
-
-            ////Get count and iterates
-            //long vertexCount = VoronoiWrapper.CountVertices();
-            //for (long i = 0; i < vertexCount; i++)
-            //{
-            //    Tuple<long, double, double> vertex = VoronoiWrapper.GetVertex(i);
-            //}
-
-            //long cellsCount = VoronoiWrapper.CountCells();
-            //for (long i = 0; i < cellsCount; i++)
-            //{
-
-            //}
-
-
-            //long edgesCount = VoronoiWrapper.CountEdges();
-            ////List<Tuple<long, Tuple<long, double, double>, Tuple<long, double, double>, bool, bool, bool, Tuple<long, long>>> listEdges = 
-            ////    new List<Tuple<long, Tuple<long, double, double>, Tuple<long, double, double>, bool, bool, bool, Tuple<long, long>>>();
-            //for (long i = 0; i < edgesCount; i++)
-            //{
-            //    Tuple<long, Tuple<long, double, double>, Tuple<long, double, double>, bool, bool, bool, Tuple<long, long>> edge = VoronoiWrapper.GetEdge(i);
-            //    //listEdges.Add(edge);
-            //}
         }
 
         public Vertex GetVertex(long index)
@@ -210,7 +143,9 @@ namespace SharpBoostVoronoi
         /// <param name="y"></param>
         public void AddPoint(double x, double y)
         {
-            InputPoints.Add(new Point(Convert.ToInt32(x * ScaleFactor), Convert.ToInt32(y * ScaleFactor)));
+            Point p = new Point(Convert.ToInt32(x * ScaleFactor), Convert.ToInt32(y * ScaleFactor));
+            InputPoints[InputPoints.Count] = p;
+            VoronoiWrapper.AddPoint(p.X, p.Y);
         }
 
         /// <summary>
@@ -235,12 +170,20 @@ namespace SharpBoostVoronoi
         /// <param name="y2">Y coordinate of the end point</param>
         public void AddSegment(double x1, double y1, double x2, double y2)
         {
-            InputSegments.Add(new Segment(
+            Segment s = new Segment(
                  Convert.ToInt32(x1 * ScaleFactor),
                  Convert.ToInt32(y1 * ScaleFactor),
-                 Convert.ToInt32(x2 * ScaleFactor), 
+                 Convert.ToInt32(x2 * ScaleFactor),
                  Convert.ToInt32(y2 * ScaleFactor)
-            ));
+            );
+
+            InputSegments[InputSegments.Count] = s;
+            VoronoiWrapper.AddSegment(
+                s.Start.X,
+                s.Start.Y,
+                s.End.X,
+                s.End.Y
+            );
         }
 
         #region Code to discretize curves
@@ -347,7 +290,7 @@ namespace SharpBoostVoronoi
                 new Point(segmentNotScaled.End.X, segmentNotScaled.End.Y));
         }
 
-        private int RetriveInputSegmentIndex(Cell cell)
+        private long RetriveInputSegmentIndex(Cell cell)
         {
             if (cell.SourceCategory == CellSourceCatory.SinglePoint)
                 throw new Exception("Attempting to retrive an input segment on a cell that was built around a point");
