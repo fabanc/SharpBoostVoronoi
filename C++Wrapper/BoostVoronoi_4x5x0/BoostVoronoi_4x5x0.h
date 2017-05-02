@@ -3,7 +3,7 @@
 #pragma once
 #include<boost/polygon/voronoi.hpp>
 #include <boost/bimap.hpp>
-#include <map>
+
 
 using namespace System;
 using namespace System::Collections::Generic;
@@ -406,21 +406,6 @@ namespace boost {
 		{
 			return v->GetCell(index);
 		}
-
-		//long long GetEdgeMapMaxSize()
-		//{
-		//	return v->GetEdgeMapMaxSize();
-		//}
-
-		//long long GetEdgeIndexMapMaxSize()
-		//{
-		//	return v->GetEdgeIndexMapMaxSize();
-		//}
-
-		//long long GetCellIndexMapMaxSize()
-		//{
-		//	return v->GetCellIndexMapMaxSize();
-		//}
 	};
 
 }  // boost
