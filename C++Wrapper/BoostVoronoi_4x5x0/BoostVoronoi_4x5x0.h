@@ -106,12 +106,27 @@ namespace boost {
 			long long GetVertexIndex(const voronoi_diagram<double>::vertex_type* vertex);
 			long long GetEdgeIndex(const voronoi_diagram<double>::edge_type* edge);
 			long long GetCellIndex(const voronoi_diagram<double>::cell_type* cell);
+
+			void Clear();
 	};
 
 
 	void Voronoi::Construct()
 	{
 		boost::polygon::construct_voronoi(points.begin(), points.end(), segments.begin(), segments.end(), &vd);
+	}
+
+	void Voronoi::Clear(){
+		//Clear the output structure
+		this->vertices.clear();
+		this->edges.clear();
+		this->cells.clear();
+
+		//Clear the input structure
+		vd.clear();
+
+		
+
 	}
 
 	long long Voronoi::CountVertices()
@@ -363,6 +378,11 @@ namespace boost {
 		void Construct()
 		{
 			v->Construct();
+		}
+
+		void Clear()
+		{
+			v->Clear();
 		}
 
 		long long CountVertices(){

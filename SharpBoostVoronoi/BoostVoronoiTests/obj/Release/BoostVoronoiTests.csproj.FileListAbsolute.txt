@@ -1,9 +1,9 @@
-C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\BoostVoronoiTests\obj\Release\BoostVoronoiTests.csprojResolveAssemblyReference.cache
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\BoostVoronoiTests\bin\Release\BoostVoronoiTests.dll
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\BoostVoronoiTests\bin\Release\BoostVoronoiTests.pdb
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\BoostVoronoiTests\bin\Release\BoostVoronoi_4x5x0.dll
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\BoostVoronoiTests\bin\Release\SharpBoostVoronoi.dll
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\BoostVoronoiTests\bin\Release\SharpBoostVoronoi.pdb
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\BoostVoronoiTests\bin\Release\BoostVoronoi_4x5x0.pdb
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\BoostVoronoiTests\obj\Release\BoostVoronoiTests.csprojResolveAssemblyReference.cache
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\BoostVoronoiTests\obj\Release\BoostVoronoiTests.dll
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\BoostVoronoiTests\obj\Release\BoostVoronoiTests.pdb

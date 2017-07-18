@@ -118,6 +118,10 @@ namespace PerformanceTesting
             Console.WriteLine(String.Format("Vertices: {0}, Edges: {1}, Cells: {2}", bv.CountVertices, bv.CountEdges, bv.CountCells));
             Console.WriteLine("Time elapsed: {0:hh\\:mm\\:ss\\:ff}.", stopwatch.Elapsed);
 
+            bv.Clear();
+            inputPoints.Clear();
+            inputSegments.Clear();
+
         }
     }
 }

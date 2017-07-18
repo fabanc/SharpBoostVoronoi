@@ -100,6 +100,14 @@ namespace SharpBoostVoronoi
             this.CountCells = VoronoiWrapper.CountCells();
         }
 
+        /// <summary>
+        /// Clears the list of the inserted geometries.
+        /// </summary>
+        public void Clear()
+        {
+            VoronoiWrapper.Clear();
+        }
+
         public Vertex GetVertex(long index)
         {
             if (index < -0 || index > this.CountVertices -1)
