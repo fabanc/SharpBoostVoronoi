@@ -29,45 +29,47 @@ Those properties also contains other attributes of the boost voronoi API describ
             input.Add(new Segment(10, 0, 0, 0));
 
             //Instanciate the voronoi wrapper
-            BoostVoronoi bv = new BoostVoronoi();
+            using(BoostVoronoi bv = new BoostVoronoi())
+			{
+				//Add a point
+				bv.AddPoint(5, 5);
 
-            //Add a point
-            bv.AddPoint(5, 5);
+				//Add the segments
+				foreach (var s in input)
+					bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
-            //Add the segments
-            foreach (var s in input)
-                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+				//Build the C# Voronoi
+				bv.Construct();
 
-            //Build the C# Voronoi
-            bv.Construct();
+				//Get the voronoi output
+				for (long i = 0; i < bv.CountCells; i++ )
+				{
+					Cell cell = bv.GetCell(i);
+					Console.Out.WriteLine(String.Format("Cell Identifier {0}. Is open = {1}", cell.Index, cell.IsOpen));
+					foreach (var edgeIndex in cell.EdgesIndex)
+					{
+						Edge edge = bv.GetEdge(edgeIndex);
+						Console.Out.WriteLine(
+							String.Format("  Edge Index: {0}. Start vertex index: {1}, End vertex index: {2}",
+							edgeIndex,
+							edge.Start,
+							edge.End));
 
-            //Get the voronoi output
-            for (long i = 0; i < bv.CountCells; i++ )
-            {
-                Cell cell = bv.GetCell(i);
-                Console.Out.WriteLine(String.Format("Cell Identifier {0}. Is open = {1}", cell.Index, cell.IsOpen));
-                foreach (var edgeIndex in cell.EdgesIndex)
-                {
-                    Edge edge = bv.GetEdge(edgeIndex);
-                    Console.Out.WriteLine(
-                        String.Format("  Edge Index: {0}. Start vertex index: {1}, End vertex index: {2}",
-                        edgeIndex,
-                        edge.Start,
-                        edge.End));
+						//If the vertex index equals -1, it means the edge is infinite. It is impossible to print the coordinates.
+						if (edge.IsLinear)
+						{
+							Vertex start = bv.GetVertex(edge.Start);
+							Vertex end = bv.GetVertex(edge.End);
 
-                    //If the vertex index equals -1, it means the edge is infinite. It is impossible to print the coordinates.
-                    if (edge.IsLinear)
-                    {
-                        Vertex start = bv.GetVertex(edge.Start);
-                        Vertex end = bv.GetVertex(edge.End);
-
-                        Console.Out.WriteLine(
-                            String.Format("     From:{0}, To: {1}",
-                            start.ToString(),
-                            end.ToString()));
-                    }
-                }
-            }
+							Console.Out.WriteLine(
+								String.Format("     From:{0}, To: {1}",
+								start.ToString(),
+								end.ToString()));
+						}
+					}
+				}
+			}
+			
             Console.In.ReadLine();
         }
     }

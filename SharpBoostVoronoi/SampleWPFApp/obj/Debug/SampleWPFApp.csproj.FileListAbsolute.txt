@@ -5,6 +5,7 @@ C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SampleWPFApp\bin
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SampleWPFApp\bin\Debug\BoostVoronoi_4x5x0.dll
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SampleWPFApp\bin\Debug\SharpBoostVoronoi.pdb
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SampleWPFApp\bin\Debug\BoostVoronoi_4x5x0.pdb
+C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SampleWPFApp\obj\Debug\SampleWPFApp.csprojResolveAssemblyReference.cache
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SampleWPFApp\obj\Debug\Views\MainWindow.g.cs
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SampleWPFApp\obj\Debug\App.g.cs
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SampleWPFApp\obj\Debug\SampleWPFApp_MarkupCompile.cache
@@ -15,4 +16,3 @@ C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SampleWPFApp\obj
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SampleWPFApp\obj\Debug\SampleWPFApp.csproj.GenerateResource.Cache
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SampleWPFApp\obj\Debug\SampleWPFApp.exe
 C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SampleWPFApp\obj\Debug\SampleWPFApp.pdb
-C:\github\SharpBoostVoronoi\SharpBoostVoronoi\SharpBoostVoronoi\SampleWPFApp\obj\Debug\SampleWPFApp.csprojResolveAssemblyReference.cache
