@@ -13,6 +13,8 @@ Struct boost.Voronoi: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Se
   :System.ValueType
 Class boost.VoronoiWrapper: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Interfaces:
+    System.IDisposable
   Fields:
     boost.Voronoi* v : Public
   Methods:
@@ -29,3 +31,4 @@ Class boost.VoronoiWrapper: AutoLayout, AnsiClass, Class, Public, BeforeFieldIni
     GetVertex(Int64): PrivateScope, Public, HideBySig
     GetEdge(Int64): PrivateScope, Public, HideBySig
     GetCell(Int64): PrivateScope, Public, HideBySig
+    Dispose(): PrivateScope, Public, Final, Virtual, HideBySig

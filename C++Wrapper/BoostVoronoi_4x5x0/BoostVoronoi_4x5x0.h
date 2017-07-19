@@ -108,6 +108,7 @@ namespace boost {
 			long long GetCellIndex(const voronoi_diagram<double>::cell_type* cell);
 
 			void Clear();
+			~Voronoi();
 	};
 
 
@@ -125,8 +126,16 @@ namespace boost {
 		//Clear the input structure
 		vd.clear();
 
-		
+		points.clear();
+		segments.clear();
+	}
 
+	Voronoi::~Voronoi(){
+		//Clear the output structure
+		Clear();
+
+		//Destructor
+		//delete &vd;
 	}
 
 	long long Voronoi::CountVertices()
@@ -383,6 +392,15 @@ namespace boost {
 		void Clear()
 		{
 			v->Clear();
+		}
+
+		~VoronoiWrapper() {
+			this->!VoronoiWrapper();
+			delete v;
+		}
+
+		!VoronoiWrapper() {
+			Clear();
 		}
 
 		long long CountVertices(){

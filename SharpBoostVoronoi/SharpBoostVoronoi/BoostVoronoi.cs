@@ -8,12 +8,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 namespace SharpBoostVoronoi
 {
-    public class BoostVoronoi
+    public class BoostVoronoi : IDisposable
     {
 
+        public bool disposed = false;
 
         private int _scaleFactor = 0;
 
@@ -51,7 +53,7 @@ namespace SharpBoostVoronoi
         /// <summary>
         /// Default constructor
         /// </summary>
-        public BoostVoronoi()
+        public BoostVoronoi ()
         {
             InputPoints = new Dictionary<long, Point>();
             InputSegments = new Dictionary<long, Segment>();
@@ -60,6 +62,30 @@ namespace SharpBoostVoronoi
             CountVertices = -1;
             CountEdges = -1;
             CountCells = -1;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this); 
+        }
+
+        // Protected implementation of Dispose pattern.
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            //if (disposing)
+            //{
+            //    //Free managed object here
+            //
+            //}
+
+            // Free any unmanaged objects here.
+            VoronoiWrapper.Dispose();
+
+            disposed = true;
         }
 
         /// <summary>

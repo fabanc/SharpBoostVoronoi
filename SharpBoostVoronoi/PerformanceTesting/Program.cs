@@ -24,21 +24,21 @@ namespace PerformanceTesting
             //segments = PopulateSegment(100, 100);
             //ConstructAndMeasure(ref points, ref segments);
 
-            //points = new List<Point>();
-            //segments = PopulateSegment(100, 1000);
-            //ConstructAndMeasure(ref points, ref segments);
-
-            //points = new List<Point>();
-            //segments = PopulateSegment(100, 2500);
-            //ConstructAndMeasure(ref points, ref segments);
-
             points = new List<Point>();
-            segments = PopulateSegment(100, 3500);
+            segments = PopulateSegment(100, 1000);
             ConstructAndMeasure(ref points, ref segments);
 
             points = new List<Point>();
-            segments = PopulateSegment(100, 4000);
+            segments = PopulateSegment(100, 2500);
             ConstructAndMeasure(ref points, ref segments);
+
+            //points = new List<Point>();
+            //segments = PopulateSegment(100, 3500);
+            //ConstructAndMeasure(ref points, ref segments);
+
+            //points = new List<Point>();
+            //segments = PopulateSegment(100, 4000);
+            //ConstructAndMeasure(ref points, ref segments);
 
 
             points = new List<Point>();
@@ -102,25 +102,28 @@ namespace PerformanceTesting
             Console.WriteLine(String.Format("Testing with {0} points and {1} segments", inputPoints.Count, inputSegments.Count));
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            BoostVoronoi bv = new BoostVoronoi();
-            foreach (var point in inputPoints)
-                bv.AddPoint(point.X, point.Y);
+            using (BoostVoronoi bv = new BoostVoronoi())
+            {
+                foreach (var point in inputPoints)
+                    bv.AddPoint(point.X, point.Y);
 
-            foreach (var segment in inputSegments)
-                bv.AddSegment(segment.Start.X, segment.Start.Y, segment.End.X, segment.End.Y);
+                foreach (var segment in inputSegments)
+                    bv.AddSegment(segment.Start.X, segment.Start.Y, segment.End.X, segment.End.Y);
 
 
 
-            bv.Construct();
+                bv.Construct();
 
-            // Stop timing.
-            stopwatch.Stop();
-            Console.WriteLine(String.Format("Vertices: {0}, Edges: {1}, Cells: {2}", bv.CountVertices, bv.CountEdges, bv.CountCells));
-            Console.WriteLine("Time elapsed: {0:hh\\:mm\\:ss\\:ff}.", stopwatch.Elapsed);
+                // Stop timing.
+                stopwatch.Stop();
+                Console.WriteLine(String.Format("Vertices: {0}, Edges: {1}, Cells: {2}", bv.CountVertices, bv.CountEdges, bv.CountCells));
+                Console.WriteLine("Time elapsed: {0:hh\\:mm\\:ss\\:ff}.", stopwatch.Elapsed);
 
-            bv.Clear();
+                bv.Clear();
+            }
             inputPoints.Clear();
             inputSegments.Clear();
+         
 
         }
     }
