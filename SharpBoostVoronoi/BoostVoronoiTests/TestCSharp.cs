@@ -140,35 +140,23 @@ namespace BoostVoronoiTests
             inputSegment.Add(new Segment(10, 0, 0, 0));
             
 
-
-            //Build the CLR voronoi
-            VoronoiWrapper vw = new VoronoiWrapper();
-
-            foreach (var p in inputPoint)
-                vw.AddPoint(p.X, p.Y);
-                
-            foreach (var s in inputSegment)
-                vw.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
-
-            vw.Construct();
-            //List<Tuple<int, int, bool, bool, List<int>, bool, short>> clrCells = vw.GetCells();
-
             //Build the C# Voronoi
-            BoostVoronoi bv = new BoostVoronoi();
-            foreach (var p in inputPoint)
-                bv.AddPoint(p.X, p.Y);
-            foreach (var s in inputSegment)
-                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
-
-            bv.Construct();
-            
-
-            //Test twin reciprocity
-            for (long i = 0; i < bv.CountEdges; i++)
+            using (BoostVoronoi bv = new BoostVoronoi())
             {
-                Edge edge = bv.GetEdge(i);
-                Edge twin = bv.GetEdge(edge.Twin);
-                Assert.AreEqual(i, twin.Twin);
+                foreach (var p in inputPoint)
+                    bv.AddPoint(p.X, p.Y);
+                foreach (var s in inputSegment)
+                    bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+
+                bv.Construct();
+            
+                //Test twin reciprocity
+                for (long i = 0; i < bv.CountEdges; i++)
+                {
+                    Edge edge = bv.GetEdge(i);
+                    Edge twin = bv.GetEdge(edge.Twin);
+                    Assert.AreEqual(i, twin.Twin);
+                }
             }
         }
 
@@ -184,46 +172,48 @@ namespace BoostVoronoiTests
             inputSegment.Add(new Segment(10, 0, 10, 10));
 
             //Build the C# Voronoi
-            BoostVoronoi bv = new BoostVoronoi();
-            foreach (var p in inputPoint)
-                bv.AddPoint(p.X, p.Y);
-            foreach (var s in inputSegment)
-                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
-
-            bv.Construct();
-
-            long testEdgeIndex = 2;
-
-            for (long i = 0; i < bv.CountEdges; i++)
+            using (BoostVoronoi bv = new BoostVoronoi())
             {
-                Edge edge = bv.GetEdge(i);
-                Edge twin = bv.GetEdge(edge.Twin);
+                foreach (var p in inputPoint)
+                    bv.AddPoint(p.X, p.Y);
+                foreach (var s in inputSegment)
+                    bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
-                Cell edgeCell = bv.GetCell(edge.Cell);
-                Cell twinCell = bv.GetCell(twin.Cell);
+                bv.Construct();
 
-                if (twinCell.SourceCategory == CellSourceCatory.SinglePoint
-                    &&
-                    edgeCell.Site == 1)
-                    testEdgeIndex = i;
+                long testEdgeIndex = 2;
 
+                for (long i = 0; i < bv.CountEdges; i++)
+                {
+                    Edge edge = bv.GetEdge(i);
+                    Edge twin = bv.GetEdge(edge.Twin);
+
+                    Cell edgeCell = bv.GetCell(edge.Cell);
+                    Cell twinCell = bv.GetCell(twin.Cell);
+
+                    if (twinCell.SourceCategory == CellSourceCatory.SinglePoint
+                        &&
+                        edgeCell.Site == 1)
+                        testEdgeIndex = i;
+
+                }
+
+                Edge testEdge = bv.GetEdge(testEdgeIndex);
+                Vertex startVertex = bv.GetVertex(testEdge.Start);
+                Vertex endVertex = bv.GetVertex(testEdge.End);
+                List<Vertex> dvertices = bv.SampleCurvedEdge(testEdge, Distance.ComputeDistanceBetweenPoints(startVertex, endVertex) / 2);
+                int lastDicretizedVertexIndex = dvertices.Count - 1;
+
+                //Make sure that the end points are consistents
+                Assert.AreEqual(dvertices[0].X, startVertex.X);
+                Assert.AreEqual(dvertices[0].Y, startVertex.Y);
+
+                Assert.AreEqual(dvertices[lastDicretizedVertexIndex].X, endVertex.X);
+                Assert.AreEqual(dvertices[lastDicretizedVertexIndex].Y, endVertex.Y);
+
+                Assert.AreEqual(dvertices[2].X, 2.5);
+                Assert.AreEqual(dvertices[2].Y, 5);
             }
-
-            Edge testEdge = bv.GetEdge(testEdgeIndex);
-            Vertex startVertex = bv.GetVertex(testEdge.Start);
-            Vertex endVertex = bv.GetVertex(testEdge.End);
-            List<Vertex> dvertices = bv.SampleCurvedEdge(testEdge, Distance.ComputeDistanceBetweenPoints(startVertex, endVertex) / 2);
-            int lastDicretizedVertexIndex = dvertices.Count - 1;
-
-            //Make sure that the end points are consistents
-            Assert.AreEqual(dvertices[0].X, startVertex.X);
-            Assert.AreEqual(dvertices[0].Y, startVertex.Y);
-
-            Assert.AreEqual(dvertices[lastDicretizedVertexIndex].X, endVertex.X);
-            Assert.AreEqual(dvertices[lastDicretizedVertexIndex].Y, endVertex.Y);
-
-            Assert.AreEqual(dvertices[2].X, 2.5);
-            Assert.AreEqual(dvertices[2].Y, 5);
 
         }
 
@@ -239,37 +229,39 @@ namespace BoostVoronoiTests
             inputSegment.Add(new Segment(10, 0, 10, 10));
 
             //Build the C# Voronoi
-            BoostVoronoi bv = new BoostVoronoi();
-            foreach (var p in inputPoint)
-                bv.AddPoint(p.X, p.Y);
-            foreach (var s in inputSegment)
-                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
-
-            bv.Construct();
-
-            int countPrimary = 0;
-            int countSecondary = 0;
-            int countFinite = 0;
-            for (long i = 0; i < bv.CountEdges; i++)
+            using (BoostVoronoi bv = new BoostVoronoi())
             {
-                Edge edge = bv.GetEdge(i);
-                if (edge.IsPrimary)
-                    countPrimary++;
+                foreach (var p in inputPoint)
+                    bv.AddPoint(p.X, p.Y);
+                foreach (var s in inputSegment)
+                    bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
-                if (edge.IsFinite)
-                    countFinite++;
+                bv.Construct();
 
-                if (!edge.IsPrimary && edge.IsFinite)
-                    countSecondary++;
+                int countPrimary = 0;
+                int countSecondary = 0;
+                int countFinite = 0;
+                for (long i = 0; i < bv.CountEdges; i++)
+                {
+                    Edge edge = bv.GetEdge(i);
+                    if (edge.IsPrimary)
+                        countPrimary++;
+
+                    if (edge.IsFinite)
+                        countFinite++;
+
+                    if (!edge.IsPrimary && edge.IsFinite)
+                        countSecondary++;
+                }
+
+                //8 finites from the center of the square corner + 8 edges arount the center point.
+                Assert.AreEqual(countFinite, 16);
+
+                //Check the number of secondary edge. Because this input is a square with a point in the center, the expected count is 0.
+                Assert.AreEqual(countSecondary, 0);
+
+                Assert.AreEqual(countPrimary, countFinite - countSecondary);
             }
-
-            //8 finites from the center of the square corner + 8 edges arount the center point.
-            Assert.AreEqual(countFinite, 16);
-
-            //Check the number of secondary edge. Because this input is a square with a point in the center, the expected count is 0.
-            Assert.AreEqual(countSecondary, 0);
-
-            Assert.AreEqual(countPrimary, countFinite - countSecondary);
         }
 
         [TestMethod]
@@ -283,25 +275,27 @@ namespace BoostVoronoiTests
             inputSegment.Add(new Segment(10, 0, 10, 10));
 
             //Build the C# Voronoi
-            BoostVoronoi bv = new BoostVoronoi();
-            foreach (var p in inputPoint)
-                bv.AddPoint(p.X, p.Y);
-            foreach (var s in inputSegment)
-                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
-
-            bv.Construct();
-
-            for (long i = 0; i < bv.CountCells; i++)
+            using (BoostVoronoi bv = new BoostVoronoi())
             {
-                Cell cell = bv.GetCell(i);
-                if (!cell.IsOpen)
-                {
-                    List<long> vertexIndexes = cell.VerticesIndex;
-                    Assert.AreEqual(vertexIndexes.Count, 5);
-                    Assert.AreEqual(vertexIndexes[0], vertexIndexes[vertexIndexes.Count - 1]);
-                }
-                
+                foreach (var p in inputPoint)
+                    bv.AddPoint(p.X, p.Y);
+                foreach (var s in inputSegment)
+                    bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
+                bv.Construct();
+
+                for (long i = 0; i < bv.CountCells; i++)
+                {
+                    Cell cell = bv.GetCell(i);
+                    if (!cell.IsOpen)
+                    {
+                        List<long> vertexIndexes = cell.VerticesIndex;
+                        Assert.AreEqual(vertexIndexes.Count, 5);
+                        Assert.AreEqual(vertexIndexes[0], vertexIndexes[vertexIndexes.Count - 1]);
+                    }
+
+
+                }
             }
         }
 
@@ -318,23 +312,25 @@ namespace BoostVoronoiTests
             inputSegment.Add(new Segment(10, 0, 10, 10));
 
             //Build the C# Voronoi
-            BoostVoronoi bv = new BoostVoronoi();
-            foreach (var p in inputPoint)
-                bv.AddPoint(p.X, p.Y);
-            foreach (var s in inputSegment)
-                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
-
-            bv.Construct();
-
-            for (long i = 0; i < bv.CountCells; i++)
+            using (BoostVoronoi bv = new BoostVoronoi())
             {
-                Cell cell = bv.GetCell(i);
-                if (cell.SourceCategory != CellSourceCatory.SegmentStartPoint
-                    && cell.SourceCategory != CellSourceCatory.SegmentEndPoint
-                    && cell.SourceCategory != CellSourceCatory.SinglePoint)
+                foreach (var p in inputPoint)
+                    bv.AddPoint(p.X, p.Y);
+                foreach (var s in inputSegment)
+                    bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+
+                bv.Construct();
+
+                for (long i = 0; i < bv.CountCells; i++)
                 {
-                    bv.RetrieveInputPoint(cell);
-                }   
+                    Cell cell = bv.GetCell(i);
+                    if (cell.SourceCategory != CellSourceCatory.SegmentStartPoint
+                        && cell.SourceCategory != CellSourceCatory.SegmentEndPoint
+                        && cell.SourceCategory != CellSourceCatory.SinglePoint)
+                    {
+                        bv.RetrieveInputPoint(cell);
+                    }
+                }
             }
         }
 
@@ -351,21 +347,23 @@ namespace BoostVoronoiTests
             inputSegment.Add(new Segment(10, 0, 10, 10));
 
             //Build the C# Voronoi
-            BoostVoronoi bv = new BoostVoronoi();
-            foreach (var p in inputPoint)
-                bv.AddPoint(p.X, p.Y);
-            foreach (var s in inputSegment)
-                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
-
-            bv.Construct();
-
-            for (long i = 0; i < bv.CountCells; i++)
+            using (BoostVoronoi bv = new BoostVoronoi())
             {
-                Cell cell = bv.GetCell(i);
-                if (cell.SourceCategory != CellSourceCatory.InitialSegment
-                    && cell.SourceCategory != CellSourceCatory.ReverseSegment)
+                foreach (var p in inputPoint)
+                    bv.AddPoint(p.X, p.Y);
+                foreach (var s in inputSegment)
+                    bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+
+                bv.Construct();
+
+                for (long i = 0; i < bv.CountCells; i++)
                 {
-                    bv.RetrieveInputSegment(cell);
+                    Cell cell = bv.GetCell(i);
+                    if (cell.SourceCategory != CellSourceCatory.InitialSegment
+                        && cell.SourceCategory != CellSourceCatory.ReverseSegment)
+                    {
+                        bv.RetrieveInputSegment(cell);
+                    }
                 }
             }
         }
@@ -382,14 +380,16 @@ namespace BoostVoronoiTests
             inputSegment.Add(new Segment(10, 0, 10, 10));
 
             //Build the C# Voronoi
-            BoostVoronoi bv = new BoostVoronoi();
-            foreach (var p in inputPoint)
-                bv.AddPoint(p.X, p.Y);
-            foreach (var s in inputSegment)
-                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+            using (BoostVoronoi bv = new BoostVoronoi())
+            {
+                foreach (var p in inputPoint)
+                    bv.AddPoint(p.X, p.Y);
+                foreach (var s in inputSegment)
+                    bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
-            bv.Construct();
-            bv.GetVertex(-1);
+                bv.Construct();
+                bv.GetVertex(-1);
+            }
         }
 
 
@@ -405,14 +405,16 @@ namespace BoostVoronoiTests
             inputSegment.Add(new Segment(10, 0, 10, 10));
 
             //Build the C# Voronoi
-            BoostVoronoi bv = new BoostVoronoi();
-            foreach (var p in inputPoint)
-                bv.AddPoint(p.X, p.Y);
-            foreach (var s in inputSegment)
-                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+            using (BoostVoronoi bv = new BoostVoronoi())
+            {
+                foreach (var p in inputPoint)
+                    bv.AddPoint(p.X, p.Y);
+                foreach (var s in inputSegment)
+                    bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
-            bv.Construct();
-            bv.GetEdge(-1);
+                bv.Construct();
+                bv.GetEdge(-1);
+            }
         }
 
         [TestMethod]
@@ -427,14 +429,16 @@ namespace BoostVoronoiTests
             inputSegment.Add(new Segment(10, 0, 10, 10));
 
             //Build the C# Voronoi
-            BoostVoronoi bv = new BoostVoronoi();
-            foreach (var p in inputPoint)
-                bv.AddPoint(p.X, p.Y);
-            foreach (var s in inputSegment)
-                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+            using (BoostVoronoi bv = new BoostVoronoi())
+            {
+                foreach (var p in inputPoint)
+                    bv.AddPoint(p.X, p.Y);
+                foreach (var s in inputSegment)
+                    bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
-            bv.Construct();
-            bv.GetCell(-1);
+                bv.Construct();
+                bv.GetCell(-1);
+            }
         }
 
         [TestMethod]
@@ -449,14 +453,16 @@ namespace BoostVoronoiTests
             inputSegment.Add(new Segment(10, 0, 10, 10));
 
             //Build the C# Voronoi
-            BoostVoronoi bv = new BoostVoronoi();
-            foreach (var p in inputPoint)
-                bv.AddPoint(p.X, p.Y);
-            foreach (var s in inputSegment)
-                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+            using (BoostVoronoi bv = new BoostVoronoi())
+            {
+                foreach (var p in inputPoint)
+                    bv.AddPoint(p.X, p.Y);
+                foreach (var s in inputSegment)
+                    bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
-            bv.Construct();
-            bv.GetVertex(bv.CountVertices);
+                bv.Construct();
+                bv.GetVertex(bv.CountVertices);
+            }
         }
 
 
@@ -472,14 +478,16 @@ namespace BoostVoronoiTests
             inputSegment.Add(new Segment(10, 0, 10, 10));
 
             //Build the C# Voronoi
-            BoostVoronoi bv = new BoostVoronoi();
-            foreach (var p in inputPoint)
-                bv.AddPoint(p.X, p.Y);
-            foreach (var s in inputSegment)
-                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+            using (BoostVoronoi bv = new BoostVoronoi())
+            {
+                foreach (var p in inputPoint)
+                    bv.AddPoint(p.X, p.Y);
+                foreach (var s in inputSegment)
+                    bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
-            bv.Construct();
-            bv.GetEdge(bv.CountEdges);
+                bv.Construct();
+                bv.GetEdge(bv.CountEdges);
+            }
         }
 
         [TestMethod]
@@ -494,14 +502,16 @@ namespace BoostVoronoiTests
             inputSegment.Add(new Segment(10, 0, 10, 10));
 
             //Build the C# Voronoi
-            BoostVoronoi bv = new BoostVoronoi();
-            foreach (var p in inputPoint)
-                bv.AddPoint(p.X, p.Y);
-            foreach (var s in inputSegment)
-                bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
+            using (BoostVoronoi bv = new BoostVoronoi())
+            {
+                foreach (var p in inputPoint)
+                    bv.AddPoint(p.X, p.Y);
+                foreach (var s in inputSegment)
+                    bv.AddSegment(s.Start.X, s.Start.Y, s.End.X, s.End.Y);
 
-            bv.Construct();
-            bv.GetCell(bv.CountCells);
+                bv.Construct();
+                bv.GetCell(bv.CountCells);
+            }
         }
 
     }
